@@ -14,7 +14,7 @@ module.exports = {
   output: {
     filename: "bundle" + version + ".js",
     chunkFilename: "[name].bundle" + version + ".js",
-    publicPath: "/Scripts/",
+    publicPath: path.join( __dirname, "out/scripts"),
     path: path.join( __dirname, "out/scripts")
   },
   mode: 'production',
