@@ -35,7 +35,19 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /utils/,
         use: {
-          loader: "babel-loader"
+          loader: "babel-loader",
+          options: {
+            "presets": [
+              [
+                "@babel/preset-react",
+                {
+                  pragma: "React.createElement", // default pragma is React.createElement
+                  pragmaFrag: "React.Fragment", // default is React.Fragment
+                  throwIfNamespace: true // defaults to true
+                }
+              ]
+            ]
+          }
         }
       },
       {
