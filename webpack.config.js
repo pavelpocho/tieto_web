@@ -14,10 +14,10 @@ module.exports = {
   output: {
     filename: "bundle" + version + ".js",
     chunkFilename: "[name].bundle" + version + ".js",
-    publicPath: path.join( __dirname, "out/scripts"),
-    path: path.join( __dirname, "out/scripts")
+    publicPath: path.join( __dirname, "out/scripts/"),
+    path: path.join( __dirname, "out/scripts/")
   },
-  mode: 'production',
+  mode: 'development',
   plugins: [
 		new HtmlWebpackPlugin({
       title: 'My App',

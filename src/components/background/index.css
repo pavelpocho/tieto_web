@@ -1,0 +1,50 @@
+body {
+    margin: 0px;
+    background-color: #f1f1f1;
+}
+
+#background-top-strip {
+    height: 72px;
+    background-color: white;
+    width: 100%;
+    position: fixed;
+    opacity: 0.4;
+    z-index: 2;
+}
+
+#background-logo-background-wrap {
+    position: fixed;
+    height: 140px;
+    width: 236px;
+    z-index: 3;
+}
+#background-logo-background {
+    fill: #62B3E4;
+    height: 140px;
+    width: 236px;
+}
+#background-logo-shadow {
+    fill: #7b7b7b40;
+
+}
+
+#background-shape-wrap {
+    position: fixed;
+    right: 0px;
+    top: 0px;
+    height: 1080px;
+    width: 1037px;
+}
+#background-shape {
+    fill: #e7e7e7;
+}
+
+#background-receipt {
+    background: linear-gradient(#ffffff00, #ffffff 50%);
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 410px;
+    height: 840px;
+    display: none;
+}
