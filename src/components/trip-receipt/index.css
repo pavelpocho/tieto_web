@@ -1,0 +1,22 @@
+.trip-receipt {
+    width: 354px;
+    padding: 28px;
+    padding-bottom: 12px;
+}
+.tr-separator {
+    width: 100%;
+    height: 4px;
+    border-radius: 2px;
+    background-color: #707070;
+}
+.tr-total {
+    display: flex;
+    justify-content: space-evenly;
+}
+.tr-total p:first-child {
+    color: #5F5F5F;
+    font-size: 20px;
+}
+.tr-total p:last-child {
+    font-size: 25px;
+}

@@ -1,0 +1,23 @@
+button,a {
+	overflow:hidden !important;
+	position:relative;
+}
+.rippleTouch {
+	position:absolute;
+	border-radius:100% !important;
+	background-color:#ffffff !important;
+	opacity:0;
+	transition:transform 0.7s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.1s;
+}
+.ripple {
+	position:absolute;
+	border-radius:100% !important;
+	background-color:#ffffff !important;
+	opacity:0;
+	transition:transform 1.1s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.25s;
+    height:40px;
+    width:40px;
+}
+.gray {
+	background-color: #a1a1a1 !important;
+}

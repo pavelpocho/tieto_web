@@ -1,0 +1,36 @@
+#trip-activity .receipt-content {
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+}
+#trip-activity .top-bar {
+    position: fixed;
+    left: 212px;
+    top: 0px;
+    right: 40px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+#trip-activity .back-button {
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    font-size: 21px;
+    color: #5F5F5F;
+    height: 48px;
+    padding: 0px 20px 0px 14px;
+    border-radius: 24px;
+}
+#trip-activity .back-icon {
+    margin-right: 16px;
+    font-size: 26px !important;
+}
+#trip-activity .middle-content {
+    position: fixed;
+    left: 410px;
+    top: 72px;
+    bottom: 0px;
+    width: 460px;
+}

@@ -1,0 +1,10 @@
+.trip-list {
+    margin-top: 28px;
+}
+.no-trips-text {
+    text-align: center;
+    font-size: 28px;
+    margin: 72px auto;
+    font-weight: bold;
+    color: #c1c1c1;
+}

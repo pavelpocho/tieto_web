@@ -1,0 +1,12 @@
+.main-button-wrap {
+    height: 56px;
+    width: 240px;
+    line-height: 56px;
+    text-align: center;
+    background-color: #62B3E4;
+    color: white;
+    font-weight: 400;
+    font-size: 22px;
+    border-radius: 28px;
+    letter-spacing: 2px;
+}

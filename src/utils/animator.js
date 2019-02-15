@@ -12,7 +12,7 @@ export default class Animator {
             if (!start) start = timestamp;
             var progress = timestamp - start;
     
-            var myprog =  1 / (1 + Math.exp(-(progress - 250) / (250 / 6)));
+            var myprog =  2 / (1 + Math.exp(- progress / 80)) - 1;
     
             var pt1 = x1[0] + (x1[1] - x1[0]) * myprog;
             var pt2 = x2[0] + (x2[1] - x2[0]) * myprog;
@@ -31,16 +31,31 @@ export default class Animator {
             }
     
             if (x1[0] < x1[1]) {
-                receipt.style.opacity = 1 - myprog;
+                receipt.style.opacity = 1 - (progress / 510);
             }
             else {
-                receipt.style.opacity = myprog;
+                receipt.style.opacity = (progress / 510);
             }
-    
-            shape.setAttribute(
-                "points", pt1 + "," + 0 + " " + 1037 / 1920 * window.innerWidth + "," + 0 + " " + 1037 / 1920 * window.innerWidth + "," + window.innerHeight + " " +
-                pt2 + "," + window.innerHeight + " " + pt3 + "," + 777 / 1080 * window.innerHeight
-            );
+
+            if (window.innerWidth < 1314 && window.innerWidth > 1180) {
+                shape.setAttribute(
+                    "points", pt1 + "," + 0 + " " + 710 + "," + 0 + " " + 710 + "," + window.innerHeight + " " +
+                    pt2 + "," + window.innerHeight + " " + pt3 + "," + 777 / 1080 * window.innerHeight
+                );
+            }
+            else if (window.innerWidth <= 1180) {
+                shape.setAttribute(
+                    "points", pt1 + "," + 0 + " " + 1180 + "," + 0 + " " + 1180 + "," + window.innerHeight + " " +
+                    pt2 + "," + window.innerHeight + " " + pt3 + "," + 777 / 1080 * window.innerHeight
+                );
+            }
+            else {
+                shape.setAttribute(
+                    "points", pt1 + "," + 0 + " " + 1037 / 1920 * window.innerWidth + "," + 0 + " " + 1037 / 1920 * window.innerWidth + "," + window.innerHeight + " " +
+                    pt2 + "," + window.innerHeight + " " + pt3 + "," + 777 / 1080 * window.innerHeight
+                );
+            }
+            
             if (progress < 500) {
                 window.requestAnimationFrame(step);
             }

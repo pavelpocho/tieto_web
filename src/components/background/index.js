@@ -31,12 +31,20 @@ export default class Background extends Component {
         this.shape.current.setAttribute("points", points[0] + " " + points[1] + " " + points[2] + " " + points[3] + " " + points[4]);
     
         this.shapeWrap.current.style.height = window.innerHeight + "px";
-        this.shapeWrap.current.style.width = 1037 / 1920 * window.innerWidth + "px";
+        this.shapeWrap.current.style.width = window.innerWidth - 870 + "px";
     
     }
     
     pushPoints(coords, points, i) {
-        points.push(coords[i] / 1920 * window.innerWidth + "," + coords[i + 1] / 1080 * window.innerHeight);
+        if (coords[i] == 1037 && window.innerWidth <= 1180) {
+            points.push(1180 + "," + coords[i + 1] / 1080 * window.innerHeight);
+        }
+        else if (coords[i] == 1037 && coords[i] / 1920 * window.innerWidth < 710) {
+            points.push(710 + "," + coords[i + 1] / 1080 * window.innerHeight);
+        }
+        else {
+            points.push(coords[i] / 1920 * window.innerWidth + "," + coords[i + 1] / 1080 * window.innerHeight);
+        }
     }
     
     homeScreen() {
@@ -52,27 +60,22 @@ export default class Background extends Component {
     }
     
     tripEdit() {
-    
+
         ObjectContainer.getAnimator().animateBackground([745 / 1920 * window.innerWidth, 0], [476 / 1920 * window.innerWidth, 0], [317 / 1920 * window.innerWidth, 0], this.shape.current, this.receipt.current);
     
-        this.receipt.current.style.height = 838 / 1080 * window.innerHeight + "px";
-        this.receipt.current.style.width = 413 / 1920 * window.innerWidth + "px";
-        this.receipt.current.style.display = "block";
-    
+        if (window.innerWidth > 1580) {
+            this.receipt.current.style.height = 838 / 1080 * window.innerHeight + "px";
+            this.receipt.current.style.display = "block";
+        }
+        
         return;
         
     }
 
     render() {
 
-        /*var points = (
-            "0,0 " + 215 / 1920 * window.innerWidth + ",0 " + 108 / 1920 * window.innerWidth + "," + 109 / 1080 * window.innerHeight + " 0," + 86 / 1080 * window.innerHeight
-        )*/
-
-        //console.log(points);
-
         return (
-            <div id="background-wrap">
+            <Fragment>
                 <div id="background-top-strip"></div>
                     <div id="background-logo-wrap">
                         <svg id="background-logo-background-wrap">
@@ -97,7 +100,7 @@ export default class Background extends Component {
                         <polygon ref={this.shape} id="background-shape" points="" />
                     </svg>
                 <div ref={this.receipt} id="background-receipt"></div>
-            </div>
+            </Fragment>
         )
         
     }

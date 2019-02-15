@@ -1,0 +1,13 @@
+#main-activity {
+    transform: translateX(-40px);
+}
+#main-activity .content-wrap {
+    margin-left: 200px;
+    max-width: 900px;
+    margin-right: 60px;
+}
+#main-activity .top-content-wrap {
+    margin-top: 104px;
+    display: flex;
+    justify-content: space-between;
+}

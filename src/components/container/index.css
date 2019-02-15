@@ -1,3 +1,41 @@
 p {
     color: #62B3E4;
+    font-family: HelveticaNeue, sans-serif;
+}
+button {
+    font-family: HelveticaNeue, sans-serif;
+    border: none;
+    outline: none;
+    padding: 0px;
+}
+input {
+    border: none;
+    height: 42px;
+    font-family: HelveticaNeue, sans-serif;
+    color: #404040;
+    font-weight: 300;
+    border-radius: 21px;
+    background-color: white;
+    border: 3px solid transparent;
+    transition: border 0.51s;
+    outline: none;
+    padding: 0px 20px;
+    font-size: 22px;
+}
+input:focus {
+    border: 3px solid #eee;
+}
+input::placeholder {
+    color: #cccccc;
+}
+.activity {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    left: 0px;
+    top: 0px;
+    z-index: 1;
+    opacity: 0;
+    transition: transform 0.51s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.51s;
+    transform: translateX(40px);
 }
