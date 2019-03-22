@@ -14,15 +14,16 @@ module.exports = {
   output: {
     filename: "bundle" + version + ".js",
     chunkFilename: "[name].bundle" + version + ".js",
-    publicPath: path.join( __dirname, "out/scripts/"),
-    path: path.join( __dirname, "out/scripts/")
+    publicPath: "./scripts/",
+    //path: path.join( __dirname, "out/scripts/")
+    path: "C:\\Users\\Pavel\\source\\repos\\Tieto\\Tieto\\wwwroot\\scripts"
   },
   mode: 'development',
   plugins: [
 		new HtmlWebpackPlugin({
       title: 'My App',
       template: './src/index.html',
-      filename: "../index.html"
+      filename: "C:\\Users\\Pavel\\source\\repos\\Tieto\\Tieto\\wwwroot\\index.html"
     }),
     new MiniCssExtractPlugin({
       filename: "style" + version + ".css",

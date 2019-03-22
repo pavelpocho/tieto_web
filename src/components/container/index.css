@@ -20,7 +20,7 @@ input {
     transition: border 0.51s;
     outline: none;
     padding: 0px 20px;
-    font-size: 22px;
+    font-size: 20px;
 }
 input:focus {
     border: 3px solid #eee;
@@ -36,6 +36,6 @@ input::placeholder {
     top: 0px;
     z-index: 1;
     opacity: 0;
-    transition: transform 0.51s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.51s;
-    transform: translateX(40px);
+    transition: transform 0.51s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.31s;
+    /*transform: translateX(40px);*/
 }

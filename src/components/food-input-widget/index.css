@@ -1,0 +1,48 @@
+.food-input-widget {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.fiw-row {
+    display: flex;
+    width: 250px;
+    padding: 8px 0px;
+    justify-content: space-between;
+    align-items: center;
+}
+.fiw-row:first-child {
+    padding-top: 0px;
+}
+.fiw-title {
+    margin: 0px;
+    color: #5F5F5F;
+    font-size: 21px;
+    height: 25px;
+    line-height: 25px;
+}
+.fiw-checkbox {
+    height: 25px;
+    width: 25px;
+    border-radius: 4px;
+    border: 2px solid #707070;
+    background-color: #f1f1f1;
+    transition: background-color 0.2s, border 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.fiw-checkbox i {
+    display: none;
+    color: white;
+    height: 21px;
+    width: 21px;
+    margin-top: 1px;
+    font-size: 19px !important;
+}
+.checked {
+    background-color: #FAA519;
+    border: 2px solid #FAA519;
+}
+.checked i {
+    display: block;
+}

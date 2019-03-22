@@ -9,10 +9,17 @@ export default class TripList extends Component {
     }
 
     render() {
+        var displayEmpty = true;
+        for (var i = 0; i < this.props.children.length; i++) {
+            if (this.props.children[i] != null) {
+                displayEmpty = false;
+                break;
+            }
+        }
         return (
             <div className="trip-list">
                 {
-                    !this.props.children ? (
+                    (displayEmpty) ? (
                         <Fragment>
                             <p className="no-trips-text">No trips in your list right now</p>
                         </Fragment>

@@ -1,0 +1,101 @@
+.trip-point-button-circle {
+    border-radius: 100%;
+    background-color:#62B3E4;
+    height: 70px;
+    width: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.trip-point-wrap {
+    background-color: transparent;
+    border-radius: 41px;
+    height: 82px;
+    transition: background-color 0.3s;
+    display: flex;
+    justify-content: flex-end;
+    padding: 0px 6px 0px 6px;
+    margin-right: 50px;
+}
+.trip-point-texts {
+    
+}
+.add-point {
+    margin-bottom: 50px;
+    /*Is always last*/
+}
+.trip-point-wrap:hover {
+    background-color: #e1e1e1;
+}
+.trip-point-text-first-line {
+    margin: 0px 18px 0px 18px;
+    font-size: 22px;
+    padding-left: 12px;
+    text-align: right;
+}
+.tp-add-point {
+    line-height: 70px;
+    color: #5F5F5F;
+}
+.trip-point-text-second-line {
+    margin: 0px 18px 0px 18px;
+    text-align: right;
+    font-size: 17px;
+}
+.tp-gray-text {
+    color: #5F5F5F;
+}
+.trip-point-plus {
+    font-size: 30px !important;
+    color: white;
+}
+.trip-point-placeholder-circle {
+    height: 16px;
+    border-radius: 100%;
+    width: 16px;
+    background-color: white;
+}
+.trip-point-travel-line {
+    height: 100px;
+    width: 6px;
+    border-radius: 3px;
+    background-color: #5F5F5F;
+    margin-right: 88px;
+    margin-top: 18px;
+    margin-bottom: 18px;
+}
+.trip-point-travel-icon {
+    height: 26px !important;
+    width: 26px !important;
+    font-size: 26px !important;
+    color: #5F5F5F;
+    margin-right: 77px;
+}
+.trip-point-travel-line-short {
+    height: 29px;
+    width: 6px;
+    border-radius: 3px;
+    background-color: #5F5F5F;
+    margin-right: 88px;
+    margin-top: 18px;
+    margin-bottom: 18px;
+}
+.trip-point-travel-line-short:nth-child(2) {
+    margin-bottom: 8px;
+}
+.trip-point-travel-line-short:last-child {
+    margin-top: 8px;
+}
+.trip-point-master-wrap {
+    height: 0px;
+    opacity: 0;
+    transition: height 0.51s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.51s;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.trip-point-country-code {
+    color: white;
+    font-weight: bold;
+    font-size: 25px;
+}

@@ -1,0 +1,84 @@
+.day-input {
+    background-color: #f1f1f1;
+    border-radius: 21px;
+    width: 300px;
+    margin-top: 16px;
+    padding-top: 6px;
+}
+.di-header {
+    display: flex;
+    align-items: middle;
+    justify-content: center;
+}
+.di-month-switch {
+    margin: 0px 6px;
+    background-color: transparent;
+    border-radius: 100%;
+    height: 34px !important;
+    width: 34px !important;
+    padding: 0px;
+    color: #5f5f5f;
+}
+.di-month-switch > button > i {
+    font-size: 24px !important;
+}
+.di-month-title {
+    font-size: 19px;
+    color: #5f5f5f;
+    line-height: 34px;
+    margin: 0px 16px;
+    width: 145px;
+    text-align: center;
+}
+.di-separator {
+    background-color: #ccc;
+    height: 2px;
+    width: 90%;
+    margin: 6px auto;
+    border-radius: 1px;
+}
+.di-number-wrap {
+    text-align: center;
+}
+table {
+    font-family: HelveticaNeue, sans-serif;
+    width: 252px;
+    text-align: center;
+    margin: 0px auto;
+}
+th {
+    font-weight: 400;
+    width: 36px;
+    height: 36px;
+}
+td {
+    font-weight: 300;
+    width: 36px;
+    height: 36px;
+}
+.day-button {
+    height: 36px;
+    width: 36px;
+    font-weight: 300;
+    margin: -6px;
+    padding: 0px;
+    border-radius: 100%;
+    border: 2px solid transparent;
+    background-color: transparent;
+    /*transition: border 0.31s, background-color 0.31s, color 0.31s;*/
+    transition: border 0.31s;
+}
+.day-button:hover {
+    font-weight: 400;
+}
+.day-button:active {
+    background-color: #FAA519;
+    border: 2px solid #ccc;
+    font-weight: 400;
+}
+.db-selected {
+    background-color: #FAA519;
+    border: 2px solid #ccc;
+    font-weight: 400;
+    color: white;
+}

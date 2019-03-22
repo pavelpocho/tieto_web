@@ -1,0 +1,31 @@
+#login-activity {
+    transform: translate(0px, 40px);
+}
+#login-activity .content-wrap {
+    margin: 110px auto;
+    width: 360px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 24px;
+    padding: 24px;
+    background-color: #f7f7f7;
+    border: 2px solid #ddd;
+}
+#login-activity .blue-text-logo {
+    height: 153px;
+    width: 272px;
+    margin: 0px auto;
+}
+#login-activity .login-input {
+    margin-top: 20px;
+}
+#login-activity .login-button {
+    height: 42px;
+    width: 90%;
+    color: white;
+    letter-spacing: 0.5px;
+    font-size: 22px;
+    background-color: #62B3E4;
+    border-radius: 24px;
+    margin: 30px auto 0px;
+}

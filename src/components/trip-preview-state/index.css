@@ -1,8 +1,12 @@
 .state-wrap {
     width: 46px;
     height: 46px;
-    background-color: #FAA519;
     border-radius: 23px;
     margin-top: 13px;
+    transition: background-color 0.31s;
     margin-left: 13px;
+}
+.state-svg {
+    height: 46px;
+    width: 46px;
 }

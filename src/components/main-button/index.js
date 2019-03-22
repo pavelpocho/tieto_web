@@ -9,13 +9,9 @@ export default class MainButton extends Component {
         super(props);
     }
 
-    newTrip() {
-        this.props.activity.newTrip();
-    }
-
     render() {
         return (
-            <button className="main-button-wrap" onClick={() => {this.newTrip()}}>{this.props.text.toUpperCase()}</button>
+            <button className="main-button-wrap" onClick={() => {this.props.onClick()}}>{this.props.text.toUpperCase()}</button>
         )
     }
 

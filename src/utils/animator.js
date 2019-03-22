@@ -37,24 +37,10 @@ export default class Animator {
                 receipt.style.opacity = (progress / 510);
             }
 
-            if (window.innerWidth < 1314 && window.innerWidth > 1180) {
-                shape.setAttribute(
-                    "points", pt1 + "," + 0 + " " + 710 + "," + 0 + " " + 710 + "," + window.innerHeight + " " +
-                    pt2 + "," + window.innerHeight + " " + pt3 + "," + 777 / 1080 * window.innerHeight
-                );
-            }
-            else if (window.innerWidth <= 1180) {
-                shape.setAttribute(
-                    "points", pt1 + "," + 0 + " " + 1180 + "," + 0 + " " + 1180 + "," + window.innerHeight + " " +
-                    pt2 + "," + window.innerHeight + " " + pt3 + "," + 777 / 1080 * window.innerHeight
-                );
-            }
-            else {
-                shape.setAttribute(
-                    "points", pt1 + "," + 0 + " " + 1037 / 1920 * window.innerWidth + "," + 0 + " " + 1037 / 1920 * window.innerWidth + "," + window.innerHeight + " " +
-                    pt2 + "," + window.innerHeight + " " + pt3 + "," + 777 / 1080 * window.innerHeight
-                );
-            }
+            shape.setAttribute(
+                "points", pt1 + "," + 0 + " " + window.innerWidth + "," + 0 + " " + window.innerWidth + "," + window.innerHeight + " " +
+                pt2 + "," + window.innerHeight + " " + pt3 + "," + 777 / 1080 * window.innerHeight
+            );
             
             if (progress < 500) {
                 window.requestAnimationFrame(step);

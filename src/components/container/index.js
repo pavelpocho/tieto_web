@@ -3,6 +3,9 @@ import React, { Component, Fragment } from 'react';
 import ObjectContainer from '../../utils/object-container';
 import Background from '../background';
 import MainActivity from '../main-activity';
+import LoginActivity from '../login-activity';
+import CookieManager from '../../utils/cookie-manager';
+import HttpCommunicator from '../../utils/http-communicator';
 
 export default class Container extends Component {
 
@@ -22,7 +25,18 @@ export default class Container extends Component {
     }
 
     startApp() {
-        this.openActivity(<MainActivity key="mainActivity" container={this} />);
+        if (CookieManager.getCookie("token") != undefined && CookieManager.getCookie("token") != "") {
+            var h = new HttpCommunicator();
+            h.tokenCheck(CookieManager.getCookie("token"), () => {
+                this.openActivity(<MainActivity key="mainActivity" container={this} />);
+                this.background.current.loginAction();
+            }, () => {
+                this.openActivity(<LoginActivity key="loginActivity" container={this} />);
+            })
+        }
+        else {
+            this.openActivity(<LoginActivity key="loginActivity" container={this} />);
+        }
     }
 
     componentDidMount() {
@@ -49,8 +63,6 @@ export default class Container extends Component {
             var a = prevState.activityHistory;
             var o = a[a.length - 1];
             a.splice(a.length - 1, 1);
-
-            console.log(a);
 
             return {
                 activityHistory: a,
@@ -91,6 +103,9 @@ export default class Container extends Component {
         if (this.state.outActivity) {
             if (this.state.outActivity.key == "mainActivity") {
                 this.background.current.tripEdit();
+            }
+            else if (this.state.outActivity.key == "loginActivity") {
+                this.background.current.loginAction();
             }
             else {
                 this.background.current.homeScreen();

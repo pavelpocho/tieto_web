@@ -1,7 +1,19 @@
 .trip-receipt {
-    width: 354px;
+    width: 100%;
+    box-sizing: border-box;
     padding: 28px;
     padding-bottom: 12px;
+}
+.tr-card {
+    background-color: white;
+    padding: 24px;
+    border-radius: 24px;
+    transition: transform 0.51s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.31s;
+    opacity: 0;
+    transform: translateY(40px);
+    margin-bottom: -64px;
+    padding-bottom: 88px;
+    position: relative;
 }
 .tr-separator {
     width: 100%;
@@ -19,4 +31,31 @@
 }
 .tr-total p:last-child {
     font-size: 25px;
+}
+.tr-expand-wrap {
+    height: 56px;
+    width: 250px;
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+    border-radius: 28px;
+    margin: 8px auto 20px;
+    padding: 0px 16px 0px 24px;
+    align-items: center;
+    z-index: 2;
+    position: relative;
+}
+.tr-expand-text {
+    font-size: 19px;
+    color: #5F5F5F;
+}
+.tr-expand-button {
+    height: 36px;
+    width: 36px;
+    background-color: transparent;
+    border-radius: 100%;
+}
+.tr-expand-button i {
+    color: #5F5F5F;
+    transition: transform 0.31s cubic-bezier(0.19, 1, 0.22, 1);
 }

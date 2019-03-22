@@ -1,0 +1,33 @@
+.gti-wrap {
+    padding-top: 50px;
+}
+.gti-section {
+    margin-left: 50px;
+    margin-right: 50px;
+    display: flex;
+    align-items: center;
+}
+.gti-section input {
+    width: 350px;
+    background-color: #f1f1f1;
+    transition: background-color 0.31s;
+}
+.gti-section input:focus {
+    background-color: white;
+}
+.trip-property-label {
+    font-size: 22px;
+    color: #5F5F5F;
+    width: 230px;
+    line-height: 42px;
+    margin: 15px 0px;
+}
+#gti-project {
+    width: 180px;
+    text-align: center;
+    margin-right: 20px;
+}
+#gti-task {
+    text-align: center;
+    width: 150px;
+}

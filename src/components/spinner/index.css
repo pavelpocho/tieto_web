@@ -1,0 +1,101 @@
+.loader {
+    position: relative;
+    margin: 0px 10px 0px 4px;
+    width: 18px;
+    height: 18px;
+    -webkit-transform-origin: center center;
+    -ms-transform-origin: center center;
+    transform-origin: center center;
+    animation: full-rotate 2s linear infinite;
+    -webkit-animation: full-rotate 2s linear infinite;
+}
+
+.circular-loader {
+    -webkit-animation: rotate 1.5s linear infinite;
+    animation: rotate 1.5s linear infinite;
+    height: 100%;
+    -webkit-transform-origin: center center;
+    -ms-transform-origin: center center;
+    transform-origin: center center;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: auto;
+}
+
+.loader-path {
+    stroke-dasharray: 150,200;
+    stroke-dashoffset: -10;
+    -webkit-transform-origin: center center;
+    -ms-transform-origin: center center;
+    transform-origin: center center;
+    -webkit-animation: dash 1.5s ease-in-out infinite;
+    animation: dash 1.5s ease-in-out infinite;
+    stroke-linecap: round;
+}
+
+@-webkit-keyframes rotate {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(100deg);
+        transform: rotate(100deg);
+    }
+}
+
+@keyframes rotate {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(100deg);
+        transform: rotate(100deg);
+    }
+}
+
+@-webkit-keyframes full-rotate {
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes full-rotate {
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes dash {
+    0% {
+        stroke-dasharray: 2,200;
+        stroke-dashoffset: 0;
+    }
+    50% {
+        stroke-dasharray: 90,200;
+        stroke-dashoffset: 0;
+    }
+    100% {
+        stroke-dasharray: 2,200;
+        stroke-dashoffset: -90;
+    }
+}
+@keyframes dash {
+    0% {
+        stroke-dasharray: 2,200;
+        stroke-dashoffset: 0;
+    }
+    50% {
+        stroke-dasharray: 90,200;
+        stroke-dashoffset: 0;
+    }
+    100% {
+        stroke-dasharray: 2,200;
+        stroke-dashoffset: -90;
+    }
+}

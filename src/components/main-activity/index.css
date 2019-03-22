@@ -1,5 +1,6 @@
 #main-activity {
-    transform: translateX(-40px);
+    /*transform: translateX(-40px);*/
+    overflow-y: scroll;
 }
 #main-activity .content-wrap {
     margin-left: 200px;
@@ -11,3 +12,26 @@
     display: flex;
     justify-content: space-between;
 }
+#main-activity .error-display {
+    display: none;
+}
+
+@media only all/*screen*/ and (max-width: 1300px) {
+    #main-activity .content-wrap {
+        margin: 0px auto;
+    }
+}
+
+@media only all and (max-width: 940px) {
+    #main-activity .content-wrap {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+}
+
+@media only all/*screen*/ and (max-width: 700px) {
+    #main-activity .top-content-wrap {
+        display: block;
+        text-align: center;
+    }
+} 

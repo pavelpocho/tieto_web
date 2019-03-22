@@ -1,8 +1,8 @@
 .sort-widget-wrap {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     font-size: 18px;
-    margin-left: 56px;
+    margin-left: 72px;
 }
 .sort-widget-title {
     color: #5F5F5F;
@@ -36,7 +36,7 @@
     opacity: 1;
     position: absolute;
     transition: height 0.51s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.51s;
-    box-shadow: 1px 1px 10px -4px #999;
+    box-shadow: 1px 1px 10px -4px #aaa;
     z-index: 5;
 }
 .sw-master {
@@ -54,3 +54,16 @@
     font-size: 18px;
     color: #62B3E4;
 }
+@media only all/*screen*/ and (max-width: 700px) {
+    .sort-widget-wrap {
+        margin-left: 0px;
+        margin-bottom: 16px;
+    }
+    .sort-widget-title {
+        padding-left: 10px;
+    }
+    .sw-master {
+        width: 300px;
+        margin: 0px auto 0px;
+    }
+} 

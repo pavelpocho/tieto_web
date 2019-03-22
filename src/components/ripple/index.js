@@ -9,6 +9,7 @@ export class RippleManager {
         for (var x = 0; x < document.getElementsByTagName('button').length; x++) {
             document.getElementsByTagName('button')[x].onmousedown = function(e) {
 			    if (!this.touched) {
+                    if (this.getAttribute("ripplecolor") == "exclude") return;
 				    RippleManager.ripple[RippleManager.ripple.length] = new Ripple(this,e,this.getAttribute("ripplecolor"));
                     document.body.onmouseup = function () {
                         if (!this.touched) {
@@ -79,6 +80,12 @@ class Ripple {
         if (color == "gray") {
             this.span.setAttribute("class", "ripple gray");
         }
+        else if (color == "blue") {
+            this.span.setAttribute("class", "ripple blue");
+        }
+        else if (color == "none") {
+            this.span.setAttribute("style", "display: none !important");
+        }
 		this.btn.appendChild(this.span);
 		if (!this.btn.numberOfRipples) {
 			this.btn.numberOfRipples = 0;
@@ -119,7 +126,6 @@ export class RippleTouchManager {
                 this.touched = true;
                 document.body.touched = true;
                 RippleTouchManager.ripple[RippleTouchManager.ripple.length] = new RippleTouch(this, e);
-                console.log(RippleTouchManager.ripple);
                 setTimeout(function () {
                     RippleTouchManager.ripple[RippleTouchManager.ripple.length - 1].hide();
 				}, 200);
@@ -140,7 +146,6 @@ export class RippleTouchManager {
 
 class RippleTouch {
 	constructor(btn,e) {
-		console.log('creating');
         this.btn = btn;
         this.start = Date.now();
 		this.span = document.createElement('span');

@@ -6,17 +6,25 @@ body {
 #background-top-strip {
     height: 72px;
     background-color: white;
-    width: 100%;
+    width: 0px;
+    transition: width 2s cubic-bezier(0.19, 1, 0.22, 1);
     position: fixed;
     opacity: 0.4;
-    z-index: 1;
+    z-index: 5;
+}
+
+#background-logo-wrap {
+    opacity: 0;
+    z-index: 8;
+    position: fixed;
+    transform: translate(-30px, -30px);
+    transition: opacity 1s, transform 1s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 #background-logo-background-wrap {
-    position: fixed;
     height: 140px;
+    position: absolute;
     width: 236px;
-    z-index: 3;
 }
 #background-logo-background {
     fill: #62B3E4;
@@ -32,22 +40,19 @@ body {
     position: fixed;
     right: 0px;
     top: 0px;
-    height: 1080px;
-    min-width: 710px;
-}
-
-@media all and (max-width: 1180px) {
-    #background-shape-wrap {
-        min-width: 100%;
-    }
+    height: 100vh;
+    width: 1920px;
+    opacity: 0;
+    transform: translateX(200px);
+    transition: opacity 1s, transform 1s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 #background-shape {
-    fill: #e7e7e7;
+    fill: #e6e6e6;
 }
 
 #background-receipt {
-    background: linear-gradient(#ffffff00, #ffffff 50%);
+    /*background: linear-gradient(#ffffff00, #ffffff 50%);*/
     position: fixed;
     left: 0;
     bottom: 0;
