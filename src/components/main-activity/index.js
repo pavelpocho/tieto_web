@@ -10,6 +10,7 @@ import TripPreview from '../trip-preview';
 import Trip from '../../utils/trip';
 import Spinner from '../spinner';
 import TripPoint from '../trip-point';
+import WelcomeDialog from '../welcome-dialog';
 
 export default class MainActivity extends Component {
 
@@ -28,6 +29,9 @@ export default class MainActivity extends Component {
     componentDidMount() {
         RippleManager.setUp();
         this.getTripList();
+        setTimeout(() => {
+            //this.props.container.openDialog(<WelcomeDialog key={"welcomeDialog"}/>);
+        }, 500);
     }
 
     //Used when duplicating

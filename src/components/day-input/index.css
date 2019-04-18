@@ -76,8 +76,11 @@ td {
     border: 2px solid #ccc;
     font-weight: 400;
 }
+.db-today {
+    background-color: #ddd;
+}
 .db-selected {
-    background-color: #FAA519;
+    background-color: #FAA519 !important;
     border: 2px solid #ccc;
     font-weight: 400;
     color: white;

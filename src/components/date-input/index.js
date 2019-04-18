@@ -9,7 +9,7 @@ export default class DateInput extends Component {
     constructor(props) {
         super(props);
 
-        var d = this.props.defaultDate == null ? null : new Date(this.props.defaultDate);
+        var d = this.props.defaultDate == null || this.props.defaultDate == -1 ? null : new Date(this.props.defaultDate);
         var t = this.props.defaultTime;
 
         this.state = {
@@ -23,7 +23,10 @@ export default class DateInput extends Component {
             this.props.setDate(undefined);
         }
         else {
-            this.props.setDate(new Date(year, month, day).getTime());
+            let d = new Date(year, month, day);
+            d.setUTCDate(day);
+            d.setUTCHours(0);
+            this.props.setDate(d.getTime());
         }
     }
 

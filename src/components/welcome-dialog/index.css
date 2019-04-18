@@ -1,0 +1,97 @@
+.welcome-dialog-wrap {
+    background-color: white;
+    position: fixed;
+    z-index: 8;
+    height: 800px;
+    width: 1200px;
+    max-width: 50%;
+    max-height: 80%;
+    left: 50%;
+    top: 50%;
+    opacity: 0;
+    transform: scale(0.8);
+    box-shadow: 2px 2px 20px -4px #888;
+    border-radius: 10px;
+    transition: transform 0.51s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.31s;
+    overflow: hidden;
+}
+.welcome-dialog-backdrop {
+    opacity: 0;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    z-index: 8;
+    background-color: #444;
+    transition: opacity 0.31s;
+}
+.wd-bottom-bar {
+    height: 72px;
+    width: 100%;
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    border-top: 2px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0px 24px;
+    background-color: white;
+}
+.wd-direction {
+    height: 36px;
+    line-height: 36px;
+    border-radius: 18px;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    color: #5F5F5F;
+    font-size: 20px;
+    width: 100px;
+    justify-content: center;
+}
+.wd-direction i {
+    font-size: 28px !important;
+    margin: 0px 4px;
+}
+.wd-direction:first-child {
+    padding-right: 12px;
+}
+.wd-direction:last-child {
+    padding-left: 12px;
+}
+.wd-direction:disabled {
+    color: #999;
+}
+.wd-indicator-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.wd-dot {
+    height: 8px;
+    width: 8px;
+    background-color: #ccc;
+    margin: 4px;
+    border-radius: 100%;
+    transition: margin 0.51s cubic-bezier(0.19, 1, 0.22, 1), height 0.51s cubic-bezier(0.19, 1, 0.22, 1), width 0.51s cubic-bezier(0.19, 1, 0.22, 1), background-color 0.51s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.wd-selected {
+    width: 10px;
+    height: 10px;
+    margin: 4px 3px;
+    background-color: #62B3E4;
+}
+.wd-main-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding-bottom: 72px;
+}
+.wd-page {
+    transition: transform 0.51s cubic-bezier(0.19, 1, 0.22, 1);
+    transform: translateX(20px);
+}

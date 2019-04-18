@@ -16,8 +16,27 @@ export default class TripActivity extends Component {
     constructor(props) {
         super(props);
 
+        var trip = null;
+        if (this.props.trip) {
+            var locations = this.props.trip.locations;
+            for (var i = 0; i < locations.length; i++) {
+                if (locations[i].deleted) {
+                    locations.splice(i, 1);
+                    i--;
+                }
+            }
+
+            locations.sort((a, b) => a.position - b.position);
+
+            console.log("Opening trip");
+            console.log(this.props.trip);
+
+            trip = this.props.trip;
+            trip.locations = locations;
+        }
+
         this.state = {
-            tripObject: this.props.trip ? this.props.trip : new Trip(0, "", "", "", "", []),
+            tripObject: trip ? trip : new Trip(0, "", "", "", "", []),
             selectedPoint: -1,
             animate: true
         }
@@ -26,27 +45,72 @@ export default class TripActivity extends Component {
         this.saveIndicator = React.createRef();
         this.backFunctionTarget = React.createRef();
         this.pointDetails = React.createRef();
+        this.receipt = React.createRef();
     }
 
     componentDidMount() {
-        this.forceSave(this.props.trip, () => {});
-        //This is crucial here, so that later saving can only save specific fields
-        RippleManager.setUp();
-        setTimeout(() => {
+        console.log("Saving this trip right now ->");
+        console.log(this.props.trip);
+        this.forceSave(this.props.trip, () => {
             this.ref.current.style.transform = "translateX(0px)";
             this.ref.current.style.opacity = "1";
-        }, 50);
+            console.log("Opened trip ->");
+            console.log(this.state.tripObject);
+        });
+        //This is crucial here, so that later saving can only save specific fields
+        RippleManager.setUp();
         window.onkeydown = (stroke) => {
             if (stroke.keyCode == 83 && stroke.ctrlKey) {
                 stroke.preventDefault();
                 this.forceSave(null, () => {});
             }
         }
+        window.onbeforeunload = e => {
+            return "";
+        }
     }
 
     saveChanges() {
         var http = ObjectContainer.getHttpCommunicator();
         http.saveTrip(this.state.tripObject);
+    }
+
+    setFood(location, dayIndex, foodIndex) {
+        var h = ObjectContainer.getHttpCommunicator();
+        this.saveIndicator.current.setStatus(1);
+        h.saveFood(location.id, dayIndex, foodIndex, (r, s) => {
+            if (s == 200) {
+                console.log("Food saving successful");
+                this.saveIndicator.current.setStatus(0);
+                this.setState((prevState) => {
+                    var t = prevState.tripObject;
+                    var l = null;
+                    for (var i = 0; i < t.locations.length; i++) {
+                        if (t.locations[i].id == location.id) {
+                            l = t.locations[i];
+                            break;
+                        }
+                    }
+                    if (l == null) return null;
+                    if (dayIndex == 0 && l.food.onlyDay != null) {
+                        l.food.onlyDay[foodIndex == 0 ? "breakfast" : foodIndex == 1 ? "lunch" : "dinner"] = !l.food.onlyDay[foodIndex == 0 ? "breakfast" : foodIndex == 1 ? "lunch" : "dinner"];
+                    }
+                    else if (dayIndex == 0 && l.food.firstDay != null) {
+                        l.food.firstDay[foodIndex == 0 ? "breakfast" : foodIndex == 1 ? "lunch" : "dinner"] = !l.food.firstDay[foodIndex == 0 ? "breakfast" : foodIndex == 1 ? "lunch" : "dinner"]
+                    }
+                    else if (dayIndex == l.food.middleDays.length + 1) {
+                        l.food.lastDay[foodIndex == 0 ? "breakfast" : foodIndex == 1 ? "lunch" : "dinner"] = !l.food.lastDay[foodIndex == 0 ? "breakfast" : foodIndex == 1 ? "lunch" : "dinner"]
+                    }
+                    else {
+                        l.food.middleDays[dayIndex - 1][foodIndex == 0 ? "breakfast" : foodIndex == 1 ? "lunch" : "dinner"] = !l.food.middleDays[dayIndex - 1][foodIndex == 0 ? "breakfast" : foodIndex == 1 ? "lunch" : "dinner"]
+                    }
+                })
+            }
+            else {
+                console.log("Food saving failed");
+                this.saveIndicator.current.setStatus(2);
+            }
+        });
     }
 
     setLocationField(location, field, value) {
@@ -69,7 +133,21 @@ export default class TripActivity extends Component {
             h.saveInboundTravel(location.id, (r, s) => {
                 if (s == 200) {
                     this.saveIndicator.current.setStatus(0);
+                    var realTrip = new Trip();
+                    Object.assign(realTrip, JSON.parse(r));
+                    var selection = this.backFunctionTarget.current.getSelection() + realTrip.locations.length - this.state.tripObject.locations.length;
+                    if (selection < 0) {
+                        this.backFunctionTarget.current.select(selection);
+                        this.backFunctionTarget.current.forceUpdate();    
+                    }
+                    this.setState({tripObject: realTrip});
+                    console.log("Saving this new trip as tripObject ->");
+                    console.log(realTrip);
                     console.log("Travel type save successful");
+                    if (selection >= 0) {
+                        this.backFunctionTarget.current.select(selection);
+                        this.backFunctionTarget.current.forceUpdate();
+                    }
                 }
                 else {
                     this.saveIndicator.current.setStatus(2);
@@ -81,7 +159,21 @@ export default class TripActivity extends Component {
             h.saveArrivalTime(location.id, (r, s) => {
                 if (s == 200) {
                     this.saveIndicator.current.setStatus(0);
+                    var realTrip = new Trip();
+                    Object.assign(realTrip, JSON.parse(r));
+                    var selection = this.backFunctionTarget.current.getSelection() + realTrip.locations.length - this.state.tripObject.locations.length;
+                    if (selection < 0) {
+                        this.backFunctionTarget.current.select(selection);
+                        this.backFunctionTarget.current.forceUpdate();    
+                    }
+                    this.setState({tripObject: realTrip});
+                    console.log("Saving this new trip as tripObject ->");
+                    console.log(realTrip);
                     console.log("Arrival time save successful");
+                    if (selection >= 0) {
+                        this.backFunctionTarget.current.select(selection);
+                        this.backFunctionTarget.current.forceUpdate();
+                    }
                 }
                 else {
                     this.saveIndicator.current.setStatus(2);
@@ -93,7 +185,21 @@ export default class TripActivity extends Component {
             h.saveDepartureTime(location.id, (r, s) => {
                 if (s == 200) {
                     this.saveIndicator.current.setStatus(0);
+                    var realTrip = new Trip();
+                    Object.assign(realTrip, JSON.parse(r));
+                    var selection = this.backFunctionTarget.current.getSelection() + realTrip.locations.length - this.state.tripObject.locations.length;
+                    if (selection < 0) {
+                        this.backFunctionTarget.current.select(selection);
+                        this.backFunctionTarget.current.forceUpdate();    
+                    }
+                    this.setState({tripObject: realTrip});
+                    console.log("Saving this new trip as tripObject ->");
+                    console.log(realTrip);
                     console.log("Departure time save successful");
+                    if (selection >= 0) {
+                        this.backFunctionTarget.current.select(selection);
+                        this.backFunctionTarget.current.forceUpdate();
+                    }
                 }
                 else {
                     this.saveIndicator.current.setStatus(2);
@@ -105,7 +211,21 @@ export default class TripActivity extends Component {
             h.saveArrivalDate(location.id, (r, s) => {
                 if (s == 200) {
                     this.saveIndicator.current.setStatus(0);
+                    var realTrip = new Trip();
+                    Object.assign(realTrip, JSON.parse(r));
+                    var selection = this.backFunctionTarget.current.getSelection() + realTrip.locations.length - this.state.tripObject.locations.length;
+                    if (selection < 0) {
+                        this.backFunctionTarget.current.select(selection);
+                        this.backFunctionTarget.current.forceUpdate();
+                    }
+                    this.setState({tripObject: realTrip});
+                    console.log("Saving this new trip as tripObject ->");
+                    console.log(realTrip);
                     console.log("Arrival date save successful");
+                    if (selection >= 0) {
+                        this.backFunctionTarget.current.select(selection);
+                        this.backFunctionTarget.current.forceUpdate();
+                    }
                 }
                 else {
                     this.saveIndicator.current.setStatus(2);
@@ -117,7 +237,22 @@ export default class TripActivity extends Component {
             h.saveDepartureDate(location.id, (r, s) => {
                 if (s == 200) {
                     this.saveIndicator.current.setStatus(0);
+                    var realTrip = new Trip();
+                    Object.assign(realTrip, JSON.parse(r));
+                    var selection = this.backFunctionTarget.current.getSelection() + realTrip.locations.length - this.state.tripObject.locations.length;
+                    if (selection < 0) {
+                        this.backFunctionTarget.current.select(selection);
+                        this.backFunctionTarget.current.forceUpdate();
+                    }
+                    this.setState({tripObject: realTrip});
+                    console.log("Saving this new trip as tripObject ->");
+                    console.log(realTrip);
                     console.log("Departure date save successful");
+                    if (selection >= 0) {
+                        this.backFunctionTarget.current.select(selection);
+                        this.backFunctionTarget.current.forceUpdate();
+                    }
+                    this.receipt.current.forceUpdate();
                 }
                 else {
                     this.saveIndicator.current.setStatus(2);
@@ -146,6 +281,7 @@ export default class TripActivity extends Component {
             var ls = prevState.tripObject.locations;
             for (var i = 0; i < ls.length; i++) {
                 if (ls[i] == location) {
+                    if (ls[i].city == null) ls[i].city = {};
                     ls[i].city.country = city.country;
                     ls[i].city.name = city.name;
                     ls[i].city.googlePlaceId = city.googlePlaceId;
@@ -154,7 +290,6 @@ export default class TripActivity extends Component {
             }
             var tripObject = prevState.tripObject;
             tripObject.locations = ls;
-            this.backFunctionTarget.current.setLocationArray(ls);
             return {
                 tripObject
             }
@@ -169,6 +304,32 @@ export default class TripActivity extends Component {
 
             return {
                 tripObject: tr
+            }
+        });
+    }
+
+    setBorderCross(locationId, millis) {
+        this.saveIndicator.current.setStatus(1);
+        var h = ObjectContainer.getHttpCommunicator();
+        h.setBorderCross(locationId, millis, (r, s) => {
+            if (s == 200) {
+                this.saveIndicator.current.setStatus(0);
+                this.setState(prevState => {
+                    var t = prevState.tripObject;
+                    for (var i = 0; i < t.locations.length; i++) {
+                        if (t.locations[i].id == locationId) {
+                            t.locations[i].crossedAt = millis;
+                        }
+                    }
+                    return {
+                        tripObject: t
+                    }
+                })
+                console.log("Border cross time save successful");
+            }
+            else {
+                this.saveIndicator.current.setStatus(2);
+                console.log("Border cross time save failed");
             }
         });
     }
@@ -275,6 +436,7 @@ export default class TripActivity extends Component {
 
     close() {
         window.onkeydown = null;
+        window.onbeforeunload = null;
         this.forceSave(undefined, () => {
             this.ref.current.style.opacity = "0";
             this.ref.current.style.transform = "translateX(40px)";
@@ -282,16 +444,22 @@ export default class TripActivity extends Component {
         });
     }
 
-    saveCreatedLocation(callback) {
+    saveCreatedLocation(l, callback) {
         var h = ObjectContainer.getHttpCommunicator();
         this.saveIndicator.current.setStatus(1);
-        h.saveAndReturnTrip(this.state.tripObject, (r, s) => {
+        var t = this.state.tripObject;
+        t.locations = l;
+        h.saveAndReturnTrip(t, (r, s) => {
             if (s == 200) {
                 this.saveIndicator.current.setStatus(0);
-                callback(r);
+                var realTrip = new Trip();
+                Object.assign(realTrip, JSON.parse(r));
                 this.setState({
-                    tripObject: r
-                })
+                    tripObject: realTrip
+                });
+                console.log("Returned this trip from point creation ->");
+                console.log(realTrip);
+                callback(realTrip);
             }
             else {
                 this.saveIndicator.current.setStatus(2)
@@ -345,7 +513,9 @@ export default class TripActivity extends Component {
             }, 350);
         }
         else {
+
             this.setState((prevState) => {
+
                 return {
                     selectedPoint: i,
                     animate: prevState.selectedPoint == -1
@@ -385,29 +555,60 @@ export default class TripActivity extends Component {
     }
 
     removePoint(location) {
-        console.log("Removing location");
-        console.log(location);
+        this.selectPoint(-1);
+        this.backFunctionTarget.current.clearSelection();
+        var h = ObjectContainer.getHttpCommunicator();
+        this.saveIndicator.current.setStatus(1);
+        var ids = [];
         for (var i = 0; i < this.state.tripObject.locations.length; i++) {
-            if (location.id == this.state.tripObject.locations[i].id) {
+            if (this.state.tripObject.locations[i].id == location.id) {
                 var j = i;
-                console.log("Found what to remove");
                 this.setState(prevState => {
-                    var arr = prevState.tripObject.locations;
-                    console.log(arr.splice(j, 2)); //2, because there is a crossing point as well
-                    var trip = prevState.tripObject;
-                    trip.locations = arr;
-                    console.log("New location array");
-                    console.log(arr);
-                    this.forceSave(trip, () => {});
+                    var ls = prevState.tripObject.locations;
+                    ids.push(prevState.tripObject.locations[j].id);
+                    if (j != 0) {
+                        //unshift because first must be first for the API to work
+                        ids.unshift(prevState.tripObject.locations[j - 1].id);
+                    }
+                    else if (prevState.tripObject.locations.length == 1) {
+                        //Nothing
+                    }
+                    else {
+                        ids.push(prevState.tripObject.locations[j + 1].id);
+                    }
+                    h.deleteLocation(ids, (r, s) => {
+                        if (s == 200) {
+                            console.log("Location deleted...");
+                            this.saveIndicator.current.setStatus(0);
+                        }
+                        else {
+                            console.log("Deleting location failed");
+                            this.saveIndicator.current.setStatus(2);
+                        }
+                    });
+                    if (j != 0) {
+                        ls.splice(j - 1, 2);
+                    }
+                    else if (prevState.tripObject.locations.length == 1) {
+                        ls.splice(j, 1);
+                    }
+                    else {
+                        ls.splice(j, 2);
+                    }
+                    var t = prevState.tripObject;
+                    t.locations = ls;
                     return {
-                        tripObject: trip
-                    }    
-                });
+                        tripObject: t
+                    }
+                })
             }
         }
     }
 
     render() {
+
+        console.log("Passing in locations right now");
+
         return (
             <div className="activity" id="trip-activity" ref={this.ref}>
                 <div className="top-bar">
@@ -418,7 +619,7 @@ export default class TripActivity extends Component {
                     {
                         window.innerWidth >= 1550 ? (
                             <div className="receipt-content">
-                                <TripReceipt />
+                                <TripReceipt ref={this.receipt} rates={this.state.tripObject.exchange}/>
                             </div>
                         ) : null
                     }
@@ -433,7 +634,7 @@ export default class TripActivity extends Component {
                                             {
                                                 window.innerWidth < 1550 ? (
                                                 <div className="absolute-receipt-content">
-                                                    <TripReceipt collapsed={true}/>
+                                                    <TripReceipt ref={this.receipt} collapsed={true} rates={this.state.tripObject.exchange}/>
                                                 </div>
                                             ) : null}
                                         </Fragment>
@@ -455,7 +656,7 @@ export default class TripActivity extends Component {
                                             <PointDetailInfo firstPoint={this.state.selectedPoint == 0} animate={this.state.animate} key={this.state.selectedPoint} parent={this} ref={this.pointDetails} backFunctionTarget={this.backFunctionTarget.current} location={this.state.selectedPoint == -1 ? new Location(-1, null, null, null, null, {name: "", country: { name: ""}}) : this.state.tripObject.locations[this.state.selectedPoint]}/>
                                             {window.innerWidth < 1550 ? (
                                                 <div className="absolute-receipt-content">
-                                                    <TripReceipt collapsed={true}/>
+                                                    <TripReceipt ref={this.receipt} collapsed={true} rates={this.state.tripObject.exchange}/>
                                                 </div>
                                             ) : null}
                                         </Fragment>

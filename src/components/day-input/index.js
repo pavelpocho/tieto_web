@@ -25,9 +25,12 @@ export default class DayInput extends Component {
                 31, 30, 31, 31,
                 30, 31, 30, 31
             ],
-            selectedDay: this.props.default == null || this.props.default == "Invalid Date" ? undefined : this.props.default.getDate(),
+            selectedDay: this.props.default == null || this.props.default == "Invalid Date" ? undefined : this.props.default.getUTCDate(),
             selectedMonth: this.props.default == null || this.props.default == "Invalid Date" ? undefined : this.props.default.getMonth(),
-            selectedYear: this.props.default == null || this.props.default == "Invalid Date" ? undefined : this.props.default.getFullYear()
+            selectedYear: this.props.default == null || this.props.default == "Invalid Date" ? undefined : this.props.default.getFullYear(),
+            thisDay: new Date().getDate(),
+            thisMonth: new Date().getMonth(),
+            thisYear: new Date().getFullYear()
         }
 
         this.ref = [];
@@ -42,6 +45,7 @@ export default class DayInput extends Component {
 
     addMonth(i) {
         this.graphicalSelect(null);
+        if (this.state.year == 1970 && i < 0) return;
         this.setState((prevState) => {
             var m = 0;
             var y = prevState.year;
@@ -92,12 +96,20 @@ export default class DayInput extends Component {
     graphicalSelect(target) {
         if (target == null) {
             for (var i = 0; i < this.ref.length; i++) {
-                if (this.ref[i].current != null) this.ref[i].current.setAttribute("class", "day-button");
+                if (this.ref[i].current != null && this.ref[i].current.getAttribute("class").includes("db-today")) {
+                    this.ref[i].current.setAttribute("class", "day-button db-today");
+                }
+                else if (this.ref[i].current != null) {
+                    this.ref[i].current.setAttribute("class", "day-button");
+                }
             }
             return;
         }
         for (var i = 0; i < this.ref.length; i++) {
-            if (this.ref[i].current != target && this.ref[i].current != null) {
+            if (this.ref[i].current != target && this.ref[i].current != null && this.ref[i].current.getAttribute("class").includes("db-today")) {
+                this.ref[i].current.setAttribute("class", "day-button db-today");
+            }
+            else if (this.ref[i].current != target && this.ref[i].current != null) {
                 this.ref[i].current.setAttribute("class", "day-button");
             }
             else if (this.ref[i].current == target) {
@@ -123,7 +135,6 @@ export default class DayInput extends Component {
         for (var m = 0; m < 7; m++) {
             days[m] = [];
         }
-        var x = 0;
         var d = new Date(this.state.year, this.state.month);
         d.setDate(1);
         let dayIndex = d.getDay() - 1;
@@ -133,16 +144,16 @@ export default class DayInput extends Component {
             days[Math.floor(i / 7)][i] = <td key={i} style={{height: "24px", width: "24px"}}></td>
         }
         for (var i = dayIndex; i < this.state.monthLengths[this.state.month] + dayIndex; i++) {
-            days[Math.floor(i / 7)][i] = <td key={i}><button ref={this.ref[i - dayIndex]} onClick={(e) => {this.select(e)}} ripplecolor="exclude" className={(this.state.selectedDay && this.state.selectedDay == x && this.state.selectedMonth == this.state.month && this.state.selectedYear == this.state.year) ? ("day-button db-selected") : "day-button"}>{x}</button></td>
+            days[Math.floor(i / 7)][i] = <td key={i}><button ref={this.ref[i - dayIndex]} onClick={(e) => {this.select(e)}} ripplecolor="exclude" className={(this.state.selectedDay && this.state.selectedDay == x && this.state.selectedMonth == this.state.month && this.state.selectedYear == this.state.year) ? ("day-button db-selected") : (this.state.thisDay == x && this.state.month == this.state.thisMonth && this.state.year == this.state.thisYear) ? "day-button db-today" : "day-button"}>{x}</button></td>
             x++;
         }
 
         return (
             <div className="day-input">
                 <div className="di-header">
-                    <button ripplecolor="gray" className="di-month-switch" onClick={() => {this.addMonth(-1)}}><i className="material-icons">arrow_left</i></button>
+                    <button ripplecolor="gray" className="di-month-switch" onClick={() => {this.addMonth(-1)}} ><i className="material-icons">arrow_left</i></button>
                     <p className="di-month-title">{this.state.months[this.state.month] + " " + this.state.year}</p>
-                    <button ripplecolor="gray" className="di-month-switch" onClick={() => {this.addMonth(1)}}><i className="material-icons">arrow_right</i></button>
+                    <button ripplecolor="gray" className="di-month-switch" onClick={() => {this.addMonth(1)}} ><i className="material-icons">arrow_right</i></button>
                 </div>
                 <div className="di-separator"></div>
                 <div className="di-number-wrap">

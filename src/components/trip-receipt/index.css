@@ -11,13 +11,14 @@
     transition: transform 0.51s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.31s;
     opacity: 0;
     transform: translateY(40px);
-    margin-bottom: -64px;
-    padding-bottom: 88px;
+    padding-bottom: 56px;
     position: relative;
+    max-width: 250px;
+    margin: 0px auto -64px;
 }
 .tr-separator {
     width: 100%;
-    height: 4px;
+    height: 2px;
     border-radius: 2px;
     background-color: #707070;
 }
@@ -27,10 +28,11 @@
 }
 .tr-total p:first-child {
     color: #5F5F5F;
-    font-size: 20px;
 }
-.tr-total p:last-child {
-    font-size: 25px;
+.tr-total p {
+    font-size: 20px;
+    margin-bottom: 16px;
+    margin-top: 16px;
 }
 .tr-expand-wrap {
     height: 56px;
@@ -58,4 +60,8 @@
 .tr-expand-button i {
     color: #5F5F5F;
     transition: transform 0.31s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.tr-valid {
+    text-align: center;
+    color: #5F5F5F;
 }

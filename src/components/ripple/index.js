@@ -74,6 +74,10 @@ export class RippleManager {
 class Ripple {
 	constructor(btn,e,color) {
         this.btn = btn;
+        var btnSize = this.btn.getBoundingClientRect();
+        var btnWidth = btnSize.width;
+        var btnHeight = btnSize.height;
+        var dimen = btnHeight > btnWidth ? btnHeight : btnWidth;
         this.start = Date.now();
         this.span = document.createElement("span");
         this.span.setAttribute("class", "ripple");
@@ -92,9 +96,11 @@ class Ripple {
 		}
 		this.btn.numberOfRipples ++;
 		this.span.style.left = e.clientX - btn.getBoundingClientRect().left - 20 + 'px';
-		this.span.style.top = e.clientY - btn.getBoundingClientRect().top - 20 + 'px';
+        this.span.style.top = e.clientY - btn.getBoundingClientRect().top - 20 + 'px';
+        var decider = btnHeight > btnWidth ? e.clientY - btn.getBoundingClientRect().top : e.clientX - btn.getBoundingClientRect().left;
+        var final = decider > (dimen - decider) ? decider : (dimen - decider);
         this.span.style.opacity = '0.3';
-		this.span.style.transform = 'scale(8,8)';
+		this.span.style.transform = 'scale('+ (final / 20 + 0.5) + ',' + (final / 20 + 0.5) + ')';
 	}
 	hide() {
 

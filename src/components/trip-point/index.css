@@ -17,6 +17,13 @@
     padding: 0px 6px 0px 6px;
     margin-right: 50px;
 }
+.trip-point-short {
+    height: 52px;
+    align-items: center;
+}
+.trip-point-short > div > p {
+    line-height: 52px;
+}
 .trip-point-texts {
     
 }
@@ -30,6 +37,14 @@
 .trip-point-text-first-line {
     margin: 0px 18px 0px 18px;
     font-size: 22px;
+    padding-left: 12px;
+    text-align: right;
+}
+.trip-point-text-only-line {
+    margin: 0px 18px 0px 18px;
+    font-size: 18px;
+    color: #444;
+    line-height: 70px;
     padding-left: 12px;
     text-align: right;
 }
@@ -60,27 +75,31 @@
     width: 6px;
     border-radius: 3px;
     background-color: #5F5F5F;
-    margin-right: 88px;
-    margin-top: 18px;
-    margin-bottom: 18px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 .trip-point-travel-icon {
     height: 26px !important;
     width: 26px !important;
     font-size: 26px !important;
     color: #5F5F5F;
-    margin-right: 77px;
 }
 .trip-point-travel-line-short {
     height: 29px;
     width: 6px;
     border-radius: 3px;
     background-color: #5F5F5F;
-    margin-right: 88px;
-    margin-top: 18px;
-    margin-bottom: 18px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
-.trip-point-travel-line-short:nth-child(2) {
+.trip-point-travel-line-wrap {
+    width: 26px;
+    margin-right: 78px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.trip-point-travel-line-short:nth-child(1) {
     margin-bottom: 8px;
 }
 .trip-point-travel-line-short:last-child {
@@ -98,4 +117,37 @@
     color: white;
     font-weight: bold;
     font-size: 25px;
+}
+.tp-travel-line-wrap {
+    display: flex;
+    align-items: center;
+}
+.tp-border-cross-wrap {
+    display: flex;
+    align-self: center;
+    align-items: center;
+    margin-right: 24px;
+}
+.tp-border-cross-title {
+    color: #5F5F5F;
+    font-size: 16px;
+    margin: 0px 8px;
+}
+.tp-add-transit-wrap {
+    width: 30px;
+    height: 30px;
+    margin-right: 40px;
+    margin-top: 4px;
+}
+.tp-add-transit-button {
+    height: 29px;
+    width: 29px;
+    margin-top: 10px;
+    margin-bottom: 8px;
+    background-color: transparent;
+    border-radius: 100%;
+    color: #444;
+}
+.tp-add-transit-button:hover {
+    background-color: #e1e1e1;
 }

@@ -7,10 +7,39 @@ export default class TripReceipt extends Component {
 
     constructor(props) {
         super(props);
+
+        var usd = {};
+        var eur = {};
+        var gbp = {};
+        var chf = {};
+
+        if (this.props.rates != null) {
+            for (var i = 0; i < this.props.rates.rates.length; i++) {
+                //rates.rates is indeed intentional
+                if (this.props.rates.rates[i].currencyCode == 0) {
+                    eur["rate"] = Math.round(this.props.rates.rates[i].rate * 100) / 100;
+                    eur["altered"] = this.props.rates.rates[i].altered;
+                }
+                else if (this.props.rates.rates[i].currencyCode == 1) {
+                    usd["rate"] = Math.round(this.props.rates.rates[i].rate * 100) / 100;
+                    usd["altered"] = this.props.rates.rates[i].altered;
+                }
+                else if (this.props.rates.rates[i].currencyCode == 3) {
+                    chf["rate"] = Math.round(this.props.rates.rates[i].rate * 100) / 100;
+                    chf["altered"] = this.props.rates.rates[i].altered;
+                }
+                else if (this.props.rates.rates[i].currencyCode == 4) {
+                    gbp["rate"] = Math.round(this.props.rates.rates[i].rate * 100) / 100;
+                    gbp["altered"] = this.props.rates.rates[i].altered;
+                }
+            }
+        }
         
         this.state = {
-            rateUSD: "",
-            rateEUR: "",
+            rateUSD: usd,
+            rateEUR: eur,
+            rateGBP: gbp,
+            rateCHF: chf,
             expand: false,
             rotate: false
         }
@@ -18,40 +47,22 @@ export default class TripReceipt extends Component {
         this.card = React.createRef();
     }
 
-    componentDidMount() {
-        //For now, this gets rates for current day, change later for date of first point
-        let h = ObjectContainer.getHttpCommunicator();
-        h.getExchangeRates(new Date(), (rates, s) => {
-            if (s == 200) {
-                for (var i = 0; i < rates.length; i++) {
-                    var eur;
-                    var usd;
-                    if (rates[i].currencyCode == 0) {
-                        eur = Math.round(rates[i].rate * 100) / 100;
-                    }
-                    else if (rates[i].currencyCode == 1) {
-                        usd = Math.round(rates[i].rate * 100) / 100;
-                    }
-                    this.setState({
-                        rateEUR: eur,
-                        rateUSD: usd
-                    });
-                }
-            }
-            else {
-                //Getting rates failed
-                console.log("Getting exchange rates failed");
-            }
-        })
-    }
-
     componentDidUpdate() {
+        console.log("Updating the receipt");
         if (this.card.current != null && this.state.rotate) {
             setTimeout(() => {
                 this.card.current.style.transform = "translateY(0px)";
                 this.card.current.style.opacity = "1";
             }, 20);
         }
+    }
+
+    setRate(currency) {
+        throw("Not implemented");
+    }
+
+    resetRate(currency) {
+        throw("Not implemented");
     }
 
     reverseExpand() {
@@ -83,6 +94,44 @@ export default class TripReceipt extends Component {
     }
 
     render() {
+
+        var usd = {};
+        var eur = {};
+        var gbp = {};
+        var chf = {};
+
+        if (this.props.rates != null) {
+            for (var i = 0; i < this.props.rates.rates.length; i++) {
+                //rates.rates is indeed intentional
+                if (this.props.rates.rates[i].currencyCode == 0) {
+                    eur["rate"] = Math.round(this.props.rates.rates[i].rate * 100) / 100;
+                    eur["altered"] = this.props.rates.rates[i].altered;
+                }
+                else if (this.props.rates.rates[i].currencyCode == 1) {
+                    usd["rate"] = Math.round(this.props.rates.rates[i].rate * 100) / 100;
+                    usd["altered"] = this.props.rates.rates[i].altered;
+                }
+                else if (this.props.rates.rates[i].currencyCode == 3) {
+                    chf["rate"] = Math.round(this.props.rates.rates[i].rate * 100) / 100;
+                    chf["altered"] = this.props.rates.rates[i].altered;
+                }
+                else if (this.props.rates.rates[i].currencyCode == 4) {
+                    gbp["rate"] = Math.round(this.props.rates.rates[i].rate * 100) / 100;
+                    gbp["altered"] = this.props.rates.rates[i].altered;
+                }
+            }
+        }
+
+        console.log("Rates ->");
+        console.log(this.state);
+
+        console.log("Passing in this shit ->");
+        console.log(this.state.rateEUR.rate);
+        console.log(this.state.rateUSD.rate);
+
+
+        var date = this.props.rates != null ? new Date(this.props.rates.date) : null;
+
         return (
             <div className="trip-receipt">
             {
@@ -90,9 +139,17 @@ export default class TripReceipt extends Component {
                     <div ref={this.card} className="tr-card">
                         <div className="tr-list">
                             <ReceiptItem currency="CZK" amount="0"/>
-                            <ReceiptItem currency="EUR" amount="0" rate={this.state.rateEUR}/>
-                            <ReceiptItem currency="USD" amount="0" rate={this.state.rateUSD}/>
+                            <ReceiptItem currency="EUR" amount="0" rate={eur.rate} altered={eur.altered} parent={this}/>
+                            <ReceiptItem currency="USD" amount="0" rate={usd.rate} altered={usd.altered} parent={this}/>
+                            <ReceiptItem currency="GBP" amount="0" rate={gbp.rate} altered={gbp.altered} parent={this}/>
+                            <ReceiptItem currency="CHF" amount="0" rate={chf.rate} altered={chf.altered} parent={this}/>
                         </div>
+                        {/*Is this displayed correctly?*/}
+                        {
+                            date != null && date != undefined && date.getDate != undefined ? (
+                                <p className="tr-valid">Exchange rates for {(date.getUTCDate() + "." + (date.getMonth() + 1) + "." + date.getFullYear())}</p>
+                            ) : null
+                        }
                         <div className="tr-separator"></div>
                         <div className="tr-total">
                             <p>Total</p>
@@ -113,9 +170,17 @@ export default class TripReceipt extends Component {
                     <Fragment>
                         <div className="tr-list">
                             <ReceiptItem currency="CZK" amount="0"/>
-                            <ReceiptItem currency="EUR" amount="0" rate={this.state.rateEUR}/>
-                            <ReceiptItem currency="USD" amount="0" rate={this.state.rateUSD}/>
+                            <ReceiptItem currency="EUR" amount="0" rate={eur.rate} altered={eur.altered} parent={this}/>
+                            <ReceiptItem currency="USD" amount="0" rate={usd.rate} altered={usd.altered} parent={this}/>
+                            <ReceiptItem currency="GBP" amount="0" rate={gbp.rate} altered={gbp.altered} parent={this}/>
+                            <ReceiptItem currency="CHF" amount="0" rate={chf.rate} altered={chf.altered} parent={this}/>
                         </div>
+                        {/*Is this displayed correctly?*/}
+                        {
+                            date != null && date != undefined && date.getDate != undefined ? (
+                                <p className="tr-valid">Exchange rates for {(date.getUTCDate() + "." + (date.getMonth() + 1) + "." + date.getFullYear())}</p>
+                            ) : null
+                        }
                         <div className="tr-separator"></div>
                         <div className="tr-total">
                             <p>Total</p>

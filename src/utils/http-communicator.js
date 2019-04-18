@@ -2,6 +2,8 @@ import CookieManager from './cookie-manager';
 
 export default class HttpCommunicator {
 
+    //Need to unify the saving system so as to stop annoying flickering!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
     constructor() {
         this.testUrl = "http://localhost:49292/api/";
         this.prodUrl = "http://localhost:49292/api/";
@@ -16,6 +18,8 @@ export default class HttpCommunicator {
             return string;
         }
     }
+
+    //Need to unify the saving system so as to stop annoying flickering!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     prep(callback, ...params) {
         var xhttp = new XMLHttpRequest();
@@ -51,6 +55,8 @@ export default class HttpCommunicator {
         return [xhttp, paramString];
     }
 
+    //Need to unify the saving system so as to stop annoying flickering!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
     get(url, callback, ...params) {
         var tried = this.prep(callback, ...params);
         var xhttp = tried[0];
@@ -80,11 +86,12 @@ export default class HttpCommunicator {
         xhttp.send(JSON.stringify(body));
     }
 
-    getExchangeRates(date, callback) {
-        this.post(this.url + "trip/getExchangeRates", callback, date.toJSON());
-    }
+    //Need to unify the saving system so as to stop annoying flickering!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     saveTrip(trip, callback) {
+        console.log("Passing this trip into save function now ->");
+        console.log(trip);
+        console.log(trip.id);
         this.post(this.url + "trip/saveTrip", callback, trip);
     }
 
@@ -111,6 +118,8 @@ export default class HttpCommunicator {
     saveInboundTravel(locationId, callback, travelType) {
         this.post(this.url + "location/saveInboundTravel/" + locationId, callback, travelType)
     }
+
+    //Need to unify the saving system so as to stop annoying flickering!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     
     saveArrivalTime(locationId, callback, time) {
         if (time == undefined) {
@@ -135,6 +144,8 @@ export default class HttpCommunicator {
         }
         this.post(this.url + "location/saveArrivalDate/" + locationId, callback, date)
     }
+
+    //Need to unify the saving system so as to stop annoying flickering!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     
     saveDepartureDate(locationId, callback, date) {
         if (date == undefined) {
@@ -142,6 +153,18 @@ export default class HttpCommunicator {
             date = -1;
         }
         this.post(this.url + "location/saveDepartureDate/" + locationId, callback, date)
+    }
+
+    setBorderCross(locationId, millis, callback) {
+        this.post(this.url + "location/setBorderCrossTime/" + locationId, callback, millis);
+    }
+
+    saveFood(locationId, dayIndex, foodIndex, callback) {
+        this.post(this.url + "location/saveFood/", callback, { locationId, dayIndex, foodIndex });
+    }
+
+    deleteLocation(locationIds, callback) {
+        this.post(this.url + "location/delete/", callback, locationIds);
     }
 
     saveAndReturnTrip(trip, callback) {
@@ -159,6 +182,8 @@ export default class HttpCommunicator {
     getTripDetails(tripId, callback) {
         this.get(this.url + "trip/" + tripId, callback);
     }
+
+    //Need to unify the saving system so as to stop annoying flickering!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     deleteTrip(tripId, callback) {
         this.post(this.url + "trip/delete", callback, tripId);
@@ -210,6 +235,8 @@ export default class HttpCommunicator {
         }
     }
 
+    //Need to unify the saving system so as to stop annoying flickering!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
     tokenCheck(token, callback, unauthorizedCallback) {
         HttpCommunicator.token = token;
         var xhttp = new XMLHttpRequest();
@@ -232,5 +259,7 @@ export default class HttpCommunicator {
     getAppName() {
         return "trippi ;)";
     }
+
+    //Need to unify the saving system so as to stop annoying flickering!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 }

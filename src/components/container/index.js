@@ -3,6 +3,7 @@ import React, { Component, Fragment } from 'react';
 import ObjectContainer from '../../utils/object-container';
 import Background from '../background';
 import MainActivity from '../main-activity';
+import TripActivity from '../trip-activity';
 import LoginActivity from '../login-activity';
 import CookieManager from '../../utils/cookie-manager';
 import HttpCommunicator from '../../utils/http-communicator';
@@ -44,6 +45,7 @@ export default class Container extends Component {
     }
 
     openActivity(activity) {
+
         this.setState((prevState) => {
 
             var a = prevState.activityHistory;
@@ -51,7 +53,8 @@ export default class Container extends Component {
 
             return {
                 activityHistory: a,
-                outActivity: a[a.length - 2]
+                outActivity: a[a.length - 2],
+                position: prevState.position + 1
             }
 
         })

@@ -5,13 +5,9 @@
 }
 .fiw-row {
     display: flex;
-    width: 250px;
-    padding: 8px 0px;
+    padding: 6px 0px 6px 0px;
     justify-content: space-between;
     align-items: center;
-}
-.fiw-row:first-child {
-    padding-top: 0px;
 }
 .fiw-title {
     margin: 0px;
@@ -19,6 +15,8 @@
     font-size: 21px;
     height: 25px;
     line-height: 25px;
+    width: 60px;
+    text-align: center;
 }
 .fiw-checkbox {
     height: 25px;
@@ -30,6 +28,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.fiw-checkbox-wrap {
+    width: 80px;
+    display: flex;
+    justify-content: center;
 }
 .fiw-checkbox i {
     display: none;
@@ -45,4 +48,11 @@
 }
 .checked i {
     display: block;
+}
+.food-type-title {
+    color: #444;
+    font-size: 17px;
+    text-align: center;
+    margin: 0px;
+    width: 80px;
 }

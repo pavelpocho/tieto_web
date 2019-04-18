@@ -100,7 +100,7 @@ export default class Background extends Component {
                         </defs>
                         <polygon id="background-logo-background" points="0,0 215,0 108,109 0,86" filter="url(#f1)"/>
                     </svg>
-                    <Logo/>
+                    <Logo />
                 </div>
                 <svg ref={this.shapeWrap} id="background-shape-wrap">
                     <polygon ref={this.shape} id="background-shape" points="" />

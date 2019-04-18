@@ -12,7 +12,7 @@
 .ri-currency {
     font-weight: 300;
     color: #5F5F5F;
-    font-size: 22px;
+    font-size: 20px;
     margin: 0px;
     margin-right: 14px;
 }
@@ -28,6 +28,17 @@
     padding: 10px;
 }
 .ri-amount {
-    font-size: 25px;
+    font-size: 22px;
     margin: 0px;
+}
+.ri-refresh {
+    border-radius: 100%;
+    color: #5F5F5F;
+    background-color: transparent;
+    height: 30px;
+    width: 30px;
+    margin-left: 12px;
+}
+.ri-refresh:hover {
+    background-color: #e6e6e6;
 }

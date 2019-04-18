@@ -6,6 +6,7 @@
     margin-right: 50px;
     display: flex;
     align-items: center;
+    position: relative;
 }
 .gti-section input {
     width: 350px;

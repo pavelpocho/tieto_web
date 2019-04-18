@@ -1,0 +1,28 @@
+.cs-wrap {
+    position: absolute;
+    background-color: #f1f1f1;
+    border-radius: 21px;
+    width: 350px;
+    text-align: left;
+    box-shadow: 1px 1px 10px -4px #aaa;
+    margin-top: 12px;
+    box-sizing: border-box;
+    overflow: hidden;
+    border: 3px solid #eee;
+    transition: opacity 0.31s;
+}
+.cs-wrap button {
+    padding: 12px 20px;
+    width: 100%;
+    box-sizing: border-box;
+    color: #5F5F5F;
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+    background-color: transparent;
+}
+.cs-wrap button span.country {
+    text-align: right;
+    color: #777;
+    font-size: 15px;
+}

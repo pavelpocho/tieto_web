@@ -5,6 +5,7 @@ import TripPreviewState from '../trip-preview-state';
 import OverflowMenu from '../overflow-menu';
 import Trip from '../../utils/trip';
 import Spinner from '../spinner';
+import { RippleManager } from '../ripple';
 
 export default class TripPreview extends Component {
 
@@ -21,6 +22,7 @@ export default class TripPreview extends Component {
     }
 
     componentDidMount() {
+        RippleManager.setUp();
         if (this.props.trip.duplicated) {
             this.ref.current.style.height = "0px";
             this.ref.current.style.marginBottom = "0px";
@@ -149,6 +151,9 @@ export default class TripPreview extends Component {
 
     render() {
 
+        console.log("Trip date for preview ->");
+        console.log(this.props.trip.locations);
+
         return (
             <div className="trip-preview-wrap" ref={this.ref}>
                 {
@@ -165,8 +170,10 @@ export default class TripPreview extends Component {
                 </div>
                 <div className="trip-preview-right">
                     <div className="trip-preview-text-wrap margin">
-                        <p className="trip-preview-date">18.1.2019</p>
-                        <p className="trip-preview-money">700 CZK</p>
+                        <p className="trip-preview-date">{
+                            this.props.trip.locations && this.props.trip.locations[0] && this.props.trip.locations[0].departureDate && this.props.trip.locations[0].departureDate > -1 ? new Date(this.props.trip.locations[0].departureDate).getUTCDate() + "." + (new Date(this.props.trip.locations[0].departureDate).getUTCMonth() + 1) + "." + new Date(this.props.trip.locations[0].departureDate).getUTCFullYear() : <i>No date</i>
+                        }</p>
+                        <p className="trip-preview-money">??? CZK</p>
                     </div>
                     <button className="trip-preview-button" ripplecolor="gray" onClick={() => {this.export()}}><i className="material-icons">local_printshop</i></button>
                     <button className="trip-preview-button" ripplecolor="gray" onClick={(e) => {this.overflow(e)}}><i className="material-icons">more_vert</i></button>

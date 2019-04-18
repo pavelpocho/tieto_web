@@ -31,10 +31,6 @@ body {
     height: 140px;
     width: 236px;
 }
-#background-logo-shadow {
-    fill: #7b7b7b40;
-
-}
 
 #background-shape-wrap {
     position: fixed;
