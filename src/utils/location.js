@@ -1,6 +1,6 @@
 export default class Location {
     
-    constructor(id, isCrossing, crossingFrom, crossingTo, inboundTravelType, city, arrival, departure, food, position, tripId, crossedBorder, transit, crossedAt) {
+    constructor(id, isCrossing, crossingFrom, crossingTo, inboundTravelType, city, arrival, departure, food, position, tripId, crossedBorder, transit, crossedAt, arrivalDate, arrivalTime, departureDate, departureTime) {
         this.id = id;
         this.isCrossing = isCrossing;
         this.crossingFrom = crossingFrom;
@@ -15,6 +15,10 @@ export default class Location {
         this.crossedBorder = crossedBorder;
         this.transit = transit;
         this.crossedAt = crossedAt;
+        this.arrivalDate = arrivalDate;
+        this.arrivalTime = arrivalTime;
+        this.departureDate = departureDate;
+        this.departureTime = departureTime;
     }
 
 }

@@ -43,10 +43,13 @@ export default class TimeInput extends Component {
 
     attemptSelect() {
         if ((this.hours.current.value.length == 2 && this.minutes.current.value.length == 2) || (this.hours.current.value.length == 0 && this.minutes.current.value.length == 0)) {
-            if (this.props.blue && (this.hours.current.value.length == 2 && this.minutes.current.value.length == 2)) {
-                this.props.parent.setBorderCross(this.hours.current.value, this.minutes.current.value);
-            }
-            else if (!this.props.blue) {
+            console.log(this.hours.current.value);
+            console.log(this.minutes.current.value);
+            console.log("vs");
+            console.log(this.props.default);
+            console.log(Math.floor(this.props.default / 60000 / 60));
+            console.log(Math.floor(this.props.default / 60000 % 60));
+            if (parseInt(this.hours.current.value) !== Math.floor((this.props.default == null ? -1 : this.props.default) / 60000 / 60) || parseInt(this.minutes.current.value) !== Math.floor((this.props.default == null ? -1 : this.props.default) / 60000 % 60)) {
                 this.props.parent.selectTime(this.hours.current.value, this.minutes.current.value);
             }
         }
@@ -96,24 +99,6 @@ export default class TimeInput extends Component {
             e.preventDefault();
             this.hours.current.focus();
         }
-    }
-
-    setValue(value) {
-        var minutes = "";
-        var hours = "";
-
-        if (value != null && value != -1) {
-            hours = Math.floor(value / 60000 / 60);
-            minutes = Math.floor(value / 60000 % 60);
-        }
-        if (hours !== "" && hours < 10) {
-            hours = "0" + hours;
-        }
-        if (minutes !== "" && minutes < 10) {
-            minutes = "0" + minutes;
-        }
-        this.hours.current.value = hours;
-        this.minutes.current.value = minutes;
     }
 
     render() {

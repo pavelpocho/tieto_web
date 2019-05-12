@@ -18,9 +18,15 @@ button,a {
     height:40px;
     width:40px;
 }
-.gray {
+.ripple-gray {
 	background-color: #a1a1a1 !important;
 }
-.blue {
+.ripple-blue {
 	background-color: #62B3E4 !important;
+}
+.ripple-orange {
+	background-color: #FAA519 !important;
+}
+.ripple-none {
+	display: none !important;
 }

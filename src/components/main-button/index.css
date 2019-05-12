@@ -9,4 +9,8 @@
     font-size: 22px;
     border-radius: 28px;
     letter-spacing: 2px;
+    transition: background-color 0.35s;
+}
+.main-button-wrap:disabled {
+    background-color: #999 !important;
 }

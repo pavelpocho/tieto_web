@@ -1,4 +1,6 @@
 import css from './index.css';
+import React, { Component, Fragment } from 'react';
+import ObjectContainer from '../../utils/object-container';
 
 export default class Template extends Component {
 
@@ -7,11 +9,8 @@ export default class Template extends Component {
     }
 
     render() {
-
-        const appName = ObjectContainer.getHttpCommunicator().getAppName();
-
         return (
-            <p>Hello world, my name is {appName}</p>
+            <p>Hello world, my name is Trippi :)</p>
         )
         
     }

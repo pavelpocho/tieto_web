@@ -2,6 +2,7 @@ import css from './index.css';
 import React, { Fragment, Component } from 'react';
 import ObjectContainer from '../../utils/object-container';
 import Overlay from '../overlay';
+import { RippleManager } from '../ripple';
 
 export default class SortWidget extends Component {
 
@@ -13,6 +14,10 @@ export default class SortWidget extends Component {
         }
     }
 
+    componentDidUpdate() {
+        RippleManager.setUp();
+    }
+
     toggleExpansion() {
         this.setState((prevState) => {
             return {
@@ -21,14 +26,21 @@ export default class SortWidget extends Component {
         })
     }
 
+    setSortBy(t) {
+        this.props.parent.setSortBy(t);
+        this.toggleExpansion();
+    }
+
     render() {
         return (
             <Fragment>
                 <div className="sw-master">
                     <div className="sort-widget-wrap">
-                        <p className="sort-widget-title">SORT BY:</p>
-                        <p className="sort-widget-selected">DATE</p>
-                        <button className="sort-widget-expand" ripplecolor="gray" onClick={() => {this.toggleExpansion()}}><i className={this.state.expanded ? "material-icons arrow rotated" : "material-icons arrow"}>arrow_drop_down</i></button>
+                        <button className="sort-widget-expand" ripplecolor="gray" onClick={() => {this.toggleExpansion()}}>
+                            <p className="sort-widget-title">SORT BY:</p>
+                            <p className="sort-widget-selected">{this.props.position == 0 ? "DATE" : this.props.position == 1 ? "MONEY" : "STATUS"}</p>
+                            <i className={this.state.expanded ? "material-icons arrow rotated" : "material-icons arrow"}>arrow_drop_down</i>
+                        </button>
                     </div>
                     {
                         this.state.expanded ? (
@@ -36,8 +48,9 @@ export default class SortWidget extends Component {
                         ) : null
                     }
                     <div className={this.state.expanded ? "sw-choice-wrap" : "sw-choice-wrap no-height"}>
-                        <button className="sw-choice" ripplecolor="gray">STATUS</button>
-                        <button className="sw-choice" ripplecolor="gray">MONEY</button>
+                        <button className="sw-choice" ripplecolor="gray" onClick={() => {this.setSortBy(2)}}>STATUS</button>
+                        <button className="sw-choice" ripplecolor="gray" onClick={() => {this.setSortBy(1)}}>MONEY</button>
+                        <button className="sw-choice" ripplecolor="gray" onClick={() => {this.setSortBy(0)}}>DATE</button>
                     </div>
                 </div>
             </Fragment>

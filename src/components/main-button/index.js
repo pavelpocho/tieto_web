@@ -11,7 +11,7 @@ export default class MainButton extends Component {
 
     render() {
         return (
-            <button className="main-button-wrap" onClick={() => {this.props.onClick()}}>{this.props.text.toUpperCase()}</button>
+            <button disabled={this.props.disabled} className="main-button-wrap" onClick={() => {this.props.onClick()}}>{this.props.text.toUpperCase()}</button>
         )
     }
 

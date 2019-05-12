@@ -1,6 +1,7 @@
 #main-activity {
     /*transform: translateX(-40px);*/
     overflow-y: scroll;
+    z-index: 6;
 }
 #main-activity .content-wrap {
     margin-left: 200px;
@@ -15,6 +16,288 @@
 #main-activity .error-display {
     display: none;
 }
+#main-activity .error-display p {
+    text-align: center;
+    font-size: 28px;
+    margin: 72px auto 32px;
+    font-weight: bold;
+    color: #a1a1a1;
+}
+#main-activity .error-display button {
+    height: 46px;
+    border-radius: 23px;
+    width: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 10px;
+    background-color: white;
+    border: 4px solid transparent;
+    transition: border-color 0.31s;
+    margin: 0px auto;
+    font-size: 18px;
+    color: #444;
+}
+#main-activity .error-display button:hover {
+    border: 4px solid #e4e4e4;
+}
+#main-activity .error-display button i {
+    margin-right: 8px;
+}
+
+.ma-topbar-content {
+    position: fixed;
+    right: 24px;
+    top: 12px;
+    height: 48px;
+    padding: 4px 4px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border-radius: 36px;
+}
+
+/*Start*/
+#main-activity .ma-settings-toggle {
+    background-color: transparent;
+    transition: background-color 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 21px;
+    color: #5F5F5F;
+    height: 36px;
+    width: 36px;
+    margin: 0px 8px;
+    border-radius: 24px;
+    transition: color 0.21s, background-color 0.21s;
+}
+#main-activity .ma-settings-toggle:hover {
+    background-color: #f1f1f1;
+    color: #444;
+}
+#main-activity .ma-settings-toggle i {
+    font-size: 22px !important;
+}
+/*End*/ /*This exact same code is in back-button in trip-activity (with slight mods in color)*/
+
+.ma-toggle-separator {
+    height: 26px;
+    width: 2px;
+    border-radius: 1px;
+    background-color: #aaa;
+    margin: 0px 12px;
+}
+
+/*Start*/
+.ma-window-wrap {
+    display: none;
+    height: 600px;
+    width: 900px;
+    border-radius: 10px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-left: -450px;
+    margin-top: -300px;
+    z-index: 10;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.31s, box-shadow 0.31s cubic-bezier(0.95, 0.05, 0.795, 0.035), transform 0.51s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.ma-window-background {
+    background-color: white;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    transform-origin: center;
+}
+.ma-window-content {
+    z-index: 2;
+    position: relative;
+    height: 100%;
+}
+.ma-backdrop {
+    width: 100%;
+    height: 150vh;
+    position: fixed;
+    top: -100px;
+    left: 0;
+    z-index: 9;
+    background-color: black;
+    opacity: 0;
+    display: none;
+    transition: opacity 0.31s;
+}
+.ma-window-topbar {
+    height: 72px;
+    width: 100%;
+    display: flex;
+    position: relative;
+    z-index: 2;
+    justify-content: space-between;
+}
+.ma-window-topbar p {
+    color: #444;
+    font-size: 17px;
+    margin: 0px;
+    line-height: 72px;
+}
+.ma-window-topbar button {
+    height: 36px;
+    padding: 0px 9px 0px 6px;
+    border-radius: 18px;
+    font-size: 16px;
+    margin: 18px 15px;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    color: #5F5F5F;
+}
+.ma-window-topbar span {
+    width: 109px;
+}
+.ma-window-topbar button i {
+    font-size: 20px;
+    margin-right: 6px;
+}
+.ma-window-main {
+    display: flex;
+    position: relative;
+    height: 512px;
+}
+.ma-window-left, .ma-window-right {
+    position: relative;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 0px 16px;
+}
+.ma-window-left {
+    width: 55%;
+    overflow-y: scroll;
+}
+.ma-window-right {
+    width: 45%;
+}
+
+.feedback-type-wrap {
+    display: flex;
+    align-items: center;
+}
+.feedback-type-wrap p {
+    color: #5F5F5F;
+    margin-left: 12px;
+}
+.feedback-text-input {
+    position: relative;
+    width: 100%;
+    height: 120px;
+    border: 2px solid #c1c1c1;
+    background-color: white;
+    border-radius: 10px;
+    outline: none;
+    resize: none;
+    padding: 6px;
+}
+.feedback-section-title {
+    font-size: 19px;
+    color: #707070;
+    text-align: center;
+}
+.feedback-wrap {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    width: 100%;
+    background-color: #f1f1f1;
+    border-radius: 28px;
+    margin-bottom: 16px;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 10px 0px;
+}
+.feedback-wrap p {
+    margin: 0px;
+    max-width: 260px;
+}
+.feedback-text {
+    color: #444;
+}
+.feedback-date {
+    color: #5F5F5F;
+}
+.feedback-wrap > div {
+    display: flex;
+    align-items: center;
+}
+.feedback-wrap > div:first-child {
+    justify-content: flex-start;
+}
+.feedback-wrap > div:last-child {
+    justify-content: flex-end;
+}
+.f-liked {
+    color: #62B3E4;
+    margin-right: 4px;
+}
+.f-not-liked {
+    color: #aaa;
+    margin-right: 4px;
+}
+.f-not-liked:hover {
+    color: #aaa;
+}
+.feedback-like {
+    background-color: transparent;
+    height: 36px;
+    width: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0px 10px;
+}
+.feedback-type-icon {
+    height: 36px;
+    width: 36px;
+    border-radius: 100%;
+    margin: 0px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.feedback-type-icon {
+    color: white;
+}
+.feedback-specify {
+    color: #5F5F5F;
+}
+
+.feedback-warning {
+    color: #444;
+    font-size: 14px;
+    text-align: center;
+}
+.send-feedback {
+    height: 40px;
+    padding: 0px 30px;
+    background-color: #62B3E4;
+    border-radius: 20px;
+    color: white;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: 16px;
+    display: block;
+    margin: 0px auto;
+    transition: background-color 0.31s;
+}
+.send-feedback:hover {
+    background-color: #52A3D4;
+}
+.send-feedback:disabled {
+    background-color: #999 !important;
+}
+/*End*/ /*This exact same code is in login activity*/
 
 @media only all/*screen*/ and (max-width: 1300px) {
     #main-activity .content-wrap {

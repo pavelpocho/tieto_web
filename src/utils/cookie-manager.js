@@ -18,6 +18,7 @@ export default class CookieManager {
         cookies = document.cookie.split(';');
         for (var i=0; i < cookies.length; i++) {
             c = cookies[i].split('=');
+            c[0] = c[0].replace(" ", "");
             if (c[0] == name) {
                 return c[1];
             }

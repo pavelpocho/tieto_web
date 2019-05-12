@@ -2,6 +2,7 @@ import css from './index.css';
 import React, { Fragment, Component } from 'react';
 import ObjectContainer from '../../utils/object-container';
 import { timingSafeEqual } from 'crypto';
+import { RippleManager } from '../ripple';
 
 export default class DayInput extends Component {
 
@@ -15,8 +16,8 @@ export default class DayInput extends Component {
                 "July", "August", "September",
                 "October", "November", "December"
             ],
-            month: this.props.default == null || this.props.default == "Invalid Date" ? new Date().getMonth() : this.props.default.getMonth(),
-            year: this.props.default == null || this.props.default == "Invalid Date" ? new Date().getFullYear() : this.props.default.getFullYear(),
+            month: this.props.default == null || this.props.default == "Invalid Date" ? (this.props.highlight == null || this.props.highlight == "Invalid Date" ? new Date().getMonth() : this.props.highlight.getMonth()) : this.props.default.getMonth(),
+            year: this.props.default == null || this.props.default == "Invalid Date" ? (this.props.highlight == null || this.props.highlight == "Invalid Date" ? new Date().getFullYear() : this.props.highlight.getFullYear()) : this.props.default.getFullYear(),
             days: [
                 "Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"
             ],
@@ -27,10 +28,7 @@ export default class DayInput extends Component {
             ],
             selectedDay: this.props.default == null || this.props.default == "Invalid Date" ? undefined : this.props.default.getUTCDate(),
             selectedMonth: this.props.default == null || this.props.default == "Invalid Date" ? undefined : this.props.default.getMonth(),
-            selectedYear: this.props.default == null || this.props.default == "Invalid Date" ? undefined : this.props.default.getFullYear(),
-            thisDay: new Date().getDate(),
-            thisMonth: new Date().getMonth(),
-            thisYear: new Date().getFullYear()
+            selectedYear: this.props.default == null || this.props.default == "Invalid Date" ? undefined : this.props.default.getFullYear()
         }
 
         this.ref = [];
@@ -89,7 +87,7 @@ export default class DayInput extends Component {
                 selectedMonth: this.state.month,
                 selectedYear: this.state.year
             });
-            this.props.parent.selectDate(e.target.innerHTML, this.state.month, this.state.year);
+            this.props.parent.selectDate(e.target.innerHTML.split("<")[0], this.state.month, this.state.year);
         }
     }
 
@@ -118,6 +116,10 @@ export default class DayInput extends Component {
         }
     }
 
+    componentDidMount() {
+        RippleManager.setUp();
+    }
+
     componentDidUpdate() {
         if (this.state.selectedYear == this.state.year && this.state.selectedMonth == this.state.month) {
             for (var j = 0; j < this.ref.length; j++) {
@@ -132,6 +134,10 @@ export default class DayInput extends Component {
 
         var days = [];
 
+        var highlightDay = this.props.highlight == null || this.props.highlight == "Invalid Date" ? undefined : this.props.highlight.getUTCDate();
+        var highlightMonth = this.props.highlight == null || this.props.highlight == "Invalid Date" ? undefined : this.props.highlight.getMonth();
+        var highlightYear = this.props.highlight == null || this.props.highlight == "Invalid Date" ? undefined : this.props.highlight.getFullYear();
+
         for (var m = 0; m < 7; m++) {
             days[m] = [];
         }
@@ -144,7 +150,15 @@ export default class DayInput extends Component {
             days[Math.floor(i / 7)][i] = <td key={i} style={{height: "24px", width: "24px"}}></td>
         }
         for (var i = dayIndex; i < this.state.monthLengths[this.state.month] + dayIndex; i++) {
-            days[Math.floor(i / 7)][i] = <td key={i}><button ref={this.ref[i - dayIndex]} onClick={(e) => {this.select(e)}} ripplecolor="exclude" className={(this.state.selectedDay && this.state.selectedDay == x && this.state.selectedMonth == this.state.month && this.state.selectedYear == this.state.year) ? ("day-button db-selected") : (this.state.thisDay == x && this.state.month == this.state.thisMonth && this.state.year == this.state.thisYear) ? "day-button db-today" : "day-button"}>{x}</button></td>
+            days[Math.floor(i / 7)][i] = (
+                <td key={i}>
+                    <button ref={this.ref[i - dayIndex]} 
+                            onClick={(e) => {this.select(e)}} 
+                            ripplecolor={this.props.color == "blue" ? "blue" : "orange"} 
+                            className={((this.state.selectedDay && this.state.selectedDay == x && this.state.selectedMonth == this.state.month && this.state.selectedYear == this.state.year) ? ("day-button db-selected") : (highlightDay == x && this.state.month == highlightMonth && this.state.year == highlightYear) ? "day-button db-today" : "day-button") + (this.props.color == "blue" ? " db-blue" : "")}
+                    >{x}</button>
+                </td>
+            )
             x++;
         }
 

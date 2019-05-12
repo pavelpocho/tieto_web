@@ -7,6 +7,10 @@ import TripActivity from '../trip-activity';
 import LoginActivity from '../login-activity';
 import CookieManager from '../../utils/cookie-manager';
 import HttpCommunicator from '../../utils/http-communicator';
+import AdminActivity from '../admin-activity';
+const preval = require('preval.macro');
+
+var version = require('../../../package.json').version;
 
 export default class Container extends Component {
 
@@ -18,7 +22,9 @@ export default class Container extends Component {
             dialogHistory: [],
             outActivity: null,
             transitioningForward: false,
-            transitioningBackward: false
+            transitioningBackward: false,
+            apiVersion: -1,
+            apiBuildDate: -1
         }
 
         this.background = React.createRef();
@@ -26,10 +32,18 @@ export default class Container extends Component {
     }
 
     startApp() {
+
+        var h = ObjectContainer.getHttpCommunicator();
+
         if (CookieManager.getCookie("token") != undefined && CookieManager.getCookie("token") != "") {
-            var h = new HttpCommunicator();
-            h.tokenCheck(CookieManager.getCookie("token"), () => {
-                this.openActivity(<MainActivity key="mainActivity" container={this} />);
+            h.tokenCheck(CookieManager.getCookie("token"), (r) => {
+                //True r means admin account
+                if (r == "true") {
+                    this.openActivity(<AdminActivity key="adminActivity" container={this} />);
+                }
+                else {
+                    this.openActivity(<MainActivity key="mainActivity" container={this} />);
+                }
                 this.background.current.loginAction();
             }, () => {
                 this.openActivity(<LoginActivity key="loginActivity" container={this} />);
@@ -38,6 +52,18 @@ export default class Container extends Component {
         else {
             this.openActivity(<LoginActivity key="loginActivity" container={this} />);
         }
+
+        h.getApiVersion((r, s) => {
+            if (s == 200) {
+                this.setState({
+                    apiVersion: r.split(";")[0],
+                    apiBuildDate: r.split(";")[1]
+                })
+            }
+            else {
+                //Failed...
+            }
+        })
     }
 
     componentDidMount() {
@@ -45,6 +71,10 @@ export default class Container extends Component {
     }
 
     openActivity(activity) {
+
+        if (activity.key == "loginActivity") {
+            this.background.current.welcomeMode();
+        }
 
         this.setState((prevState) => {
 
@@ -121,7 +151,47 @@ export default class Container extends Component {
         }
     }
 
+    zeroBeforeText(text) {
+        if (parseInt(text) < 10) {
+            return "0" + text;
+        }
+        else return text;
+    }
+
     render() {
+
+        const buildDate = new Date(preval`module.exports = new Date()`);
+
+        const version = preval`
+        var version = require('../../../package.json').version;
+        var build = require('fs').readFileSync('./build.txt', 'utf-8');
+        var buildVersion = build.split('#')[0];
+        var buildNumber = build.split('#')[1];
+        var newData;
+        if (buildVersion == version) {
+            var newBuildNumber = (parseInt(buildNumber) + 1).toString();
+        }
+        else {
+            var newBuildNumber = 1;
+        }
+        newData = version + '#' + newBuildNumber;
+        require('fs').writeFileSync('./build.txt', newData, 'utf-8');
+        module.exports = newData;
+        `;
+
+        var dateString = buildDate.getDate() + "." + 
+        (buildDate.getMonth() + 1) + "." + 
+        buildDate.getFullYear() + " " + 
+        this.zeroBeforeText(buildDate.getHours()) + ":" + 
+        this.zeroBeforeText(buildDate.getMinutes())
+
+        let dateObject = new Date(parseInt(this.state.apiBuildDate));
+
+        var apiDateString = dateObject.getDate() + "." + 
+        (dateObject.getMonth() + 1) + "." + 
+        dateObject.getFullYear() + " " + 
+        this.zeroBeforeText(dateObject.getHours()) + ":" + 
+        this.zeroBeforeText(dateObject.getMinutes())
 
         return (
             <Fragment>
@@ -135,6 +205,8 @@ export default class Container extends Component {
                 {
                     this.state.dialogHistory.map(v => v)
                 }
+                <p className="web-app-version">Trippi WebApp Alpha {version} - Build Date: {dateString}</p>
+                <p className="api-version">Trippi API Alpha {this.state.apiVersion} - Build Date: {apiDateString}</p>
             </Fragment>
         )
         

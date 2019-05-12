@@ -8,6 +8,7 @@
     transform-origin: center center;
     animation: full-rotate 2s linear infinite;
     -webkit-animation: full-rotate 2s linear infinite;
+    z-index: 11;
 }
 
 .circular-loader {

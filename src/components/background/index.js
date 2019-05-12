@@ -40,8 +40,16 @@ export default class Background extends Component {
         this.topStrip.current.style.width = "100%";
         this.logoWrap.current.style.opacity = "1";
         this.shapeWrap.current.style.opacity = "1";
+        this.shape.current.style.fill = "#e6e6e6";
+        document.body.style.backgroundColor = "#f1f1f1";
         this.shapeWrap.current.style.transform = "translateX(0px)";
         this.logoWrap.current.style.transform = "translate(0px, 0px)";
+    }
+
+    welcomeMode() {
+        setTimeout(() => {
+            this.shapeWrap.current.style.opacity = "1";
+        }, 100);
     }
     
     pushPoints(coords, points, i) {
@@ -49,33 +57,11 @@ export default class Background extends Component {
     }
     
     homeScreen() {
-    
-        /*ObjectContainer.getAnimator().animateBackground([870, 1630 / 1920 * window.innerWidth], [870, 1340 / 1920 * window.innerWidth], [870, 1200 / 1920 * window.innerWidth], this.shape.current, this.receipt.current);
-    
-        setTimeout(() => {
-            this.receipt.current.style.display = "none";
-        }, 500);*/
-
-        this.shape.current.style.display = "block";
-    
-        return;
-        
+        this.shapeWrap.current.style.opacity = "1";
     }
     
     tripEdit() {
-
-        /*ObjectContainer.getAnimator().animateBackground([1630 / 1920 * window.innerWidth, 870], [1340 / 1920 * window.innerWidth, 870], [1200 / 1920 * window.innerWidth, 870], this.shape.current, this.receipt.current);
-        
-        if (window.innerWidth >= 1550) {
-            this.receipt.current.style.display = "block";
-        }*/
-
-        setTimeout(() => {
-            this.shape.current.style.display = "none";
-        }, 510);
-
-        return;
-        
+        this.shapeWrap.current.style.opacity = "0";
     }
 
     render() {

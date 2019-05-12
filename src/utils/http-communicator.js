@@ -2,264 +2,189 @@ import CookieManager from './cookie-manager';
 
 export default class HttpCommunicator {
 
-    //Need to unify the saving system so as to stop annoying flickering!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
     constructor() {
         this.testUrl = "http://localhost:49292/api/";
         this.prodUrl = "http://localhost:49292/api/";
         this.url = this.testUrl;
+        this.genUrl = this.url.substring(0, this.url.length - 4);
+        this.buffer = [];
+        this.firing = false;
     }
 
-    parseJson(string) {
-        try {
-            return JSON.parse(string);
-        }
-        catch (e) {
-            return string;
-        }
-    }
-
-    //Need to unify the saving system so as to stop annoying flickering!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-    prep(callback, ...params) {
+    prep(callback) {
         var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (this.readyState == 4) {
+        xhttp.onreadystatechange = ((xhttp) => {
+            if (xhttp.readyState == 4) {
                 try {
-                    if (JSON.parse(this.response).token != undefined) {
-                        let t = JSON.parse(this.response).token;
-                        CookieManager.setCookie("token", "Bearer " + t, 365);
-                        //Edit the expiration days according to expiration of token (keep signed in or not)
-                        HttpCommunicator.token = "Bearer " + t;
-                    }   
+                    if (JSON.parse(xhttp.response).token != undefined) CookieManager.setCookie("token", "Bearer " + JSON.parse(xhttp.response).token, 365);
                 }
                 catch (e) {
                 }
+                var jsonGo = false;
                 try {
-                    callback(JSON.parse(this.response), this.status);
+                    JSON.parse(xhttp.response);
+                    jsonGo = true;
                 }
-                catch (e) {
-                    callback(this.response, this.status);
+                catch (SyntaxError) {
+                       
                 }
+                if (!jsonGo) {
+                    callback(xhttp.response, xhttp.status);
+                }
+                else {
+                    callback(JSON.parse(xhttp.response), xhttp.status);
+                }
+                //Performance?
+                this.fireNext();
             }
-        }
-        var paramString = "?";
-        for (var i = 0; i < params.length; i++) {
-            if (i == params.length - 1) {
-                paramString = paramString + params[i];
-            }
-            else {
-                paramString = paramString + params[i] + "&";
-            }
-        }
-        return [xhttp, paramString];
+        }).bind(undefined, xhttp);
+        return xhttp;
     }
 
-    //Need to unify the saving system so as to stop annoying flickering!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-    get(url, callback, ...params) {
-        var tried = this.prep(callback, ...params);
-        var xhttp = tried[0];
-        xhttp.open("GET", url + tried[1]);
-        if (HttpCommunicator.token != undefined) {
-            xhttp.setRequestHeader("Authorization", HttpCommunicator.token);
-        }
-        else if (CookieManager.getCookie("token") != "") {
-            xhttp.setRequestHeader("Authorization", CookieManager.getCookie("token"));
-        }
+    send(bufferItem) {
+        var xhttp = bufferItem.tried;
+        xhttp.open(bufferItem.method, bufferItem.url);
+        xhttp.setRequestHeader("Authorization", CookieManager.getCookie("token"));
         xhttp.setRequestHeader("Content-Type", "application/json");
-        xhttp.send();
+        xhttp.send(JSON.stringify(bufferItem.method == "POST" ? bufferItem.body : null));
     }
 
-    post(url, callback, body, ...params) {
-        var tried = this.prep(callback, ...params);
-        var xhttp = tried[0];
-        xhttp.open("POST", url + tried[1]);
-        if (HttpCommunicator.token != undefined) {
-            xhttp.setRequestHeader("Authorization", HttpCommunicator.token);
+    addPostToBuffer(url, callback, body) {
+        this.buffer.push({tried: this.prep(callback), url: url, body: body, method: "POST"});
+        if (!this.firing) this.fireNext();
+    }
+
+    addGetToBuffer(url, callback) {
+        this.buffer.push({tried: this.prep(callback), url: url, method: "GET"});
+        if (!this.firing) this.fireNext();
+    }
+
+    fireNext() {
+        if (this.buffer.length == 0) {
+            this.firing = false;
+            return;
         }
-        else if (CookieManager.getCookie("token") != "") {
-            xhttp.setRequestHeader("Authorization", CookieManager.getCookie("token"));
-        }
-        //Take the token from the HttpCommunicator static property or the cookie, depending on what's available (after login, the static property is undefined)
-        xhttp.setRequestHeader("Content-Type", "application/json");
-        xhttp.send(JSON.stringify(body));
+        this.firing = true;
+        this.send(this.buffer[0]);
+        this.buffer.splice(0, 1);
     }
 
-    //Need to unify the saving system so as to stop annoying flickering!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-    saveTrip(trip, callback) {
-        console.log("Passing this trip into save function now ->");
-        console.log(trip);
-        console.log(trip.id);
-        this.post(this.url + "trip/saveTrip", callback, trip);
-    }
+    sendFeedback(object, callback) { this.addPostToBuffer(this.url + "feedback/saveFeedback", callback, object) }
 
-    saveTitle(tripId, title, callback) {
-        this.post(this.url + "trip/saveTitle/" + tripId, callback, title);
-    }
+    getFeedbackList(callback) { this.addGetToBuffer(this.url + "feedback/getList", callback) }
 
-    savePurpose(tripId, purpose, callback) {
-        this.post(this.url + "trip/savePurpose/" + tripId, callback, purpose);
-    }
+    likeFeedback(id, callback) { this.addPostToBuffer(this.url + "feedback/like", callback, id) }
 
-    saveProject(tripId, project, callback) {
-        this.post(this.url + "trip/saveProject/" + tripId, callback, project);
-    }
+    getWelcomeDone(callback) { this.addGetToBuffer(this.url + "user/welcomeDone", callback) }
 
-    saveTask(tripId, task, callback) {
-        this.post(this.url + "trip/saveTask/" + tripId, callback, task);
-    }
+    setWelcomeDone() { this.addPostToBuffer(this.url + "user/welcomeDone", () => {}) }
 
-    saveCity(locationId, callback, names) {
-        this.post(this.url + "location/saveCity/" + locationId, callback, names)
-    }
 
-    saveInboundTravel(locationId, callback, travelType) {
-        this.post(this.url + "location/saveInboundTravel/" + locationId, callback, travelType)
-    }
+    login(username, password, longSign, callback) { this.addPostToBuffer(this.url + "user/authenticate", callback, {Username: username, Password: password, LongSign: longSign}) }
 
-    //Need to unify the saving system so as to stop annoying flickering!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    register(username, password, fullname, superiorEmail, callback) { this.addPostToBuffer(this.url + "user/register", callback, {Username: username, Password: password, FullName: fullname, SuperiorEmail: superiorEmail}) }
+
+    checkEmail(email, callback) { this.addPostToBuffer(this.url + "user/checkEmail", callback, email) }
+
+
+    getTripList(callback) { this.addGetToBuffer(this.url + "trip/getTripList", callback) }
+
+    saveTrip(trip, callback) { this.addPostToBuffer(this.url + "trip/saveTrip", callback, trip) }
+
+    deleteTrip(tripId, callback) { this.addPostToBuffer(this.url + "trip/delete", callback, tripId) }
+
+    duplicateTrip(duplicateObject, callback) { this.addPostToBuffer(this.url + "trip/duplicate", callback, duplicateObject) }
+
+
+    getExportToken(tripId, callback) { this.addPostToBuffer(this.url + "trip/export/" + tripId, callback) }
+
+    exportTrip(token, callback) { var w = window.open(this.url + "trip/getPdf/" + token, "_blank"); callback(w) }
+
+
+    saveTitle(tripId, title, callback) { this.addPostToBuffer(this.url + "trip/saveTitle/" + tripId, callback, title) }
+
+    savePurpose(tripId, purpose, callback) { this.addPostToBuffer(this.url + "trip/savePurpose/" + tripId, callback, purpose) }
+
+    saveProject(tripId, project, callback) { this.addPostToBuffer(this.url + "trip/saveProject/" + tripId, callback, project) }
+
+    saveTask(tripId, task, callback) { this.addPostToBuffer(this.url + "trip/saveTask/" + tripId, callback, task) }
+
+    saveComment(tripId, task, callback) { this.addPostToBuffer(this.url + "trip/saveComment/" + tripId, callback, task) }
+
+
+    addLocation(index, tripId, callback) { this.addPostToBuffer(this.url + "trip/addLocation/" + index, callback, tripId) }
+
+    saveCity(locationId, callback, names) { this.addPostToBuffer(this.url + "location/saveCity/" + locationId, callback, names) }
+
+    saveCountry(locationId, callback, country) { this.addPostToBuffer(this.url + "location/setTransitCountryName/" + locationId, callback, country) }
+
+    saveInboundTravel(locationId, callback, travelType) { this.addPostToBuffer(this.url + "location/saveInboundTravel/" + locationId, callback, travelType) }
     
-    saveArrivalTime(locationId, callback, time) {
-        if (time == undefined) {
-            time = -1;
-            //If undefined is sent, the API recieves a 0 and interprets it as midnight
-        }
-        this.post(this.url + "location/saveArrivalTime/" + locationId, callback, time)
-    }
+
+    //If undefined is sent, the API recieves a 0 and interprets it as midnight or 1.1.1970
+    catchUndefined(number) { return (number == undefined ? -1 : number) }
+
+    saveArrivalTime(locationId, callback, time) { this.addPostToBuffer(this.url + "location/saveArrivalTime/" + locationId, callback, this.catchUndefined(time)) }
     
-    saveDepartureTime(locationId, callback, time) {
-        if (time == undefined) {
-            time = -1;
-            //If undefined is sent, the API recieves a 0 and interprets it as midnight
-        }
-        this.post(this.url + "location/saveDepartureTime/" + locationId, callback, time)
-    }
+    saveDepartureTime(locationId, callback, time) { this.addPostToBuffer(this.url + "location/saveDepartureTime/" + locationId, callback, this.catchUndefined(time)) }
 
-    saveArrivalDate(locationId, callback, date) {
-        if (date == undefined) {
-            //If undefined is sent, the API recieves a 0 and interprets it as 1.1.1970
-            date = -1;
-        }
-        this.post(this.url + "location/saveArrivalDate/" + locationId, callback, date)
-    }
-
-    //Need to unify the saving system so as to stop annoying flickering!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    saveArrivalDate(locationId, callback, date) { this.addPostToBuffer(this.url + "location/saveArrivalDate/" + locationId, callback, this.catchUndefined(date)) }
     
-    saveDepartureDate(locationId, callback, date) {
-        if (date == undefined) {
-            //If undefined is sent, the API recieves a 0 and interprets it as 1.1.1970
-            date = -1;
-        }
-        this.post(this.url + "location/saveDepartureDate/" + locationId, callback, date)
-    }
+    saveDepartureDate(locationId, callback, date) { this.addPostToBuffer(this.url + "location/saveDepartureDate/" + locationId, callback, this.catchUndefined(date)) }
 
-    setBorderCross(locationId, millis, callback) {
-        this.post(this.url + "location/setBorderCrossTime/" + locationId, callback, millis);
-    }
+    saveCrossedAtTime(locationId, callback, time) { this.addPostToBuffer(this.url + "location/setBorderCrossTime/" + locationId, callback, this.catchUndefined(time)) }
 
-    saveFood(locationId, dayIndex, foodIndex, callback) {
-        this.post(this.url + "location/saveFood/", callback, { locationId, dayIndex, foodIndex });
-    }
+    saveCrossedAtDate(locationId, callback, date) { this.addPostToBuffer(this.url + "location/setBorderCrossDate/" + locationId, callback, this.catchUndefined(date)) }
 
-    deleteLocation(locationIds, callback) {
-        this.post(this.url + "location/delete/", callback, locationIds);
-    }
+    changeOnlyLocation(locationId, callback) { this.addPostToBuffer(this.url + "location/changeOnlyLocation/", callback, locationId) }
 
-    saveAndReturnTrip(trip, callback) {
-        this.post(this.url + "trip/saveAndReturnTrip/", callback, trip);
-    }
 
-    saveComment(tripId, task, callback) {
-        this.post(this.url + "trip/saveComment/" + tripId, callback, task);
-    }
+    saveFood(locationId, dayIndex, foodIndex, callback) { this.addPostToBuffer(this.url + "location/saveFood/", callback, { locationId, dayIndex, foodIndex }) }
 
-    getTripList(callback) {
-        this.get(this.url + "trip/getTripList", callback);
-    }
+    deleteLocation(locationId, callback) { this.addPostToBuffer(this.url + "location/delete/", callback, locationId) }
 
-    getTripDetails(tripId, callback) {
-        this.get(this.url + "trip/" + tripId, callback);
-    }
+    validateCity(city, callback) { this.addGetToBuffer(this.url + "maps/validateCity/" + city, callback) }
 
-    //Need to unify the saving system so as to stop annoying flickering!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    validateCountry(country, callback) { this.addGetToBuffer(this.url + "maps/validateCountry/" + country, callback) }
 
-    deleteTrip(tripId, callback) {
-        this.post(this.url + "trip/delete", callback, tripId);
-    }
+    resetSectionModifications(locationId, callback) { this.addPostToBuffer(this.url + "location/resetSectionModifications/" + locationId, callback) }
 
-    getExportToken(tripId, callback) {
-        this.post(this.url + "trip/export/" + tripId, callback);
-    }
+    editExchangeRate(tripId, currencyCode, value, callback) { this.addPostToBuffer(this.url + "trip/editExchangeRate/" + tripId + "/" + currencyCode, callback, value) }
 
-    exportTrip(token, callback) {
-        var w = window.open(this.url + "trip/getPdf/" + token, "_blank");
-        callback(w);
-    }
+    resetExchangeRate(tripId, currencyCode, callback) { this.addPostToBuffer(this.url + "trip/resetExchangeRate/" + tripId + "/" + currencyCode, callback) }
 
-    duplicateTrip(tripId, callback) {
-        this.post(this.url + "trip/duplicate", callback, tripId);
-    }
+    setNoExportWarnings(value, callback) { this.addPostToBuffer(this.url + "user/noExportWarnings/", callback, value) }
 
-    getCountryList(callback) {
-        this.get(this.url + "trip/countryList", callback);
-    }
-
-    login(username, password, callback) {
-        this.post(this.url + "user/authenticate", callback, {Username: username, Password: password});
-    }
-
-    validateCity(city, callback) {
-        this.get(this.url + "maps/validateCity/" + city, callback);
-    }
-
-    //Delete this
-    getDateTime() {
-        this.post(this.url + "location/getDateTime/", (d) => {
-            console.log("Recieved this date:");
-            console.log(d);
-            console.log("new Date(d) -->");
-            console.log(new Date(d));
-        })
-    }
-    //But it shows how dates are recieved (default in JSON, can then create )
-    //Delete this
-
-    getCurrencyTable(date, callback) {
-        if (date == "") {
-            this.get("https://www.cnb.cz/cs/financni_trhy/devizovy_trh/kurzy_devizoveho_trhu/denni_kurz.txt", callback);
-        }
-        else {
-            this.get("https://www.cnb.cz/cs/financni_trhy/devizovy_trh/kurzy_devizoveho_trhu/denni_kurz.txt?date=" + date, callback);
-        }
-    }
-
-    //Need to unify the saving system so as to stop annoying flickering!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     tokenCheck(token, callback, unauthorizedCallback) {
-        HttpCommunicator.token = token;
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                callback();
+                callback(xhttp.response);
             }
             else if (this.readyState == 4 && this.status == 401) {
                 unauthorizedCallback();
             }
         }
         xhttp.open("GET", this.url + "user/tokenCheck");
-        if (HttpCommunicator.token != undefined) {
-            xhttp.setRequestHeader("Authorization", HttpCommunicator.token);
-        }
+        xhttp.setRequestHeader("Authorization", token);
         xhttp.setRequestHeader("Content-Type", "application/json");
         xhttp.send();
     }
 
-    getAppName() {
-        return "trippi ;)";
-    }
 
-    //Need to unify the saving system so as to stop annoying flickering!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    getCountryList(callback) { this.addGetToBuffer(this.url + "country/list", callback) }
+
+    saveCountryAllowance(allowance, callback) { this.addPostToBuffer(this.url + "country/update", callback, allowance) }
+
+    saveCountryAllowances(allowances, callback) { this.addPostToBuffer(this.url + "country/updateArray", callback, allowances) }
+
+    getConfigurationList(callback) { this.addGetToBuffer(this.url + "configuration/list", callback) }
+
+    saveConfiguration(config, callback) { this.addPostToBuffer(this.url + "configuration/update", callback, config) }
+
+    
+    getApiVersion(callback) { this.addGetToBuffer(this.url + "app/version", callback) }
 
 }

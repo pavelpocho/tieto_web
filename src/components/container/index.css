@@ -39,3 +39,21 @@ input::placeholder {
     transition: transform 0.51s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.31s;
     /*transform: translateX(40px);*/
 }
+.web-app-version {
+    position: fixed;
+    z-index: 100;
+    right: 0;
+    bottom: 35.5px;
+    font-size: 13px;
+    margin: 20px;
+    color: black;
+}
+.api-version {
+    position: fixed;
+    z-index: 100;
+    right: 0;
+    bottom: 0px;
+    font-size: 13px;
+    margin: 20px;
+    color: black;
+}

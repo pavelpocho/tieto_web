@@ -9,7 +9,8 @@ var version = require('./package.json').version;
 module.exports = {
   entry: "./src/index.jsx",
   node: {
-    fs: "empty"
+    fs: "empty",
+    module: "empty"
   },
   output: {
     filename: "bundle" + version + ".js",

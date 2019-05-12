@@ -27,6 +27,12 @@
     position: absolute;
     bottom: 0px;
 }
+.ps-comment {
+    color: #5F5F5F;
+    text-align: center;
+    padding: 40px;
+    margin: 0px;
+}
 @media all/*screen*/ and (max-width: 1100px) {
     .point-selector-wrap {
         height: auto;

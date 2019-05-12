@@ -77,6 +77,10 @@
 .trip-preview-button:hover {
     background-color: #e6e6e6;
 }
+.trip-preview-button:disabled {
+    color: #999;
+    background-color: transparent !important;
+}
 .margin {
     margin-right: 8px;
 }

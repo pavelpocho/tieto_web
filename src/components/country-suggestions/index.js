@@ -3,7 +3,7 @@ import React, {Component, Fragment} from 'react';
 import { RippleManager } from '../ripple';
 import Spinner from '../spinner';
 
-export default class CitySuggestions extends Component {
+export default class CountrySuggestions extends Component {
 
     constructor(props) {
         super(props);
@@ -48,7 +48,7 @@ export default class CitySuggestions extends Component {
         if (this.state.ignoreAuto && auto) return;
         this.close();
         if (this.props.suggestions) {
-            this.props.parent.selectCity(this.props.suggestions[i]);
+            this.props.parent.selectCountry(this.props.suggestions[i]);
         }
     }
 
@@ -57,21 +57,16 @@ export default class CitySuggestions extends Component {
         if (this.props.suggestions == null || this.props.suggestions.length == 0) return null;
 
         return (
-            <div ref={this.wrap} className="cs-wrap">
-                <div className="cs-spinner-wrap">
+            <div ref={this.wrap} className="cs-wrap country-wrap">
+                <div className="cs-spinner-wrap country">
                     <Spinner position="relative" size={28} />
                 </div>
                 {
                     this.props.suggestions != "loading" ? (
-                        <div ref={this.content} className="cs-content-wrap">
+                        <div ref={this.content} className="cs-content-wrap country">
                         {
                             this.props.suggestions.map((s, i) => {
-                                if (s.country && s.country != "") {
-                                    return <button onClick={(e) => {this.select(i)}} ripplecolor="gray" key={i}><span>{s.name}</span><span className="country">{s.country ? s.country.name : "--"}</span></button>
-                                }
-                                else {
-                                    return null;
-                                }
+                                return <button onClick={(e) => {this.select(i)}} ripplecolor="gray" key={i}><span>{s.name}</span></button>
                             })
                         }
                         </div>

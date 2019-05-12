@@ -6,12 +6,15 @@ export default class Overlay extends Component {
 
     constructor(props) {
         super(props);
+        
+        this.div = React.createRef();
+
     }
 
     render() {
 
         return (
-            <div className="overlay" onClick={() => {this.props.onClick()}}></div>
+            <div ref={this.div} className="overlay" onClick={() => {this.props.onClick()}}></div>
         )
 
     }

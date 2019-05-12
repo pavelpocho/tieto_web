@@ -1,8 +1,7 @@
-.cs-wrap {
+/*.cs-wrap {
     position: absolute;
     background-color: #f1f1f1;
     border-radius: 21px;
-    height: 212px;
     width: 350px;
     text-align: left;
     box-shadow: 1px 1px 10px -4px #aaa;
@@ -21,30 +20,17 @@
     display: flex;
     justify-content: space-between;
     background-color: transparent;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
 }
 .cs-wrap button span.country {
     text-align: right;
     color: #777;
     font-size: 15px;
+}*/
+/*All defined in city suggestions and must be the same here*/
+
+.country-wrap {
+    height: 91px;
 }
-.cs-spinner-wrap {
-    position: absolute;
-    height: 212px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1;
-}
-.cs-content-wrap {
-    position: absolute;
-    height: 212px;
-    width: 100%;
-    background-color: #f1f1f1;
-    z-index: 2;
-    opacity: 0;
-    transition: opacity 0.2s;
+.country {
+    height: 85px;
 }

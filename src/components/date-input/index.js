@@ -8,14 +8,6 @@ export default class DateInput extends Component {
 
     constructor(props) {
         super(props);
-
-        var d = this.props.defaultDate == null || this.props.defaultDate == -1 ? null : new Date(this.props.defaultDate);
-        var t = this.props.defaultTime;
-
-        this.state = {
-            defaultDate: d,
-            defaultTime: t
-        }
     }
 
     selectDate(day, month, year) {
@@ -25,6 +17,7 @@ export default class DateInput extends Component {
         else {
             let d = new Date(year, month, day);
             d.setUTCDate(day);
+            d.setUTCMonth(month);
             d.setUTCHours(0);
             this.props.setDate(d.getTime());
         }
@@ -40,10 +33,12 @@ export default class DateInput extends Component {
     }
 
     render() {
+        console.log("Default arrival time is ->");
+        console.log(this.props.defaultTime);
         return (
             <div>
-                <TimeInput parent={this} default={this.state.defaultTime} />
-                <DayInput parent={this} default={this.state.defaultDate} />
+                <TimeInput key={this.props.defaultTime ? this.props.defaultTime : this.props.timeKey} parent={this} default={this.props.defaultTime} />
+                <DayInput key={this.props.defaultDate ? this.props.defaultDate : this.props.dateKey} parent={this} default={this.props.defaultDate == null || this.props.defaultDate == -1 ? null : new Date(this.props.defaultDate)} highlight={this.props.highlightDate == null || this.props.highlightDate == -1 ? null : new Date(this.props.highlightDate)} />
             </div>
         )
     }
