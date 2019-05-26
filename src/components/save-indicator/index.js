@@ -10,46 +10,18 @@ export default class SaveIndicator extends Component {
         //state refers to -> 0 = saved, 1 = saving, 2 = failed
         this.state = {
             status: 0,
-            reasons: 0
+            lastSaveDate: null
         }
 
         this.ref = React.createRef();
     }
 
-    addReason() {
-        this.setState((prevState) => {
-
-            this.setStatus(1);
-
-            return {
-                reason: prevState.reasons + 1
-            }
-        })
-    }
-
-    removeReason() {
-        this.setState((prevState) => {
-
-            if (prevState.reasons - 1 == 0) {
-                this.setStatus(0);
-            }
-
-            return {
-                reason: prevState.reasons - 1
-            }
-        })
-    }
-    
-    failed() {
-        this.setState({
-            reasons: 0,
-            status: 2
-        });
-    }
-
     setStatus(i) {
-        this.setState({
-            status: i
+        this.setState((prevState) => {
+            return {
+                lastSaveDate: i == 0 ? new Date() : prevState.lastSaveDate,
+                status: i
+            }
         })
     }
 
@@ -58,12 +30,30 @@ export default class SaveIndicator extends Component {
     }
 
     render() {
+
+        this.hours = "";
+        this.minutes = "";
+        if (this.state.lastSaveDate != null) {
+            this.hours = this.state.lastSaveDate.getHours();
+            this.minutes = this.state.lastSaveDate.getMinutes();
+        }
+        if (this.hours !== "" && this.hours < 10) {
+            this.hours = "0" + this.hours;
+        }
+        if (this.minutes !== "" && this.minutes < 10) {
+            this.minutes = "0" + this.minutes;
+        }
+
+        var saveTimeText = this.hours != "" && this.minutes != "" ? (
+            " at " + this.hours + ":" + this.minutes
+        ) : "";
+
         return (
             <div className="save-indicator">
                 <p className="si-trip-name">{this.props.name ? this.props.name : <i>Unnamed trip</i>}</p>
                 <div className="si-background" ref={this.ref}>
                     <div className="si-background-inner">
-                        <p className="si-state">{this.state.status == 0 ? "Saved" : this.state.status == 1 ? "Saving..." : "Save failed!"}</p>
+                        <p className="si-state">{this.state.status == 0 ? "Saved" + saveTimeText : this.state.status == 1 ? "Saving..." : "Save failed!"}</p>
                         {
                             this.state.status == 0 ? (
                                 <i className="material-icons si-icon">done</i>
@@ -72,7 +62,11 @@ export default class SaveIndicator extends Component {
                             ) : (
                                 <Fragment>
                                     <i className="material-icons si-icon" style={{color: "red"}}>clear</i>
-                                    <button className="si-retry" ripplecolor="none" onClick={() => {this.props.parent.forceSave(null, () => {})}}>Click to retry</button>
+                                    {
+                                        this.props.admin ? null : (
+                                            <button className="si-retry" ripplecolor="none" onClick={() => {this.props.parent.forceSave(() => {})}}>Click to retry</button>
+                                        )
+                                    }
                                 </Fragment>
                             )
                         }

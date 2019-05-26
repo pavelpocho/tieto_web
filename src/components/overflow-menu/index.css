@@ -9,3 +9,7 @@
     opacity: 0;
     transition: height 0.51s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.31s;
 }
+.overflow-menu.dark {
+    box-shadow: 1px 1px 10px -4px black;
+    background-color: #0A0A0A;
+}

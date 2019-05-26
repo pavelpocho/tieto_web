@@ -25,6 +25,11 @@ export default class ExportDialog extends Component {
         }, 310);
     }
 
+    back() {
+        this.props.parent.stopExport();
+        this.close();
+    }
+
     disableWarnings() {
         this.props.parent.setNoExportWarning(!this.state.noWarnings, () => {
             this.setState((prevState) => {
@@ -44,16 +49,31 @@ export default class ExportDialog extends Component {
         }, 50);
     }
 
+    moveStart(e) {
+        var subtractX = e.clientX - this.content.current.offsetLeft;
+        var subtractY = e.clientY - this.content.current.offsetTop;
+        document.body.onmousemove = (f) => {
+            this.content.current.style.marginTop = "0px";
+            this.content.current.style.marginLeft = "0px";
+            this.content.current.style.top = f.clientY - subtractY + "px";
+            this.content.current.style.left = f.clientX - subtractX + "px";
+        }
+        document.body.onmouseup = () => {
+            document.body.onmousemove = null;
+            document.body.onmouseup = null;
+        }
+    }
+
     render() {
 
         var t = this.props.trip;
 
         return (
             <div ref={this.wrap} className="export-dialog-wrap">
-                <Overlay ref={this.overlay} onClick={() => {this.close()}} />
+                <Overlay ref={this.overlay} onClick={() => {this.back()}} />
                 <div ref={this.content} className="export-dialog-content">
-                    <div className="edc-topbar">
-                        <button ripplecolor="gray" className="edc-back" onClick={() => {this.close()}}><i className="material-icons">arrow_back</i>Back</button>
+                    <div className="edc-topbar" onMouseDown={(e) => {this.moveStart(e)}}>
+                        <button ripplecolor="gray" className="edc-back" onClick={() => {this.back()}}><i className="material-icons">arrow_back</i>Back</button>
                         <p className="edc-title">Before you export...</p>
                         <span className="edc-span"></span>
                     </div>

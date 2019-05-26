@@ -10,7 +10,7 @@ export default class OverflowButton extends Component {
 
     render() {
         return (
-            <button className="overflow-button" ripplecolor="gray" onClick={() => {this.props.onClick(); this.props.menu.close()}}>
+            <button className={"overflow-button" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ripplecolor="gray" onClick={() => {this.props.onClick(); this.props.menu.close()}}>
                 <i className="material-icons">{this.props.icon}</i>
                 {this.props.text}
             </button>

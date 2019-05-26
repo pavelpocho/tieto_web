@@ -12,16 +12,26 @@ export default class PointSelector extends Component {
 
         this.state = {
             selectedIndex: -1,
-            removed: []
+            removed: [],
+            spinner: false
         }
 
         this.scrollState = 0;
         this.scroll = React.createRef();
+        this.psComment = React.createRef();
 
     }
 
+    componentDidMount() {
+        if (this.psComment.current) {
+            this.psComment.current.style.opacity = "1";
+        }
+    }
     componentDidUpdate() {
         this.scrollTop = this.scrollState;
+        if (this.psComment.current) {
+            this.psComment.current.style.opacity = "1";
+        }
     }
 
     addPoint() {
@@ -38,6 +48,18 @@ export default class PointSelector extends Component {
         this.props.parent.selectPoint(i, override);
         this.setState({
             selectedIndex: i
+        })
+    }
+
+    export() {
+        this.setState({
+            spinner: true
+        })
+        this.props.parent.export();
+    }
+    exportDone() {
+        this.setState({
+            spinner: false
         })
     }
 
@@ -77,13 +99,13 @@ export default class PointSelector extends Component {
                             this.props.locations.length == 0 || !this.props.locations[0].onlyLocation ? (
                                 <TripPoint toBeRemoved={this.state.removed.length != 0 && this.props.locations.length == 1} newPoint={true} parent={this}/>
                             ) : (
-                                <p className="ps-comment">The first point is set as "Only Point". Change this to add more points.</p>
+                                <p ref={this.psComment} className="ps-comment">The first point is set as "Only Point". Change this to add more points.</p>
                             )
                         }
                     </div>
                 </div>
-                <div className="export-wrap">
-                    <MainButton disabled={!this.props.exportable} text="Export" onClick={() => {this.props.parent.export()}}/>
+                <div className={"export-wrap" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
+                    <MainButton spinner={this.state.spinner} disabled={!this.props.exportable} text="Export" onClick={() => {this.export()}}/>
                 </div>
             </div>
         )

@@ -30,7 +30,7 @@
     align-items: center;
     box-sizing: border-box;
 }
-.fiw-checkbox:hover {
+.fiw-checkbox:hover, .fiw-checkbox:active {
     background-color: #e6e6e6;
 }
 .fiw-checkbox-wrap {
@@ -50,7 +50,7 @@
     background-color: #FAA519;
     border: 2px solid #FAA519;
 }
-.checked:hover {
+.checked:hover, .checked:active {
     background-color: #EA9509;
 }
 .checked i {

@@ -1,20 +1,26 @@
 .aa-wrap {
     margin-left: 200px;
     padding-top: 104px;
-    max-width: 900px;
+    max-width: 1200px;
     z-index: 6;
     position: absolute;
 }
 .aa-country-item, .aa-config-wrap {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
 }
-.aa-country-item p, .aa-config-wrap p {
-    width: 250px;
+.aa-country-item p {
+    width: 350px;
 }
-.aa-country-item input, .aa-config-wrap input {
+.aa-config-wrap p {
+    width: 700px;
+}
+.aa-country-item input {
     width: 150px;
     margin: 0px 16px;
+}
+.aa-config-wrap input {
+    width: 150px;
 }
 .aa-top-bar {
     position: fixed;
@@ -41,4 +47,40 @@
 }
 .aa-cb-selected {
     background-color: #c1c1c1;
+}
+.aa-top-bar .back-button {
+    background-color: transparent;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    font-size: 21px;
+    color: #5F5F5F;
+    height: 48px;
+    padding: 0px 20px 0px 14px;
+    border-radius: 24px;
+}
+.aa-top-bar .back-button:hover, .aa-top-bar .back-button:active {
+    background-color: #ececec;
+}
+.aa-top-bar .back-icon {
+    margin-right: 16px;
+    font-size: 26px !important;
+}
+
+.aa-welcome-reset-wrap {
+    display: flex;
+    justify-content: space-between;
+}
+.aa-welcome-reset-wrap button {
+    height: 42px;
+    background-color: white;
+    border-radius: 21px;
+    padding: 0px 18px;
+    border: 3px solid transparent;
+    color: #5F5F5F;
+    transition: border-color 0.31s;
+    font-size: 17px;
+}
+.aa-welcome-reset-wrap button:hover {
+    border-color: #f1f1f1;
 }

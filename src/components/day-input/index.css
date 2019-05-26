@@ -20,7 +20,7 @@
     color: #5f5f5f;
     transition: background-color 0.21s;
 }
-.di-month-switch:hover {
+.di-month-switch:hover, .di-month-switch:active {
     background-color: #e4e4e4;
 }
 .di-month-switch > button > i {
@@ -70,12 +70,12 @@ td {
     border: 2px solid transparent;
     background-color: transparent;
     transition: background-color 0.21s, color 0.21s;
-    font-size: 15px;
+    font-size: 16px;
 }
-.day-button:hover {
+.day-button:hover, .day-button:active {
     background-color: #FFE298;
 }
-.db-blue:hover {
+.db-blue:hover, .db-blue:active {
     background-color: #A7F0FF;
 }
 .day-button:active {

@@ -3,6 +3,8 @@ import React, { Component, Fragment } from 'react';
 import ObjectContainer from '../../utils/object-container';
 import SaveIndicator from '../save-indicator';
 import CookieManager from '../../utils/cookie-manager';
+import { RippleManager } from '../ripple';
+import Spinner from '../spinner';
 
 export default class AdminActivity extends Component {
 
@@ -12,7 +14,9 @@ export default class AdminActivity extends Component {
         this.state = {
             countries: [],
             configuration: [],
-            pendingRequests: 0
+            pendingRequests: 0,
+            doneLoading: false,
+            ripple: false
         }
 
         this.saveIndicator = React.createRef();
@@ -23,14 +27,14 @@ export default class AdminActivity extends Component {
         h.getCountryList((r, s) => {
             if (s == 200) {
                 //Success
-                console.log("Countries?");
-                console.log(r);
                 this.setState({
                     countries: r
                 })
+                this.checkDone(() => {
+                    RippleManager.setUp();
+                });
             }
             else {
-                console.log("Failed countries");
                 //Failed...
             }
         });
@@ -39,13 +43,24 @@ export default class AdminActivity extends Component {
                 //Success
                 this.setState({
                     configuration: r
-                })
+                });
+                this.checkDone(() => {
+                    RippleManager.setUp();
+                });
             }
             else {
-                console.log("Failed config list");
                 //Failed...
             }
         });
+    }
+
+    checkDone() {
+        if (this.state.countries != [] && this.state.configuration != []) {
+            this.setState({
+                doneLoading: true
+            });
+            RippleManager.setUp();
+        }
     }
 
     checkNumber(target) {
@@ -177,6 +192,29 @@ export default class AdminActivity extends Component {
         });
     }
 
+    resetWelcomeDone() {
+
+        this.saveIndicator.current.setStatus(1);
+
+        this.setState(prevState => {
+            return {
+                pendingRequests: prevState.pendingRequests + 1
+            }
+        });
+
+        var h = ObjectContainer.getHttpCommunicator();
+        h.resetWelcomeDone(() => {
+            if (this.state.pendingRequests == 1) {
+                this.saveIndicator.current.setStatus(0);
+            }
+            this.setState(prevState => {
+                return {
+                    pendingRequests: prevState.pendingRequests - 1
+                }
+            });
+        });
+    }
+
     signOut() {
         CookieManager.deleteCookie("token");
         window.location.reload();
@@ -212,27 +250,54 @@ export default class AdminActivity extends Component {
 
         var config = this.state.configuration.map((c, i) => {
             return (
-                <div key={i} className="aa-config-wrap">
-                    <p>{c.name}</p>
-                    <input reduced={(c.value > 1000000).toString()} configid={c.id} configname={c.name} defaultValue={c.value > 1000000 ? c.value / 3600000 : c.value} onChange={(e) => {this.checkNumber(e.target)}} onBlur={(e) => {this.saveConfig(e.target)}}/>
-                </div>
+                <span key={i}>
+                    <div className="aa-config-wrap">
+                        <p>{c.name == "ReducedMillisForThird" ? "Nr. of hours for 1/3 allowance abroad when no allowance paid for CZ in the same day" : 
+                            c.name == "MillisForThird" ? "Nr. of hours for 1/3 allowance in all other cases" :
+                            c.name == "MillisForTwoThirds" ? "Nr. of hours for 2/3 allowance" : 
+                            c.name == "MillisForFull" ? "Nr. of hours for full allowance" :
+                            c.name == "PerFoodSubtractForThird" ? "Fraction of allowance subtracted per each food when 1/3 allowance is paid" : 
+                            c.name == "PerFoodSubtractForTwoThirds" ? "Fraction of allowance subtracted per each food when 2/3 allowance is paid" :
+                            c.name == "PerFoodSubtractForFull" ? "Fraction of allowance subtracted per each food when full allowance is paid" :
+                            c.name == "AllowExchangeRateMods" ? "Allow users to modify exchange rates (1 = YES, 0 = NO)" : ""}</p>
+                        <input reduced={(c.value > 1000000).toString()} configid={c.id} configname={c.name} defaultValue={c.value > 1000000 ? c.value / 3600000 : c.value} onChange={(e) => {this.checkNumber(e.target)}} onBlur={(e) => {this.saveConfig(e.target)}}/>
+                    </div>
+                    {
+                        i == 3 ? (
+                            <p>---------------------------------------</p>
+                        ) : i == 6 ? (
+                            <p>---------------------------------------</p>
+                        ) : i == 7 ? (
+                            <p>---------------------------------------</p>
+                        ) : null
+                    }
+                </span>
             )
         })
         return (
-            <Fragment>
-                <div className="aa-top-bar">
-                    <button ripplecolor="gray" onClick={() => {this.signOut()}} className="back-button"><i className="material-icons back-icon">exit_to_app</i>Log Out</button>
-                    <SaveIndicator ref={this.saveIndicator} parent={this} name={"Country Allowance Rates"} />
-                </div>
-                <div className="aa-wrap">
-                    {
-                        config
-                    }
-                    {
-                        countries
-                    }
-                </div>
-            </Fragment>
+            this.state.doneLoading ? (
+                <Fragment>
+                    <div className="aa-top-bar">
+                        <button ripplecolor="gray" onClick={() => {this.signOut()}} className="back-button"><i className="material-icons back-icon">exit_to_app</i>Log Out</button>
+                        <SaveIndicator ref={this.saveIndicator} admin={true} parent={this} name={"Trippi Configuration"} />
+                    </div>
+                    <div className="aa-wrap">
+                        <div className="aa-welcome-reset-wrap">
+                            <p>Show all users the welcome screen on their next login</p>
+                            <button ripplecolor="gray" onClick={() => {this.resetWelcomeDone()}}>Reset WelcomeDone Flag</button>
+                        </div>
+                        <p>---------------------------------------</p>
+                        {
+                            config
+                        }
+                        {
+                            countries
+                        }
+                    </div>
+                </Fragment>
+            ) : (
+                <Spinner size={60} position={"fixed"} />
+            )
         )
     }
 

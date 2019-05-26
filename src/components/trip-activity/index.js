@@ -18,24 +18,8 @@ export default class TripActivity extends Component {
     constructor(props) {
         super(props);
 
-        var trip = null;
-        if (this.props.trip) {
-            var locations = this.props.trip.locations;
-            for (var i = 0; i < locations.length; i++) {
-                if (locations[i].deleted) {
-                    locations.splice(i, 1);
-                    i--;
-                }
-            }
-
-            locations.sort((a, b) => a.position - b.position);
-
-            trip = this.props.trip;
-            trip.locations = locations;
-        }
-
         this.state = {
-            tripObject: trip ? trip : new Trip(0, "", "", "", "", []),
+            tripObject: this.props.trip ? this.props.trip : new Trip(0, "", "", "", "", []),
             firstSelectedPoint: -1,
             secondSelectedPoint: -2,
             selectedPoint: -1,
@@ -57,92 +41,74 @@ export default class TripActivity extends Component {
         this.spinner = React.createRef();
     }
 
+    incrementSaving() {
+        this.saveIndicator.current.setStatus(1);
+        this.setState(prevState => {
+            return {
+                pendingRequests: prevState.pendingRequests + 1
+            }
+        });
+    }
+
+    failSaving() {
+        this.saveIndicator.current.setStatus(2);
+        this.setState(prevState => {
+            return {
+                pendingRequests: 0
+            }
+        });
+    }
+
+    fadeIn() {
+        this.spinner.current.ref.current.style.display = "none";
+        setTimeout(() => {                
+            this.ref.current.style.transform = "translateX(0px)";
+            this.ref.current.style.opacity = "1";
+        }, 50);
+    }
+
     componentDidMount() {
         if (this.state.tripObject.id == 0) {
-            this.forceSave(this.state.tripObject, () => {
-                this.spinner.current.ref.current.style.display = "none";
-                this.ref.current.style.transform = "translateX(0px)";
-                this.ref.current.style.opacity = "1";
-            });
+            this.forceSave(() => { this.fadeIn() });
         }
         else {
-            this.spinner.current.ref.current.style.display = "none";
-            setTimeout(() => {                
-                this.ref.current.style.transform = "translateX(0px)";
-                this.ref.current.style.opacity = "1";
-            }, 50);
+            this.fadeIn();
         }
-        //This is crucial here, so that later saving can only save specific fields
         RippleManager.setUp();
         window.onkeydown = (stroke) => {
-            if (stroke.keyCode == 83 && stroke.ctrlKey) {
-                stroke.preventDefault();
-                this.forceSave(null, () => {});
-            }
-        }
-        window.onbeforeunload = e => {
-            return "";
+            if (stroke.keyCode == 83 && stroke.ctrlKey) { stroke.preventDefault(); this.forceSave(() => {}) }
         }
     }
 
     setFood(location, dayIndex, foodIndex) {
-        var h = ObjectContainer.getHttpCommunicator();
-        this.saveIndicator.current.setStatus(1);
-        this.setState(prevState => {
-            return {
-                pendingRequests: prevState.pendingRequests + 1
-            }
-        })
-        h.saveFood(location.id, dayIndex, foodIndex, (r, s) => {
-            this.locFieldCallback(r, s);
-        });
+        this.incrementSaving();
+        this.props.http.saveFood(location.id, dayIndex, foodIndex, (r, s) => { this.locFieldCallback(r, s) });
     }
 
     setLocationField(location, field, value) {
-        this.saveIndicator.current.setStatus(1);
-        this.setState(prevState => {
-            return {
-                pendingRequests: prevState.pendingRequests + 1
-            }
-        })
-        var h = ObjectContainer.getHttpCommunicator();
-        if (field == "inboundTravelType") {
-            h.saveInboundTravel(location.id, (r, s) => {this.locFieldCallback(r, s)}, value);
-        }
-        else if (field == "arrivalTime") {
-            h.saveArrivalTime(location.id, (r, s) => {this.locFieldCallback(r, s)}, value);
-        }
-        else if (field == "departureTime") {
-            h.saveDepartureTime(location.id, (r, s) => {this.locFieldCallback(r, s)}, value);
-        }
-        else if (field == "arrivalDate") {
-            console.log("Setting arrival date");
-            h.saveArrivalDate(location.id, (r, s) => {this.locFieldCallback(r, s)}, value);
-        }
-        else if (field == "departureDate") {
-            h.saveDepartureDate(location.id, (r, s) => {this.locFieldCallback(r, s)}, value);
-        }
-        else if (field == "crossedAtDate") {
-            h.saveCrossedAtDate(location.id, (r, s) => {this.locFieldCallback(r, s)}, value);
-        }
-        else if (field == "crossedAtTime") {
-            h.saveCrossedAtTime(location.id, (r, s) => {this.locFieldCallback(r, s)}, value);
-        }
+        this.incrementSaving();
+        if (field == "inboundTravelType") this.props.http.saveInboundTravel(location.id, (r, s) => {this.locFieldCallback(r, s)}, value);
+        if (field == "arrivalTime") this.props.http.saveArrivalTime(location.id, (r, s) => {this.locFieldCallback(r, s)}, value);
+        if (field == "departureTime") this.props.http.saveDepartureTime(location.id, (r, s) => {this.locFieldCallback(r, s)}, value);
+        if (field == "arrivalDate") this.props.http.saveArrivalDate(location.id, (r, s) => {this.locFieldCallback(r, s)}, value);
+        if (field == "departureDate") this.props.http.saveDepartureDate(location.id, (r, s) => {this.locFieldCallback(r, s)}, value);
+        if (field == "crossedAtDate") this.props.http.saveCrossedAtDate(location.id, (r, s) => {this.locFieldCallback(r, s)}, value);
+        if (field == "crossedAtTime") this.props.http.saveCrossedAtTime(location.id, (r, s) => {this.locFieldCallback(r, s)}, value);
     }
 
     locFieldCallback(r, s) {
-        console.log("Getting a locFieldCallback");
         if (s == 200) {
             if (this.state.pendingRequests == 1) {
                 this.saveIndicator.current.setStatus(0);
             }
             var realTrip = new Trip();
             Object.assign(realTrip, r);
-            console.log(realTrip);
+            console.log("LocFieldCallback");
 
             var oldIds = this.state.tripObject.locations.map(l => l.id);
             var newIds = realTrip.locations.map(l => l.id);
 
+            //This manages deleting things and making sure the animations work every time
             if (newIds.length < oldIds.length) {
 
                 var lookingFor;
@@ -162,6 +128,10 @@ export default class TripActivity extends Component {
                 for (var i = startDeleteAt; i < oldIds.length; i++) {
                     if (oldIds[i] == lookingFor) break;
                     deletedIds.push(oldIds[i]);
+                }
+
+                if (newIds.length == 0) {
+                    deletedIds = oldIds;
                 }
 
                 this.pointSelector.current.removePoints(deletedIds);
@@ -192,159 +162,74 @@ export default class TripActivity extends Component {
             this.receipt.current.forceUpdate();
         }
         else {
-            this.saveIndicator.current.setStatus(2);
+            this.failSaving();
         }
     }
 
     setCity(location, city) {
-        this.setState(prevState => {
-            return {
-                pendingRequests: prevState.pendingRequests + 1
-            }
-        })
-        let h = ObjectContainer.getHttpCommunicator();
-        this.saveIndicator.current.setStatus(1);
-        h.saveCity(location.id, (r, s) => {
-            this.locFieldCallback(r, s);
-        }, [city.name, city.country.name, city.googlePlaceId]);
+        this.incrementSaving();
+        this.props.http.saveCity(location.id, (r, s) => { this.locFieldCallback(r, s) }, [city.name, city.country.name, city.googlePlaceId]);
     }
 
     setCountry(location, country) {
-    
-        let h = ObjectContainer.getHttpCommunicator();
-        this.setState(prevState => {
-            return {
-                pendingRequests: prevState.pendingRequests + 1
-            }
-        });
-        this.saveIndicator.current.setStatus(1);
-        h.saveCountry(location.id, (r, s) => {
-            this.locFieldCallback(r, s);
-        }, country);
+        this.incrementSaving();
+        this.props.http.saveCountry(location.id, (r, s) => { this.locFieldCallback(r, s) }, country);
     }
 
     update(field, value) {
         this.setState((prevState) => {
-
-            var tr = prevState.tripObject;
-            tr[field] = value;
-
+            prevState.tripObject[field] = value;
             return {
-                tripObject: tr
+                tripObject: prevState.tripObject
             }
         });
     }
-    //Used for instant local updating of general trip info
 
     resetModifications(locationId) {
-        var h = ObjectContainer.getHttpCommunicator();
-        this.saveIndicator.current.setStatus(1);
-        this.setState(prevState => {
-            return {
-                pendingRequests: prevState.pendingRequests + 1
-            }
-        });
-        h.resetSectionModifications(locationId, (r, s) => {
-            this.locFieldCallback(r, s);
-        });
+        this.incrementSaving();
+        this.props.http.resetSectionModifications(locationId, (r, s) => { this.locFieldCallback(r, s) });
     }
 
     autoSave(field, value) {
-        this.saveIndicator.current.setStatus(1);
-        this.setState(prevState => {
-            return {
-                pendingRequests: prevState.pendingRequests + 1
-            }
-        });
-        var h = ObjectContainer.getHttpCommunicator();
-        if (field == "title") {
-            h.saveTitle(this.state.tripObject.id, value, (r, s) => {this.locFieldCallback(r, s)})
-        }
-        if (field == "purpose") {
-            h.savePurpose(this.state.tripObject.id, value, (r, s) => {this.locFieldCallback(r, s)})
-        }
-        if (field == "project") {
-            h.saveProject(this.state.tripObject.id, value, (r, s) => {this.locFieldCallback(r, s)})
-        }
-        if (field == "task") {
-            h.saveTask(this.state.tripObject.id, value, (r, s) => {this.locFieldCallback(r, s)})
-        }
-        if (field == "comment") {
-            h.saveComment(this.state.tripObject.id, value, (r, s) => {this.locFieldCallback(r, s)})
-        }
+        this.incrementSaving();
+        if (field == "title") this.props.http.saveTitle(this.state.tripObject.id, value, (r, s) => {this.locFieldCallback(r, s)});
+        if (field == "purpose") this.props.http.savePurpose(this.state.tripObject.id, value, (r, s) => {this.locFieldCallback(r, s)});
+        if (field == "project") this.props.http.saveProject(this.state.tripObject.id, value, (r, s) => {this.locFieldCallback(r, s)});
+        if (field == "task") this.props.http.saveTask(this.state.tripObject.id, value, (r, s) => {this.locFieldCallback(r, s)});
+        if (field == "comment") this.props.http.saveComment(this.state.tripObject.id, value, (r, s) => {this.locFieldCallback(r, s)});
     }
 
     changeOnlyLocation(location) {
-        this.saveIndicator.current.setStatus(1);
-        this.setState(prevState => {
-            return {
-                pendingRequests: prevState.pendingRequests + 1
-            }
-        });
-        var h = ObjectContainer.getHttpCommunicator();
-        h.changeOnlyLocation(location.id, (r, s) => {
+        this.incrementSaving();
+        this.props.http.changeOnlyLocation(location.id, (r, s) => {
             this.locFieldCallback(r, s);
             this.pointSelector.current.select(this.state.tripObject.locations[0].id, true);
+            //The true is a force-animation flag
         })
     }
 
     close() {
         window.onkeydown = null;
-        window.onbeforeunload = null;
         this.ref.current.style.opacity = "0";
         this.ref.current.style.transform = "translateX(40px)";
         this.props.container.closeLastActivity();
     }
 
     addLocation(index) {
-        var h = ObjectContainer.getHttpCommunicator();
-        this.saveIndicator.current.setStatus(1);
-        this.setState(prevState => {
-            return {
-                pendingRequests: prevState.pendingRequests + 1
-            }
-        });
-        h.addLocation(index, this.state.tripObject.id, (r, s) => {
+        this.incrementSaving();
+        this.props.http.addLocation(index, this.state.tripObject.id, (r, s) => {
             this.locFieldCallback(r, s);
             this.pointSelector.current.select(index == -1 ? this.state.tripObject.locations[this.state.tripObject.locations.length - 1].id : this.state.tripObject.locations[index + 1].id);
         });
     }
 
-    forceSave(t, callback) {
-        var h = ObjectContainer.getHttpCommunicator();
-        this.saveIndicator.current.setStatus(1);
-        this.setState(prevState => {
-            return {
-                pendingRequests: prevState.pendingRequests + 1
-            }
-        });
-        h.saveTrip(t ? t : this.state.tripObject, (r, s) => {
-            if (s == 200) {
-                if (this.state.pendingRequests == 1) {
-                    this.saveIndicator.current.setStatus(0);
-                }
-                callback(r);
-                this.setState((prevState) => {
-
-                    var tr = prevState.tripObject;
-                    tr.id = r;
-
-                    return {
-                        pendingRequests: prevState.pendingRequests - 1,
-                        tripObject: tr
-                    }
-                })
-            }
-            else {
-                this.saveIndicator.current.setStatus(2)
-            }
-        })
+    forceSave(callback) {
+        this.incrementSaving();
+        this.props.http.saveTrip(this.state.tripObject, (r, s) => { callback(r); this.locFieldCallback(r, s) })
     }
 
     selectPoint(i, override) {
         var position = -1;
-        console.log("Setting -> " + i);
-        console.log("Override? -> " + override);
         for (var j = 0; j < this.state.tripObject.locations.length; j++) {
             if (this.state.tripObject.locations[j].id == i) position = j;
         }
@@ -423,22 +308,18 @@ export default class TripActivity extends Component {
             }
         }
     }
+    //Double point detail info switcher for animations
 
     editExchangeRate(currency, value) {
         var cc = currency == "EUR" ? 0 : currency == "USD" ? 1 : currency == "CZK" ? 2 : currency == "CHF" ? 3 : 4;
-        var h = ObjectContainer.getHttpCommunicator();
-        this.saveIndicator.current.setStatus(1);
-        this.setState(prevState => {
-            return {
-                pendingRequests: prevState.pendingRequests + 1
-            }
-        });
-        h.editExchangeRate(this.state.tripObject.id, currency, value, (r, s) => {
+        this.incrementSaving();
+        this.props.http.editExchangeRate(this.state.tripObject.id, currency, value, (r, s) => {
             if (s == 200) {
                 //Success
                 if (this.state.pendingRequests == 1) {
                     this.saveIndicator.current.setStatus(0);
                 }
+                //This should probably be done server-side
                 this.setState((prevState) => {
                     var t = prevState.tripObject;
                     for (var i = 0; i < t.exchange.rates.length; i++) {
@@ -458,26 +339,27 @@ export default class TripActivity extends Component {
             }
             else {
                 //Failed to edit currency
-                this.saveIndicator.current.setStatus(2);
+                this.failSaving();
             }
         })
     }
 
     resetExchangeRate(currency) {
         var cc = currency == "EUR" ? 0 : currency == "USD" ? 1 : currency == "CZK" ? 2 : currency == "CHF" ? 3 : 4;
-        var h = ObjectContainer.getHttpCommunicator();
+        
         this.saveIndicator.current.setStatus(1);
         this.setState(prevState => {
             return {
                 pendingRequests: prevState.pendingRequests + 1
             }
         });
-        h.resetExchangeRate(this.state.tripObject.id, currency, (r, s) => {
+        this.props.http.resetExchangeRate(this.state.tripObject.id, currency, (r, s) => {
             if (s == 200) {
                 //Success
                 if (this.state.pendingRequests == 1) {
                     this.saveIndicator.current.setStatus(0);
                 }
+                //Also should be server-side
                 this.setState((prevState) => {
                     var t = prevState.tripObject;
                     for (var i = 0; i < t.exchange.rates.length; i++) {
@@ -494,7 +376,7 @@ export default class TripActivity extends Component {
             }
             else {
                 //Failed to edit currency
-                this.saveIndicator.current.setStatus(2);
+                this.failSaving();
             }
         })
     }
@@ -507,32 +389,29 @@ export default class TripActivity extends Component {
             this.state.tripObject.task.split(".")[0].length != 2 || this.state.tripObject.task.split(".")[1].length != 1 ||
             isNaN(this.state.tripObject.task.split(".")[0]) || isNaN(this.state.tripObject.task.split(".")[1])) && !this.state.tripObject.noExportWarnings
         ) {
-            this.props.container.openDialog(<ExportDialog parent={this} key={"exportDialog"} container={this.props.container} trip={this.state.tripObject} />);
+            this.props.container.openDialog(<ExportDialog fromTrip={true} parent={this} key={"exportDialog"} container={this.props.container} trip={this.state.tripObject} />);
         }
         else {
             this.confirmExport();
         }
     }
 
+    stopExport() {
+        this.pointSelector.current.exportDone();
+    }
+
     confirmExport() {
-        var h = ObjectContainer.getHttpCommunicator();
-        h.getExportToken(this.state.tripObject.id, (t, s) => {
+        this.props.http.getExportToken(this.state.tripObject.id, (t, s) => {
             if (s == 200 && t != "") {
-                if (t == null) {
-                    //Incomplete info.. handle gracefully
-                }
-                h.exportTrip(t, (w) => {
+                this.props.http.exportTrip(t, (w) => {
+                    this.pointSelector.current.exportDone();
                     if (w != null) {
                         this.state.tripObject.exported = true;
-                        //Export successful
-                    }
-                    else {
-                        //Export failed...
                     }
                 })
             }
             else {
-                //Export failed...
+                this.pointSelector.current.exportDone();
             }
         });
     }
@@ -544,22 +423,26 @@ export default class TripActivity extends Component {
             return {
                 tripObject: t
             }
-        })
-        var h = ObjectContainer.getHttpCommunicator();
-        h.setNoExportWarnings(value, callback);
+        });
+        this.incrementSaving();
+        this.props.http.setNoExportWarnings(value, (r, s) => {
+            if (s == 200) {
+                if (this.state.pendingRequests == 1) {
+                    this.saveIndicator.current.setStatus(0);
+                }
+                this.setState((prevState) => {
+                    return {
+                        pendingRequests: prevState.pendingRequests - 1
+                    }
+                })
+            }
+            callback();
+        });
     }
 
     removePoint(location) {
-        var h = ObjectContainer.getHttpCommunicator();
-        this.saveIndicator.current.setStatus(1);
-        this.setState(prevState => {
-            return {
-                pendingRequests: prevState.pendingRequests + 1
-            }
-        });
-        h.deleteLocation(location.id, (r, s) => {
-                this.locFieldCallback(r, s);
-        });
+        this.incrementSaving();
+        this.props.http.deleteLocation(location.id, (r, s) => { this.locFieldCallback(r, s) });
     }
 
     render() {
@@ -573,9 +456,6 @@ export default class TripActivity extends Component {
                 }
             }
         }
-        else {
-            firstLocation = new Location(-1, null, null, null, null, {name: "", country: { name: ""}});
-        }
         if (!firstLocation) firstLocation = new Location(-1, null, null, null, null, {name: "", country: { name: ""}});
 
         var secondLocation;
@@ -587,9 +467,6 @@ export default class TripActivity extends Component {
                 }
             }
         }
-        else {
-            secondLocation = new Location(-1, null, null, null, null, {name: "", country: { name: ""}});
-        }
         if (!secondLocation) secondLocation = new Location(-1, null, null, null, null, {name: "", country: { name: ""}});
 
         return (
@@ -597,63 +474,22 @@ export default class TripActivity extends Component {
             <Fragment>
                 <Spinner ref={this.spinner} size={60} position={"fixed"}/>
                 <div className="activity" id="trip-activity" ref={this.ref}>
-                    <div className="top-bar">
+                    <div className={"top-bar" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
                         <button ripplecolor="gray" onClick={() => {this.close()}} className="back-button"><i className="material-icons back-icon">arrow_back</i>Trip list</button>
                         <SaveIndicator ref={this.saveIndicator} parent={this} name={this.state.tripObject.title} />
                     </div>
-                    <div className="trip-activity-content">
-                        {
-                            window.innerWidth >= 1550 ? (
-                                <div className="receipt-content">
-                                    <TripReceipt daySections={this.state.tripObject.daySections} parent={this} ref={this.receipt} rates={this.state.tripObject.exchange} allowMods={this.state.tripObject.allowExchangeRateMods} />
-                                </div>
-                            ) : null
-                        }
-                        {
-                            window.innerWidth < 1100 ? (
-                                <Fragment>
-                                    <div className="main-content">
-                                        {
-                                            <Fragment>
-                                                <GeneralTripInfo parent={this} title={this.state.tripObject.title} purpose={this.state.tripObject.purpose} project={this.state.tripObject.project} task={this.state.tripObject.task} comment={this.state.tripObject.comment} />
-                                                <PointDetailInfo zIndex={this.state.firstZ} firstPoint={firstLocation.position == 0} animate={this.state.animate} key={this.state.firstSelectedPoint} parent={this} ref={this.firstPointDetails} pointSelector={this.pointSelector.current} location={firstLocation} />
-                                                <PointDetailInfo zIndex={this.state.secondZ} firstPoint={secondLocation.position == 0} animate={this.state.animate} key={this.state.secondSelectedPoint} parent={this} ref={this.secondPointDetails} pointSelector={this.pointSelector.current} location={secondLocation} />
-                                                {
-                                                    window.innerWidth < 1550 ? (
-                                                    <div className="absolute-receipt-content">
-                                                        <TripReceipt daySections={this.state.tripObject.daySections} parent={this} ref={this.receipt} collapsed={true} rates={this.state.tripObject.exchange} allowMods={this.state.tripObject.allowExchangeRateMods} />
-                                                    </div>
-                                                ) : null}
-                                            </Fragment>
-                                        }
-                                    </div>
-                                    <div className="middle-content">
-                                        <PointSelector exportable={this.state.tripObject.exportable} parent={this} ref={this.pointSelector} locations={this.state.tripObject.locations} />
-                                    </div>
-                                </Fragment>
-                            ) : (
-                                <Fragment>
-                                    <div className="middle-content">
-                                        <PointSelector exportable={this.state.tripObject.exportable} parent={this} ref={this.pointSelector} locations={this.state.tripObject.locations} />
-                                    </div>
-                                    <div className="main-content">
-                                        {
-                                            <Fragment>
-                                                <GeneralTripInfo parent={this} title={this.state.tripObject.title} purpose={this.state.tripObject.purpose} project={this.state.tripObject.project} task={this.state.tripObject.task} comment={this.state.tripObject.comment} />
-                                                <PointDetailInfo zIndex={this.state.firstZ} firstPoint={firstLocation.position == 0} animate={this.state.animate} key={this.state.firstSelectedPoint} parent={this} ref={this.firstPointDetails} pointSelector={this.pointSelector.current} location={firstLocation} />
-                                                <PointDetailInfo zIndex={this.state.secondZ} firstPoint={secondLocation.position == 0} animate={this.state.animate} key={this.state.secondSelectedPoint} parent={this} ref={this.secondPointDetails} pointSelector={this.pointSelector.current} location={secondLocation} />
-                                                {window.innerWidth < 1550 ? (
-                                                    <div className="absolute-receipt-content">
-                                                        <TripReceipt daySections={this.state.tripObject.daySections} parent={this} ref={this.receipt} collapsed={true} rates={this.state.tripObject.exchange} allowMods={this.state.tripObject.allowExchangeRateMods} />
-                                                    </div>
-                                                ) : null}
-                                            </Fragment>
-                                        }
-                                    </div>
-                                </Fragment>
-                            )
-                        }
-                        
+                    <div className={"trip-activity-content" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
+                        <div className={"receipt-content" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
+                            <TripReceipt trip={this.state.tripObject} daySections={this.state.tripObject.daySections} parent={this} ref={this.receipt} rates={this.state.tripObject.exchange} allowMods={this.state.tripObject.allowExchangeRateMods} />
+                        </div>
+                        <div className={"middle-content" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
+                            <PointSelector exportable={this.state.tripObject.exportable} parent={this} ref={this.pointSelector} locations={this.state.tripObject.locations} />
+                        </div>
+                        <div className={"main-content" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
+                            <GeneralTripInfo parent={this} title={this.state.tripObject.title} purpose={this.state.tripObject.purpose} project={this.state.tripObject.project} task={this.state.tripObject.task} comment={this.state.tripObject.comment} />
+                            <PointDetailInfo zIndex={this.state.firstZ} firstPoint={firstLocation.position == 0} animate={this.state.animate} key={this.state.firstSelectedPoint} parent={this} ref={this.firstPointDetails} pointSelector={this.pointSelector.current} location={firstLocation} />
+                            <PointDetailInfo zIndex={this.state.secondZ} firstPoint={secondLocation.position == 0} animate={this.state.animate} key={this.state.secondSelectedPoint} parent={this} ref={this.secondPointDetails} pointSelector={this.pointSelector.current} location={secondLocation} />
+                        </div>
                     </div>
                 </div>
             </Fragment>

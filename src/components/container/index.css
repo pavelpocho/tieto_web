@@ -16,17 +16,28 @@ input {
     font-weight: 300;
     border-radius: 21px;
     background-color: white;
-    border: 3px solid transparent;
-    transition: border 0.51s;
+    border: 3px solid;
+    border-color: transparent;
+    transition: border-color 0.31s, background-color 0.31s;
     outline: none;
     padding: 0px 20px;
     font-size: 20px;
 }
+input.dark {
+    background-color: black;
+    color: white;
+}
 input:focus {
-    border: 3px solid #eee;
+    border-color: #eee;
+}
+input.dark:focus {
+    border-color: #111;
 }
 input::placeholder {
-    color: #cccccc;
+    color: #ccc;
+}
+input.dark::placeholder {
+    color: #333;
 }
 .activity {
     position: fixed;
@@ -56,4 +67,7 @@ input::placeholder {
     font-size: 13px;
     margin: 20px;
     color: black;
+}
+.api-version.dark, .web-app-version.dark {
+    color: white;
 }

@@ -6,6 +6,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: background-color 0.31s, border-color 0.31s;
+    border: 3px solid transparent;
+    box-sizing: border-box;
 }
 .ti-colon {
     width: 5px;
@@ -20,6 +23,6 @@
     border: 0px !important;
     text-align: center;
 }
-.ti-field:focus {
+.ti-field {
     background-color: transparent !important;
 }

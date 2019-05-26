@@ -44,6 +44,17 @@ export default class TripPoint extends Component {
                     this.newPointLine.current.style.opacity = "1";
                     this.newPointLine.current.style.height = "120px";
                 }
+                if (this.button.current != null) {
+                    this.button.current.style.opacity = "1";
+                }
+            }, 50);
+        }
+        else if (this.props.newPoint && this.props.toBeRemoved) {
+            setTimeout(() => {
+                if (this.newPointLine.current != null) {
+                    this.newPointLine.current.style.opacity = "0";
+                    this.newPointLine.current.style.height = "0px";
+                }
             }, 50);
         }
         if (this.props.location == undefined) return;
@@ -74,11 +85,22 @@ export default class TripPoint extends Component {
                 this.crossWrap.current.style.opacity = "1"
             }
         }, 50);
-        if (this.props.newPoint) {
+        if (this.props.newPoint && !this.props.toBeRemoved) {
             setTimeout(() => {
                 if (this.newPointLine.current != null) {
                     this.newPointLine.current.style.opacity = "1";
                     this.newPointLine.current.style.height = "120px";
+                }
+                if (this.button.current != null) {
+                    this.button.current.style.opacity = "1";
+                }
+            }, 50);
+        }
+        else if (this.props.newPoint && this.props.toBeRemoved) {
+            setTimeout(() => {
+                if (this.newPointLine.current != null) {
+                    this.newPointLine.current.style.opacity = "0";
+                    this.newPointLine.current.style.height = "0px";
                 }
             }, 50);
         }
@@ -115,21 +137,19 @@ export default class TripPoint extends Component {
 
     render() {
 
-        while (crossTime / 1000 / 60 / 60 >= 24) crossTime -= 24 * 60 * 60 * 1000;
-
         if (this.props.newPoint) {
             return (
                 <Fragment>
                     {
                         (this.props.parent.props.locations != undefined && this.props.parent.props.locations != null && this.props.parent.props.locations.length > 0) ? (
                             <div className="tp-travel-line-wrap">
-                                <div ref={this.newPointLine} className="trip-point-travel-line-wrap tptl-new">
-                                    <div className="trip-point-travel-line"></div>
+                                <div ref={this.newPointLine} className={"trip-point-travel-line-wrap tptl-new" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
+                                    <div className={"trip-point-travel-line" + (ObjectContainer.isDarkTheme() ? " dark" : "")}></div>
                                 </div>
                             </div>
                         ) : null
                     }
-                    <button className="trip-point-wrap add-point" onClick={() => {this.props.parent.addPoint()}}>
+                    <button ref={this.button} className="trip-point-wrap add-point" onClick={() => {this.props.parent.addPoint()}}>
                         <p className="trip-point-text-first-line tp-add-point">Add Point</p>
                         <div className="trip-point-button-circle">
                             <i className="material-icons trip-point-plus">add</i>
@@ -176,8 +196,8 @@ export default class TripPoint extends Component {
             ) : (crossDate < 0 && crossTime >= 0) ? (
                 (((displayDate || this.props.selected) ? ("--.--") : ("")) + " / " + this.zeroBeforeText(Math.floor(crossTime / 60000 / 60)) + ":" + this.zeroBeforeText(Math.floor(crossTime / 60000 % 60)))
             ) : (crossDate >= 0 && crossTime < 0) ? (
-                (displayDate || this.props.selected ? (new Date(crossDate).getUTCDate() + "." + (new Date(crossDate).getMonth() + 1) + " / ") : "") + "--:--"
-            ) : (displayDate || this.props.selected ? (new Date(crossDate).getUTCDate() + "." + (new Date(crossDate).getMonth() + 1) + " / ") : "") + this.zeroBeforeText(Math.floor(crossTime / 60000 / 60)) + ":" + this.zeroBeforeText(Math.floor(crossTime / 60000 % 60))
+                (displayDate || this.props.selected ? (new Date(crossDate).getUTCDate() + "." + (new Date(crossDate).getUTCMonth() + 1) + " / ") : "") + "--:--"
+            ) : (displayDate || this.props.selected ? (new Date(crossDate).getUTCDate() + "." + (new Date(crossDate).getUTCMonth() + 1) + " / ") : "") + this.zeroBeforeText(Math.floor(crossTime / 60000 / 60)) + ":" + this.zeroBeforeText(Math.floor(crossTime / 60000 % 60))
 
             var iconToDisplay = (prevLocation.departureDate + prevLocation.departureTime > this.props.location.crossedAtDate + this.props.location.crossedAtTime) ||
                                 (nextLocation.arrivalDate + nextLocation.arrivalTime < this.props.location.crossedAtDate + this.props.location.crossedAtTime) ||
@@ -212,21 +232,21 @@ export default class TripPoint extends Component {
                                                 travel == 1 ? "directions_car" : travel == 2 ? "train" : travel == 3 ? "airplanemode_active" : travel == 4 ? "directions_boat" : ""
                                             }
                                         </i>
-                                        <div className="trip-point-travel-line-short"></div>
+                                        <div className={"trip-point-travel-line-short" + (ObjectContainer.isDarkTheme() ? " dark" : "")}></div>
                                     </Fragment>
                                 ) : travel != null && travel > -1 ? (
                                     <Fragment>
-                                        <div className="trip-point-travel-line-short"></div>
+                                        <div className={"trip-point-travel-line-short" + (ObjectContainer.isDarkTheme() ? " dark" : "")}></div>
                                             <i className="trip-point-travel-icon material-icons" style={{transform: travel == 3 ? "rotate(45deg)" : ""}}>
                                                 {
                                                     travel == 1 ? "directions_car" : travel == 2 ? "train" : travel == 3 ? "airplanemode_active" : travel == 4 ? "directions_boat" : ""
                                                 }
                                             </i>
-                                        <div className="trip-point-travel-line-short"></div>
+                                        <div className={"trip-point-travel-line-short" + (ObjectContainer.isDarkTheme() ? " dark" : "")}></div>
                                     </Fragment>
                                     
                                 ) : (
-                                    <div className="trip-point-travel-line"></div>
+                                    <div className={"trip-point-travel-line" + (ObjectContainer.isDarkTheme() ? " dark" : "")}></div>
                                 )
                             }
                             </div>
@@ -302,12 +322,12 @@ export default class TripPoint extends Component {
                                 )
                             }
                         </div>
-                        <div className="trip-point-button-circle" ref={this.circle} style={this.props.location && this.props.location.city && this.props.location.city.name == "Transit_Country" ? {backgroundColor: "#707070", height: "40px", borderRadius: "20px"} : {}}>
+                        <div className={"trip-point-button-circle"} ref={this.circle} style={this.props.location && this.props.location.city && this.props.location.city.name == "Transit_Country" ? {backgroundColor: "#707070", height: "40px", borderRadius: "20px"} : {}}>
                         {
                             (this.props.location.city == null || this.props.location.city.country.code == null || this.props.location.city.country.code == "") ? (
-                                <div className="trip-point-placeholder-circle"></div>
+                                <div className={"trip-point-placeholder-circle" + (ObjectContainer.isDarkTheme() ? " dark" : "")}></div>
                             ) : (
-                                <p className="trip-point-country-code">{this.props.location.city.country.code}</p>
+                                <p className={"trip-point-country-code" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{this.props.location.city.country.code}</p>
                             )
                         }                
                         </div>

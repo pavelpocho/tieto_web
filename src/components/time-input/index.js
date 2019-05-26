@@ -9,20 +9,22 @@ export default class TimeInput extends Component {
 
         this.hours = React.createRef();
         this.minutes = React.createRef();
-        this.colon = React.createRef();
+        this.wrap = React.createRef();
     }
 
     componentDidMount() {
         this.autocorrect(this.hours.current, 0, true);
         this.autocorrect(this.minutes.current, 1, true);
+    }
 
-        if (this.props.blue) {
-            this.hours.current.style.color = "#62B3E4";
-            this.hours.current.style.fontWeight = "700";
-            this.minutes.current.style.color = "#62B3E4";
-            this.minutes.current.style.fontWeight = "700";
-            this.colon.current.style.color = "#62B3E4";
-        }
+    setFocused() {
+        this.wrap.current.style.backgroundColor = "white";
+        this.wrap.current.style.borderColor = "#eee";
+    }
+
+    setBlured() {
+        this.wrap.current.style.backgroundColor = "#f1f1f1";
+        this.wrap.current.style.borderColor = "transparent";
     }
 
     autocorrect(target, f, dontSave) {
@@ -43,12 +45,6 @@ export default class TimeInput extends Component {
 
     attemptSelect() {
         if ((this.hours.current.value.length == 2 && this.minutes.current.value.length == 2) || (this.hours.current.value.length == 0 && this.minutes.current.value.length == 0)) {
-            console.log(this.hours.current.value);
-            console.log(this.minutes.current.value);
-            console.log("vs");
-            console.log(this.props.default);
-            console.log(Math.floor(this.props.default / 60000 / 60));
-            console.log(Math.floor(this.props.default / 60000 % 60));
             if (parseInt(this.hours.current.value) !== Math.floor((this.props.default == null ? -1 : this.props.default) / 60000 / 60) || parseInt(this.minutes.current.value) !== Math.floor((this.props.default == null ? -1 : this.props.default) / 60000 % 60)) {
                 this.props.parent.selectTime(this.hours.current.value, this.minutes.current.value);
             }
@@ -118,10 +114,10 @@ export default class TimeInput extends Component {
         }
 
         return (
-            <div className="time-input">
-                <input defaultValue={hours} placeholder="--" ref={this.hours} onKeyDown={(e) => {this.switchNext(e)}} onChange={(e) => {this.check(e.target)}} onBlur={(e) => {this.autocorrect(e.target, 0)}} type="text" className="ti-field"></input>
+            <div className="time-input" ref={this.wrap}>
+                <input defaultValue={hours} placeholder="--" ref={this.hours} onKeyDown={(e) => {this.switchNext(e)}} onChange={(e) => {this.check(e.target)}} onBlur={(e) => {this.autocorrect(e.target, 0); this.setBlured()}} onFocus={(e) => {this.setFocused()}} type="text" className="ti-field"></input>
                 <p ref={this.colon} className="ti-colon">:</p>
-                <input defaultValue={minutes} placeholder="--" ref={this.minutes} onKeyDown={(e) => {this.switchPrev(e)}} onChange={(e) => {this.check(e.target)}} onBlur={(e) => {this.autocorrect(e.target, 1)}} type="text" className="ti-field"></input>
+                <input defaultValue={minutes} placeholder="--" ref={this.minutes} onKeyDown={(e) => {this.switchPrev(e)}} onChange={(e) => {this.check(e.target)}} onBlur={(e) => {this.autocorrect(e.target, 1); this.setBlured()}} onFocus={(e) => {this.setFocused()}} type="text" className="ti-field"></input>
             </div>
         )
     }

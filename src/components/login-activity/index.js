@@ -262,9 +262,9 @@ export default class LoginActivity extends Component {
                                 </div>
                                 <p>Sign into your account</p>
                                 <div className="email-input-wrap">
-                                    <input className="email-specific" ref={this.username} placeholder="Email" /><p>@tieto.com</p>
+                                    <input autoComplete="off" className="email-specific" ref={this.username} placeholder="Email" /><p>@tieto.com</p>
                                 </div>
-                                <input ref={this.password} className="login-input" placeholder="Password" type="password" />
+                                <input autoComplete="off" ref={this.password} className="login-input" placeholder="Password" type="password" />
                                 <div className="long-sign-wrap">
                                     <button ripplecolor="gray" className="stay-signed-button" onClick={() => {this.changeLongSign()}}>
                                         <div ripplecolor="gray" className={"fiw-checkbox uncheck-white" + (this.state.longSign ? " checked check-blue" : "")}>
@@ -294,16 +294,16 @@ export default class LoginActivity extends Component {
                                 </div>
                                 <p className="la-less-margin">Set up a new account</p>
                                 <div className="email-input-wrap">
-                                    <input ref={this.username} className="email-specific" placeholder="Email" onChange={(e) => {this.checkEmail(e.target.value)}}></input><p>@tieto.com</p>
+                                    <input autoComplete="new-password" ref={this.username} className="email-specific" placeholder="Email" onChange={(e) => {this.checkEmail(e.target.value)}}></input><p>@tieto.com</p>
                                 </div>
                                 <p ref={this.emailText} className="la-info">Unique email to sign in and identify you</p>
-                                <input ref={this.fullname} className="login-input" placeholder="Full Name" ></input>
+                                <input autoComplete="new-password" ref={this.fullname} className="login-input" placeholder="Full Name" ></input>
                                 <p className="la-info">Your full name displayed on Trip Reports</p>
-                                <input ref={this.password} className="login-input" placeholder="Password" type="password" onChange={() => {this.checkPasswords()}}></input>
-                                <input ref={this.passwordConfirm} className="login-input" placeholder="Confirm Password" onChange={() => {this.checkPasswords()}} type="password"></input>
+                                <input autoComplete="new-password" ref={this.password} className="login-input" placeholder="Password" type="password" onChange={() => {this.checkPasswords()}}></input>
+                                <input autoComplete="new-password" ref={this.passwordConfirm} className="login-input" placeholder="Confirm Password" onChange={() => {this.checkPasswords()}} type="password"></input>
                                 <p ref={this.passText} className="la-info"></p>
                                 <div className="email-input-wrap">
-                                    <input className="email-specific" ref={this.superiorEmail} placeholder="Superior's Email" ></input><p>@tieto.com</p>
+                                    <input autoComplete="new-password" className="email-specific" ref={this.superiorEmail} placeholder="Superior's Email" ></input><p>@tieto.com</p>
                                 </div>
                                 <p className="la-info">The email of the person, who approves your Trip Reports</p>
                                 <button disabled={!this.state.allowRegister} ref={this.rippleHere} className="login-button" onClick={() => {this.register()}}>Register</button>

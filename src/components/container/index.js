@@ -29,6 +29,8 @@ export default class Container extends Component {
 
         this.background = React.createRef();
 
+        if (ObjectContainer.isDarkTheme) document.body.style.color = "black";
+
     }
 
     startApp() {
@@ -122,8 +124,20 @@ export default class Container extends Component {
         this.setState((prevState) => {
 
             var d = prevState.dialogHistory;
-            var o = d[d.length - 1];
             d.splice(d.length - 1, 1);
+
+            return {
+                dialogHistory: d
+            }
+
+        })
+    }
+
+    closeFirstDialog() {
+        this.setState((prevState) => {
+
+            var d = prevState.dialogHistory;
+            d.splice(0, 1);
 
             return {
                 dialogHistory: d
@@ -205,8 +219,14 @@ export default class Container extends Component {
                 {
                     this.state.dialogHistory.map(v => v)
                 }
-                <p className="web-app-version">Trippi WebApp Alpha {version} - Build Date: {dateString}</p>
-                <p className="api-version">Trippi API Alpha {this.state.apiVersion} - Build Date: {apiDateString}</p>
+                {
+                    this.state.activityHistory.length == 0 || this.state.activityHistory[this.state.activityHistory.length - 1].key != "tripActivity" ? (
+                        <Fragment>
+                            <p className={"web-app-version" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Trippi WebApp Alpha {version} - Build Date: {dateString}</p>
+                            <p className={"api-version" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Trippi API Alpha {this.state.apiVersion} - Build Date: {apiDateString}</p>
+                        </Fragment>
+                    ) : null
+                }
             </Fragment>
         )
         

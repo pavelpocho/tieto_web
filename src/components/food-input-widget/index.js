@@ -72,7 +72,7 @@ export default class FoodInputWidget extends Component {
             return (
                 <div className="food-input-widget">
                     <div className="fiw-row">
-                        <p className="fiw-title">{new Date(this.props.date).getUTCDate() + "." + (new Date(this.props.date).getMonth() + 1)}</p>
+                        <p className="fiw-title">{new Date(this.props.date).getUTCDate() + "." + (new Date(this.props.date).getUTCMonth() + 1)}</p>
                         <div className="fiw-checkbox-wrap">
                             <button ripplecolor="gray" onClick={() => {this.changeState(0)}} className={"fiw-checkbox" + (this.state.breakfastChecked ? " checked" : "")}>
                                 <i className="material-icons">done</i>

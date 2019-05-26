@@ -11,11 +11,11 @@ export default class TripPreviewState extends Component {
     }
 
     componentDidMount() {
-        this.ref.current.style.backgroundColor = this.props.status == 0 ? "#FAA519" : this.props.status == 1 ? "#338200" : "#FF4E0B";
+        this.ref.current.style.backgroundColor = this.props.status == 0 ? (ObjectContainer.isDarkTheme() ? "#E79206" : "#FAA519") : this.props.status == 1 ? (ObjectContainer.isDarkTheme() ? "#1F6E00" : "#338200") : (ObjectContainer.isDarkTheme() ? "#C32600" : "#FF4E0B");
     }
 
     componentDidUpdate() {
-        this.ref.current.style.backgroundColor = this.props.status == 0 ? "#FAA519" : this.props.status == 1 ? "#338200" : "#FF4E0B";
+        this.ref.current.style.backgroundColor = this.props.status == 0 ? (ObjectContainer.isDarkTheme() ? "#E79206" : "#FAA519") : this.props.status == 1 ? (ObjectContainer.isDarkTheme() ? "#1F6E00" : "#338200") : (ObjectContainer.isDarkTheme() ? "#C32600" : "#FF4E0B");
     }
 
     render() {

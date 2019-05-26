@@ -18,9 +18,7 @@ export default class TripPreview extends Component {
 
         this.state = {
             loading: false,
-            //The third status (warning) is not implemented!
-            status: this.props.status,
-            duplicationDialog: false
+            status: this.props.status
         }
     }
 
@@ -37,9 +35,6 @@ export default class TripPreview extends Component {
             }, 20);
             this.props.trip.duplicated = undefined;
         }
-        /*if (this.ref.current.childNodes[0].offsetWidth + this.ref.current.childNodes[1].offsetWidth) {
-            this.ref.current.childNodes[0].style.maxWidth = this.ref.current.offsetWidth - this.ref.current.childNodes[1].offsetWidth - 80 + "px";
-        }*/
     }
 
     overflow(e) {
@@ -52,16 +47,12 @@ export default class TripPreview extends Component {
             this.duplicate(null);
         }
         else {
-            this.setState({
-                duplicationDialog: true
-            });
+            this.props.activity.props.container.openDialog(<DuplicationDateDialog key={"duplicationDialog"} parent={this} highlightDate={this.props.trip.locations[0].departureDate} tripName={this.props.trip.title} />);
         }
     }
 
     stopDuplicate() {
-        this.setState({
-            duplicationDialog: false
-        })
+        this.props.activity.props.container.closeLastDialog();
     }
 
     duplicate(date) {
@@ -95,6 +86,10 @@ export default class TripPreview extends Component {
     }
 
     tryExport() {
+        this.ref.current.style.opacity = "0.6";
+        this.setState({
+            loading: true
+        })
         //Missing info || Wrong formats
         if (
             (this.props.trip.purpose == "" || this.props.trip.project == "" || this.props.trip.task == "") ||
@@ -105,20 +100,26 @@ export default class TripPreview extends Component {
             this.props.container.openDialog(<ExportDialog parent={this} key={"exportDialog"} container={this.props.container} trip={this.props.trip} />);
         }
         else {
-            this.export();
+            this.confirmExport();
         }
+    }
+
+    stopExport() {
+        this.ref.current.style.opacity = "1";
+        this.setState({
+            loading: false
+        })
     }
 
     setNoExportWarning(value, callback) {
         this.props.activity.setNoExportWarning(value, callback);
     }
 
-    export() {
+    confirmExport() {
         var time = Date.now();
         this.setState({
             loading: true
         });
-        this.ref.current.style.opacity = "0.6";
         var h = ObjectContainer.getHttpCommunicator();
         h.getExportToken(this.props.trip.id, (t, s) => {
             if (s == 200 && t != "") {
@@ -184,105 +185,14 @@ export default class TripPreview extends Component {
         })
     }
 
-    setProp(property, input, output) {
-        if (property == "altered") {
-            output[property] = input[property];
-        }
-        else {
-            output[property] = Math.round(input[property] * 100) / 100;
-        }
-    }
-
-    set(input, output) {
-        this.setProp("rate", input, output);
-        this.setProp("defaultRate", input, output);
-        this.setProp("altered", input, output);
-    }
-
     render() {
 
-        var usd = {amount: 0};
-        var eur = {amount: 0};
-        var gbp = {amount: 0};
-        var chf = {amount: 0};
-        var czk = {amount: 0, rate: 1};
-
-        if (this.props.trip.exchange != null) {
-            for (var i = 0; i < this.props.trip.exchange.rates.length; i++) {
-                //rates.rates is indeed intentional
-                if (this.props.trip.exchange.rates[i].currencyCode == 0) {
-                    this.set(this.props.trip.exchange.rates[i], eur);
-                }
-                else if (this.props.trip.exchange.rates[i].currencyCode == 1) {
-                    this.set(this.props.trip.exchange.rates[i], usd);
-                }
-                else if (this.props.trip.exchange.rates[i].currencyCode == 3) {
-                    this.set(this.props.trip.exchange.rates[i], chf);
-                }
-                else if (this.props.trip.exchange.rates[i].currencyCode == 4) {
-                    this.set(this.props.trip.exchange.rates[i], gbp);
-                }
-            }
-        }
-
-        if (this.props.trip.daySections) {
-            for (var i = 0; i < this.props.trip.daySections.length; i++) {
-                var a = this.props.trip.daySections[i].allowance;
-                if (a == null) continue;
-                if (a.currency == 0) {
-                    if (eur.amount == undefined || eur.amount == null) {
-                        eur.amount = a.moneyAmount + a.pocketMoney;
-                    }
-                    else {
-                        eur.amount += a.moneyAmount + a.pocketMoney;
-                    }
-                }
-                if (a.currency == 1) {
-                    if (usd.amount == undefined || usd.amount == null) {
-                        usd.amount = a.moneyAmount + a.pocketMoney;
-                    }
-                    else {
-                        usd.amount += a.moneyAmount + a.pocketMoney;
-                    }
-                }
-                if (a.currency == 2) {
-                    if (czk.amount == undefined || czk.amount == null) {
-                        czk.amount = a.moneyAmount + a.pocketMoney;
-                    }
-                    else {
-                        czk.amount += a.moneyAmount + a.pocketMoney;
-                    }
-                }
-                if (a.currency == 3) {
-                    if (chf.amount == undefined || chf.amount == null) {
-                        chf.amount = a.moneyAmount + a.pocketMoney;
-                    }
-                    else {
-                        chf.amount += a.moneyAmount + a.pocketMoney;
-                    }
-                }
-                if (a.currency == 4) {
-                    if (gbp.amount == undefined || gbp.amount == null) {
-                        gbp.amount = a.moneyAmount + a.pocketMoney;
-                    }
-                    else {
-                        gbp.amount += a.moneyAmount + a.pocketMoney;
-                    }
-                }
-            }
-        }
-
-        var total = Math.round((eur.amount * eur.rate + usd.amount * usd.rate + gbp.amount * gbp.rate + chf.amount * chf.rate + czk.amount) * 100) / 100;
-        if (isNaN(total)) total = 0;
+        var tripManager = ObjectContainer.getTripManager();
+        var total = tripManager.calculateTotal(this.props.trip);
 
         return (
             <Fragment>
-                {
-                    this.state.duplicationDialog ? (
-                        <DuplicationDateDialog parent={this} highlightDate={this.props.trip.locations[0].departureDate} tripName={this.props.trip.title} />
-                    ) : null
-                }
-                <div className="trip-preview-wrap" ref={this.ref}>
+                <div className={"trip-preview-wrap" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ref={this.ref}>
                     {
                         this.state.loading ? (
                             <Spinner size={24} position={"absolute"}/>
@@ -291,19 +201,19 @@ export default class TripPreview extends Component {
                     <div className="trip-preview-left">
                         <TripPreviewState status={this.state.status} />
                         <div className="trip-preview-text-wrap">
-                            <button onClick={() => {this.props.activity.editTrip(this.props.trip)}} className="trip-preview-title">{this.props.trip.title ? this.props.trip.title : <i>Unnamed trip</i>}</button>
-                            <p className="trip-preview-purpose">{this.props.trip.purpose ? this.props.trip.purpose : <i>No purpose</i>}</p>
+                            <button onClick={() => {this.props.activity.editTrip(this.props.trip)}} className={"trip-preview-title" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{this.props.trip.title ? this.props.trip.title : <i>Unnamed trip</i>}</button>
+                            <p className={"trip-preview-purpose" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{this.props.trip.purpose ? this.props.trip.purpose : <i>No purpose</i>}</p>
                         </div>
                     </div>
                     <div className="trip-preview-right">
                         <div className="trip-preview-text-wrap margin">
-                            <p className="trip-preview-date">{
+                            <p className={"trip-preview-date" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{
                                 this.props.trip.locations && this.props.trip.locations[0] && this.props.trip.locations[0].departureDate && this.props.trip.locations[0].departureDate > -1 ? new Date(this.props.trip.locations[0].departureDate).getUTCDate() + "." + (new Date(this.props.trip.locations[0].departureDate).getUTCMonth() + 1) + "." + new Date(this.props.trip.locations[0].departureDate).getUTCFullYear() : <i>No date</i>
                             }</p>
-                            <p className="trip-preview-money">{total == 0 ? "--" : total + " CZK"}</p>
+                            <p className={"trip-preview-money" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{total == 0 ? "--" : total + " CZK"}</p>
                         </div>
-                        <button disabled={!this.props.trip.exportable} className="trip-preview-button" ripplecolor="gray" onClick={() => {this.tryExport()}}><i className="material-icons">local_printshop</i></button>
-                        <button className="trip-preview-button" ripplecolor="gray" onClick={(e) => {this.overflow(e)}}><i className="material-icons">more_vert</i></button>
+                        <button disabled={!this.props.trip.exportable} className={"trip-preview-button" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ripplecolor="gray" onClick={() => {this.tryExport()}}><i className="material-icons">local_printshop</i></button>
+                        <button className={"trip-preview-button" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ripplecolor="gray" onClick={(e) => {this.overflow(e)}}><i className="material-icons">more_vert</i></button>
                     </div>
                 </div>
             </Fragment>

@@ -42,6 +42,6 @@
     width: 30px;
     margin-left: 12px;
 }
-.ri-refresh:hover {
+.ri-refresh:hover, .ri-refresh:active {
     background-color: #e6e6e6;
 }

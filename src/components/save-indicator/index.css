@@ -39,7 +39,7 @@
     text-decoration: underline;
     white-space: nowrap;
 }
-.si-retry:hover {
+.si-retry:hover, .si-retry:active {
     cursor: pointer;
     color: black;
 }

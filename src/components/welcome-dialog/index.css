@@ -10,12 +10,22 @@
     opacity: 0;
     transition: transform 0.51s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.31s;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 .wd-inner {
-    position: absolute;
-    top: 100px;
     width: 900px;
-    height: 500px;   
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    min-height: 456px;
+}
+.main-welcome {
+    color: #62B3E4;
+    font-size: 40px;
+    text-align: center;
+    margin: 0px 0px 30px 0px;
 }
 .welcome-dialog-backdrop {
     opacity: 0;
@@ -29,11 +39,8 @@
     transition: opacity 0.31s;
 }
 .wd-bottom-bar {
-    height: 156px;
     width: 100%;
-    position: absolute;
-    left: 30px;
-    bottom: 0px;
+    margin-left: 30px;
     display: flex;
     box-sizing: border-box;
 }
@@ -66,10 +73,10 @@
 .wd-prev span {
     padding-right: 12px;
 }
-.wd-prev:hover {
+.wd-prev:hover, .wd-prev:active {
     background-color: #f1f1f1;
 }
-.wd-next:hover {
+.wd-next:hover, .wd-next:active {
     background-color: #52A3D4;
 }
 .wd-next i {
@@ -110,12 +117,11 @@
 .wd-main-content {
     position: relative;
     width: 100%;
-    height: 100%;
     box-sizing: border-box;
     padding-bottom: 72px;
 }
 .wd-page {
-    transform: translateT(20px);
+    transform: translateY(20px);
     opacity: 0;
     transition: transform 0.51s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.31s;
 }
@@ -123,7 +129,6 @@
     font-size: 30px;
     color: #999;
     margin-left: 60px;
-    margin-top: 130px;
     opacity: 0;
     transition: opacity 0.31s;
 }
@@ -135,11 +140,12 @@
     opacity: 0;
     transition: opacity 0.31s;
 }
+.wd-left-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 .wd-right-section {
-    position: absolute;
-    right: 50px;
-    top: 0;
-    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -166,16 +172,10 @@
     transform: scale(0);
     transition: transform 0.51s cubic-bezier(0.19, 1, 0.22, 1);
 }
-.main-welcome {
-    color: #62B3E4;
-    font-size: 40px;
-    text-align: center;
-}
 .wd-slide-title {
     font-size: 28px;
     color: #777;
     margin-left: 50px;
-    padding-top: 110px;
 }
 .welcome-dialog-wrap li {
     color: #999;

@@ -1,31 +1,36 @@
-button,a {
-	overflow:hidden !important;
-	position:relative;
-}
-.rippleTouch {
-	position:absolute;
-	border-radius:100% !important;
-	background-color:#ffffff !important;
-	opacity:0;
-	transition:transform 0.7s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.1s;
+button, a {
+	overflow: hidden !important;
+	position: relative !important;
 }
 .ripple {
-	position:absolute;
-	border-radius:100% !important;
-	background-color:#ffffff !important;
-	opacity:0;
-	transition:transform 1.1s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.25s;
-    height:40px;
-    width:40px;
+	position: absolute;
+	border-radius: 100% !important;
+	background-color: #ffffff !important;
+	opacity: 0;
+	transition: transform 1.1s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.25s;
+    height: 40px;
+    width: 40px;
+}
+.ripple.dark {
+	background-color: #000000 !important;
 }
 .ripple-gray {
 	background-color: #a1a1a1 !important;
 }
+.ripple-gray.dark {
+	background-color: #5E5E5E !important;
+}
 .ripple-blue {
 	background-color: #62B3E4 !important;
 }
+.ripple-blue.dark {
+	background-color: #1C6D9E !important;
+}
 .ripple-orange {
 	background-color: #FAA519 !important;
+}
+.ripple-orange.dark {
+	background-color: #E79206 !important;
 }
 .ripple-none {
 	display: none !important;

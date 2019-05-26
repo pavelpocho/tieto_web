@@ -11,6 +11,10 @@
     letter-spacing: 2px;
     transition: background-color 0.35s;
 }
+.main-button-wrap.dark {
+    color: black;
+    background-color: #1C6D9E
+}
 .main-button-wrap:disabled {
     background-color: #999 !important;
 }

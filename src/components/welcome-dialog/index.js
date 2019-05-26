@@ -34,8 +34,6 @@ export default class WelcomeDialog extends Component {
         RippleManager.setUp();
         this.firstPage.current.style.opacity = "1";
         this.firstPage.current.style.transform = "translateY(0px)";
-        this.wrap.current.style.marginLeft = - this.wrap.current.offsetWidth / 2 + "px";
-        this.wrap.current.style.marginTop = - this.wrap.current.offsetHeight / 1.5 + "px";
         setTimeout(() => {
             this.dot.current.style.transform = "scale(1)";
             this.dot.current.style.opacity = "1";
@@ -156,41 +154,43 @@ export default class WelcomeDialog extends Component {
                 <div className="welcome-dialog-wrap" ref={this.wrap}>
                     <p className="main-welcome">Welcome</p>
                     <div className="wd-inner" ref={this.inner}>
-                        <div className="wd-main-content">
-                            {
-                                this.state.selection == 0 ? (
-                                    <div ref={this.firstPage} className="wd-page">
-                                        <p className="large-text" ref={this.firstPageLarge}>In Trippi,<br/>your business trip is a series of points</p>
-                                        <p className="medium-text" ref={this.firstPageMedium}>Each point is a place that is important to your trip</p>
-                                    </div>
-                                ) : this.state.selection == 1 ? (
-                                    <div ref={this.secondPage} className="wd-page">
-                                        <p className="wd-slide-title">Create a point for every place, where you:</p>
-                                        <ul>
-                                            <li>Changed your mode of transportation</li>
-                                            <li>Stayed for a prolonged period of time</li>
-                                            <li>Received food paid for by the company</li>
-                                        </ul>
-                                    </div>
-                                ) : this.state.selection == 2 ? (
-                                    <div ref={this.thirdPage} className="wd-page">
-                                        <p className="wd-slide-title">You should note down when you:</p>
-                                        <ul>
-                                            <li>Arrived at each point</li>
-                                            <li>Departed from each point</li>
-                                            <li>Crossed country borders</li>
-                                        </ul>
-                                    </div>
-                                ) : null
-                            }
-                        </div>
-                        <div className="wd-bottom-bar">
-                            {
-                                this.state.selection != 0 ? (
-                                    <button ref={this.prevButton} ripplecolor="gray" className="wd-direction wd-prev" onClick={() => {this.changeSelection(-1)}}><i className="material-icons">keyboard_arrow_left</i><span>Back</span></button>
-                                ) : null
-                            }
-                            <button ref={this.nextButton} className="wd-direction wd-next" onClick={() => {this.changeSelection(1)}}><span>{this.state.selection == this.state.count - 1 ? "Done" : "Next"}</span><i className="material-icons">keyboard_arrow_right</i></button>
+                        <div className="wd-left-section">
+                            <div className="wd-main-content">
+                                {
+                                    this.state.selection == 0 ? (
+                                        <div ref={this.firstPage} className="wd-page">
+                                            <p className="large-text" ref={this.firstPageLarge}>In Trippi,<br/>your business trip is a series of points</p>
+                                            <p className="medium-text" ref={this.firstPageMedium}>Each point is a place that is important to your trip</p>
+                                        </div>
+                                    ) : this.state.selection == 1 ? (
+                                        <div ref={this.secondPage} className="wd-page">
+                                            <p className="wd-slide-title">Create a point for every place, where you:</p>
+                                            <ul>
+                                                <li>Changed your mode of transportation</li>
+                                                <li>Stayed for a prolonged period of time</li>
+                                                <li>Received food paid for by the company</li>
+                                            </ul>
+                                        </div>
+                                    ) : this.state.selection == 2 ? (
+                                        <div ref={this.thirdPage} className="wd-page">
+                                            <p className="wd-slide-title">You should note down when you:</p>
+                                            <ul>
+                                                <li>Arrived at each point</li>
+                                                <li>Departed from each point</li>
+                                                <li>Crossed country borders</li>
+                                            </ul>
+                                        </div>
+                                    ) : null
+                                }
+                            </div>
+                            <div className="wd-bottom-bar">
+                                {
+                                    this.state.selection != 0 ? (
+                                        <button ref={this.prevButton} ripplecolor="gray" className="wd-direction wd-prev" onClick={() => {this.changeSelection(-1)}}><i className="material-icons">keyboard_arrow_left</i><span>Back</span></button>
+                                    ) : null
+                                }
+                                <button ref={this.nextButton} className="wd-direction wd-next" onClick={() => {this.changeSelection(1)}}><span>{this.state.selection == this.state.count - 1 ? "Done" : "Next"}</span><i className="material-icons">keyboard_arrow_right</i></button>
+                            </div>
                         </div>
                         <div className="wd-right-section">
                             <div className="wd-point">

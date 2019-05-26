@@ -187,4 +187,6 @@ export default class HttpCommunicator {
     
     getApiVersion(callback) { this.addGetToBuffer(this.url + "app/version", callback) }
 
+    resetWelcomeDone(callback) { this.addPostToBuffer(this.url + "app/resetWelcomeDone", callback) }
+
 }

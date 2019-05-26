@@ -3,19 +3,12 @@
     transform: translateX(40px);
 }
 #trip-activity .receipt-content {
-    flex-direction: column;
-    justify-content: flex-end;
-    background: linear-gradient(#ffffff00, #ffffff 50%);
-    border-left: 2px solid #e6e6e6;
-    width: 350px;
-    display: none;
-}
-#trip-activity .absolute-receipt-content {
-    flex-direction: column;
+    width: 50px;
+    z-index: 2;
     position: absolute;
+    left: 0px;
     bottom: 0px;
-    width: 100%;
-    justify-content: flex-end;
+    height: 100%;
 }
 #trip-activity .top-bar {
     position: fixed;
@@ -39,7 +32,7 @@
     padding: 0px 20px 0px 14px;
     border-radius: 24px;
 }
-#trip-activity .back-button:hover {
+#trip-activity .back-button:hover, #trip-activity .back-button:active {
     background-color: #ececec;
 }
 #trip-activity .back-icon {
@@ -55,6 +48,15 @@
     background-color: #e1e1e1;
     position: relative;
 }
+#trip-activity .middle-content.dark {
+    position: relative;
+    width: 400px;
+    background-color: #171717;
+}
+#trip-activity .main-content.dark {
+    background-color: #1e1e1e;
+    position: relative;
+}
 #trip-activity .trip-activity-content {
     position: fixed;
     top: 72px;
@@ -65,7 +67,10 @@
     background-color: #f1f1f1;
     justify-content: center;
 }
-@media all/*screen*/ and (min-width: 1550px) {
+#trip-activity .trip-activity-content.dark {
+    background-color: #0f0f0f;
+}
+@media all/*screen*/ and (min-width: 1430px) {
     #trip-activity .trip-activity-content {
         justify-content: flex-start;
     }
@@ -73,18 +78,15 @@
         flex: 1;
     }
     #trip-activity .receipt-content {
-        display: flex;
+        width: 350px;
+        justify-self: center;
+        position: relative;
     }
 }
-@media all/*screen*/ and (max-width: 1100px) {
+@media all/*screen*/ and (max-width: 1080px) {
     #trip-activity .trip-activity-content {
         display: block;
         overflow-y: scroll;
-    }
-    #trip-activity .absolute-receipt-content {
-        position: fixed;
-        z-index: 4;
-        left: 0px;
     }
     #trip-activity .middle-content {
         margin: 0px auto;

@@ -13,6 +13,9 @@ body {
     opacity: 0.4;
     z-index: 5;
 }
+#background-top-strip.dark {
+    background-color: black;
+}
 
 #background-logo-wrap {
     z-index: 11;
@@ -32,6 +35,9 @@ body {
     height: 140px;
     width: 236px;
 }
+#background-logo-background.dark {
+    fill: #1C6D9E;
+}
 
 #background-shape-wrap {
     position: fixed;
@@ -47,6 +53,9 @@ body {
 #background-shape {
     fill: #f1f1f1;
     transition: fill 0.31s;
+}
+#background-shape.dark {
+    fill: #0f0f0f;
 }
 
 #background-receipt {

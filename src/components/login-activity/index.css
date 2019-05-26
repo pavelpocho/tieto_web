@@ -53,7 +53,7 @@
     border: 3px solid #62B3E4;
     color: white;
 }
-.la-login-expand:hover {
+.la-login-expand:hover, .la-login-expand:active {
     background-color: #52A3D4;
 }
 .la-register-expand {
@@ -61,7 +61,7 @@
     border: 3px solid #eaeaea;
     color: #808080;
 }
-.la-register-expand:hover {
+.la-register-expand:hover, .la-register-expand:active {
     background-color: #f1f1f1;
 }
 #login-activity .blue-text-logo {
@@ -207,14 +207,14 @@
 .uncheck-white {
     background-color: white;
 }
-.uncheck-white:hover {
+.uncheck-white:hover, .uncheck-white:active {
     background-color: #f1f1f1;
 }
 .check-blue {
     background-color: #62B3E4;
     border-color: #62B3E4;
 }
-.check-blue:hover {
+.check-blue:hover, .check-blue:active {
     background-color: #52A3D4;
 }
 .long-sign-wrap {

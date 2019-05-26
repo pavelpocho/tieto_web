@@ -17,7 +17,7 @@ export default class OverflowMenu extends Component {
         this.ref.current.style.height = "0px";
         this.ref.current.style.opacity = "0";
         setTimeout(() => {
-            this.props.container.closeLastDialog();
+            this.props.container.closeFirstDialog();
         }, 310);
     }
 
@@ -36,7 +36,7 @@ export default class OverflowMenu extends Component {
     render() {
         return (
             <Fragment>
-                <div ref={this.ref} className="overflow-menu">
+                <div ref={this.ref} className={"overflow-menu" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
                     <OverflowButton menu={this} text={"Duplicate"} icon={"queue"} onClick={() => {this.props.parent.startDuplicate()}}/>
                     <OverflowButton menu={this} text={"Delete"} icon={"delete"} onClick={() => {this.props.parent.delete()}}/>
                 </div>

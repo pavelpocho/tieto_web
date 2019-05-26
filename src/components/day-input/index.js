@@ -16,19 +16,19 @@ export default class DayInput extends Component {
                 "July", "August", "September",
                 "October", "November", "December"
             ],
-            month: this.props.default == null || this.props.default == "Invalid Date" ? (this.props.highlight == null || this.props.highlight == "Invalid Date" ? new Date().getMonth() : this.props.highlight.getMonth()) : this.props.default.getMonth(),
-            year: this.props.default == null || this.props.default == "Invalid Date" ? (this.props.highlight == null || this.props.highlight == "Invalid Date" ? new Date().getFullYear() : this.props.highlight.getFullYear()) : this.props.default.getFullYear(),
+            month: this.props.default == null || this.props.default == "Invalid Date" ? (this.props.highlight == null || this.props.highlight == "Invalid Date" ? new Date().getUTCMonth() : this.props.highlight.getUTCMonth()) : this.props.default.getUTCMonth(),
+            year: this.props.default == null || this.props.default == "Invalid Date" ? (this.props.highlight == null || this.props.highlight == "Invalid Date" ? new Date().getUTCFullYear() : this.props.highlight.getUTCFullYear()) : this.props.default.getUTCFullYear(),
             days: [
                 "Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"
             ],
             monthLengths: [
-                31, this.checkForLeapYear(this.props.default == null || this.props.default == "Invalid Date" ? new Date().getFullYear() : this.props.default.getFullYear()) ? 29 : 28, 31, 30,
+                31, this.checkForLeapYear(this.props.default == null || this.props.default == "Invalid Date" ? new Date().getUTCFullYear() : this.props.default.getUTCFullYear()) ? 29 : 28, 31, 30,
                 31, 30, 31, 31,
                 30, 31, 30, 31
             ],
             selectedDay: this.props.default == null || this.props.default == "Invalid Date" ? undefined : this.props.default.getUTCDate(),
-            selectedMonth: this.props.default == null || this.props.default == "Invalid Date" ? undefined : this.props.default.getMonth(),
-            selectedYear: this.props.default == null || this.props.default == "Invalid Date" ? undefined : this.props.default.getFullYear()
+            selectedMonth: this.props.default == null || this.props.default == "Invalid Date" ? undefined : this.props.default.getUTCMonth(),
+            selectedYear: this.props.default == null || this.props.default == "Invalid Date" ? undefined : this.props.default.getUTCFullYear()
         }
 
         this.ref = [];
@@ -135,8 +135,8 @@ export default class DayInput extends Component {
         var days = [];
 
         var highlightDay = this.props.highlight == null || this.props.highlight == "Invalid Date" ? undefined : this.props.highlight.getUTCDate();
-        var highlightMonth = this.props.highlight == null || this.props.highlight == "Invalid Date" ? undefined : this.props.highlight.getMonth();
-        var highlightYear = this.props.highlight == null || this.props.highlight == "Invalid Date" ? undefined : this.props.highlight.getFullYear();
+        var highlightMonth = this.props.highlight == null || this.props.highlight == "Invalid Date" ? undefined : this.props.highlight.getUTCMonth();
+        var highlightYear = this.props.highlight == null || this.props.highlight == "Invalid Date" ? undefined : this.props.highlight.getUTCFullYear();
 
         for (var m = 0; m < 7; m++) {
             days[m] = [];

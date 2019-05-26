@@ -2,19 +2,29 @@
     padding-top: 50px;
 }
 .gti-section {
-    margin-left: 50px;
-    margin-right: 50px;
     display: flex;
-    align-items: center;
     position: relative;
+    margin: 30px 50px;
+}
+.less-top {
+    margin-top: 15px;
+}
+.gti-section > p {
+    margin: 0px;
 }
 .gti-section input {
     width: 350px;
     background-color: #f1f1f1;
     transition: background-color 0.31s;
 }
+.gti-section input.dark {
+    background-color: #0f0f0f;
+}
 .gti-section input:focus {
     background-color: white;
+}
+.gti-section input.dark:focus {
+    background-color: black;
 }
 .trip-property-label {
     font-size: 22px;
