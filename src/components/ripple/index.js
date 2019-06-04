@@ -5,8 +5,7 @@ export class RippleManager {
         if (this.ripple == undefined) this.ripple = [];
         var array = Array.from(document.getElementsByTagName('button')).concat(Array.from(document.getElementsByTagName("a")));
         for (var x = 0; x < array.length; x++) {
-            var button = document.getElementsByTagName('button')[x];
-            this.setUpButton(button);
+            this.setUpButton(array[x]);
         }
     }
     static setUpButton(button) {

@@ -224,6 +224,7 @@ export default class Container extends Component {
                         <Fragment>
                             <p className={"web-app-version" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Trippi WebApp Alpha {version} - Build Date: {dateString}</p>
                             <p className={"api-version" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Trippi API Alpha {this.state.apiVersion} - Build Date: {apiDateString}</p>
+                            <a ripple="none" href="./changelog.html" target="_blank" className="changelog-link">Changelog</a>
                         </Fragment>
                     ) : null
                 }

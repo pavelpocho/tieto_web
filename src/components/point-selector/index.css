@@ -10,6 +10,7 @@
     overflow-y: scroll;
     padding-top: 50px;
     margin-bottom: 118px;
+    height: 100%;
 }
 .point-list {
     width: 100%;

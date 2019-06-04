@@ -29,7 +29,8 @@ export default class TripActivity extends Component {
             pendingRequests: 0,
             highestZ: 0,
             firstZ: 0,
-            secondZ: 0
+            secondZ: 0,
+            notYetSaved: this.props.trip ? false : true
         }
 
         this.ref = React.createRef();
@@ -68,21 +69,16 @@ export default class TripActivity extends Component {
     }
 
     componentDidMount() {
-        if (this.state.tripObject.id == 0) {
-            this.forceSave(() => { this.fadeIn() });
-        }
-        else {
-            this.fadeIn();
-        }
+        this.fadeIn();
         RippleManager.setUp();
         window.onkeydown = (stroke) => {
             if (stroke.keyCode == 83 && stroke.ctrlKey) { stroke.preventDefault(); this.forceSave(() => {}) }
         }
     }
 
-    setFood(location, dayIndex, foodIndex) {
+    setFood(location, dayIndex, foodIndex, select) {
         this.incrementSaving();
-        this.props.http.saveFood(location.id, dayIndex, foodIndex, (r, s) => { this.locFieldCallback(r, s) });
+        this.props.http.saveFood(location.id, dayIndex, foodIndex, select, (r, s) => { this.locFieldCallback(r, s) });
     }
 
     setLocationField(location, field, value) {
@@ -191,6 +187,20 @@ export default class TripActivity extends Component {
     }
 
     autoSave(field, value) {
+        if (this.state.notYetSaved) {
+            this.setState({
+                notYetSaved: false
+            });
+            this.forceSave(() => {
+                this.autoSaveMain(field, value);
+            });
+        }
+        else {
+            this.autoSaveMain(field, value);
+        }
+    }
+
+    autoSaveMain(field, value) {
         this.incrementSaving();
         if (field == "title") this.props.http.saveTitle(this.state.tripObject.id, value, (r, s) => {this.locFieldCallback(r, s)});
         if (field == "purpose") this.props.http.savePurpose(this.state.tripObject.id, value, (r, s) => {this.locFieldCallback(r, s)});
@@ -216,6 +226,20 @@ export default class TripActivity extends Component {
     }
 
     addLocation(index) {
+        if (this.state.notYetSaved) {
+            this.setState({
+                notYetSaved: false
+            });
+            this.forceSave(() => {
+                this.addLocationMain(index);
+            });
+        }
+        else {
+            this.addLocationMain(index);
+        }
+    }
+
+    addLocationMain(index) {
         this.incrementSaving();
         this.props.http.addLocation(index, this.state.tripObject.id, (r, s) => {
             this.locFieldCallback(r, s);
@@ -225,7 +249,7 @@ export default class TripActivity extends Component {
 
     forceSave(callback) {
         this.incrementSaving();
-        this.props.http.saveTrip(this.state.tripObject, (r, s) => { callback(r); this.locFieldCallback(r, s) })
+        this.props.http.saveTrip(this.state.tripObject, (r, s) => { this.locFieldCallback(r, s); callback(r) })
     }
 
     selectPoint(i, override) {
@@ -476,7 +500,7 @@ export default class TripActivity extends Component {
                 <div className="activity" id="trip-activity" ref={this.ref}>
                     <div className={"top-bar" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
                         <button ripplecolor="gray" onClick={() => {this.close()}} className="back-button"><i className="material-icons back-icon">arrow_back</i>Trip list</button>
-                        <SaveIndicator ref={this.saveIndicator} parent={this} name={this.state.tripObject.title} />
+                        <SaveIndicator ref={this.saveIndicator} parent={this} name={this.state.tripObject.title} defaultStatus={this.state.notYetSaved ? 3 : 0}/>
                     </div>
                     <div className={"trip-activity-content" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
                         <div className={"receipt-content" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>

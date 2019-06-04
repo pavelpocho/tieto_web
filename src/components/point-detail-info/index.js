@@ -141,8 +141,8 @@ export default class PointDetailInfo extends Component {
         this.props.parent.setLocationField(this.props.location, "crossedAtDate", date);
     }
 
-    setFood(dayIndex, foodIndex) {
-        this.props.parent.setFood(this.props.location, dayIndex, foodIndex);
+    setFood(dayIndex, foodIndex, select) {
+        this.props.parent.setFood(this.props.location, dayIndex, foodIndex, select);
     }
 
     changeOnlyLocation() {
@@ -351,9 +351,12 @@ export default class PointDetailInfo extends Component {
         var foodWidgets = [];
         foodWidgets.push(<FoodInputWidget title={true} key={0}/>);
         if (this.props.location.departureDate != null && this.props.location.departureDate != -1 && this.props.location.arrivalDate != null && this.props.location.arrivalDate != -1 && this.props.location.food) {
+            foodWidgets.push(<FoodInputWidget all={true} key={1} index={-1} parent={this} foods={this.props.location.food.days} />);
+            console.log("Key list:");
             for (var i = 0; i < (this.props.location.departureDate / 24 / 60 / 60000) - (this.props.location.arrivalDate / 24 / 60 / 60000) + 1; i++) {
                 let food = this.props.location.food.days[i];
-                foodWidgets.push(<FoodInputWidget parent={this} index={i} key={i + 1} food={food} date={(this.props.location.arrivalDate / 24 / 60 / 60000 + i) * 60000 * 60 * 24} />);
+                console.log((i + 2) * 8 + food.breakfast ? 1 : 0 + food.lunch ? 2 : 0 + food.dinner ? 4 : 0);
+                foodWidgets.push(<FoodInputWidget parent={this} index={i} key={((i + 2) * 8) + (food.breakfast ? 1 : 0) + (food.lunch ? 2 : 0) + (food.dinner ? 4 : 0)} food={food} date={(this.props.location.arrivalDate / 24 / 60 / 60000 + i) * 60000 * 60 * 24} />);
             }
         }
         if (foodWidgets.length == 1) {
@@ -444,14 +447,6 @@ export default class PointDetailInfo extends Component {
                                 ) : null
                             }
                             <div className="gti-section no-left-margin">
-                                <p className="trip-property-label">Provided food</p>
-                                <div ref={this.foodWrap} className="trip-point-food-wrap">
-                                    <div>
-                                        { foodWidgets }
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="gti-section no-left-margin">
                                 <p className="trip-property-label">{this.state.onlyLocation ? "Start" : "Arrival"}</p>
                                 <DateInput dateKey={"arrivalDate" + this.props.location.id} timeKey={"arrivalTime" + this.props.location.id} setTime={(time) => {this.setArrivalTime(time)}} setDate={(date) => {this.setArrivalDate(date)}} parent={this} highlightDate={highlightDate} defaultDate={this.props.location.arrivalDate} defaultTime={this.props.location.arrivalTime} />
                             </div>
@@ -463,16 +458,33 @@ export default class PointDetailInfo extends Component {
                     <DateInput dateKey={"departureDate" + this.props.location.id} timeKey={"departureTime" + this.props.location.id} setTime={(time) => {this.setDepartureTime(time)}} setDate={(date) => {this.setDepartureDate(date)}} parent={this} highlightDate={highlightDate} defaultDate={this.props.location.departureDate} defaultTime={this.props.location.departureTime} />
                 </div>
                 {
+                    !this.props.firstPoint || this.state.onlyLocation ? (
+                        <Fragment>
+                            <div className="gti-section no-left-margin">
+                                <p className="trip-property-label">Provided food</p>
+                                <div ref={this.foodWrap} className="trip-point-food-wrap">
+                                    <div>
+                                        { foodWidgets }
+                                    </div>
+                                </div>
+                            </div>
+                        </Fragment>
+                    ) : null
+                }
+                {
                     this.props.firstPoint && this.props.parent.state.tripObject.locations.length == 1 ? (
+                        <Fragment>
                         <div className="gti-section no-left-margin" style={{marginTop: "30px"}}>
-                            <p className="trip-property-label">Only Point</p>
+                            <p className="trip-property-label">Single Point Trip</p>
                             <button ripplecolor="gray" className="pd-only-point-button" onClick={() => {this.changeOnlyLocation()}}>
                                 <div className={"fiw-checkbox" + (this.state.onlyLocation ? " checked" : "")}>
                                     <i className="material-icons">done</i>
                                 </div>
-                                <p>Set as Only Point</p>
+                                <p>Set As Only Point</p>
                             </button>
                         </div>
+                        <p className="trip-only-point-info"><i className="material-icons">info</i>Select this option if you only want this trip to have one point (e.g. monthly long-term trip report)</p>
+                        </Fragment>
                     ) : null
                 }
             </Fragment>

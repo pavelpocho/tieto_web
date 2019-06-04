@@ -12,8 +12,7 @@
 }
 
 .circular-loader {
-    -webkit-animation: rotate 1.5s linear infinite;
-    animation: rotate 1.5s linear infinite;
+    animation: rotate 6s ease-in-out infinite;
     height: 100%;
     -webkit-transform-origin: center center;
     -ms-transform-origin: center center;
@@ -31,37 +30,37 @@
     -webkit-transform-origin: center center;
     -ms-transform-origin: center center;
     transform-origin: center center;
-    -webkit-animation: dash 1.5s ease-in-out infinite;
     animation: dash 1.5s ease-in-out infinite;
     stroke-linecap: round;
 }
 
-@-webkit-keyframes rotate {
-    0% {
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
-    }
-    100% {
-        -webkit-transform: rotate(100deg);
-        transform: rotate(100deg);
-    }
-}
-
 @keyframes rotate {
     0% {
-        -webkit-transform: rotate(0deg);
         transform: rotate(0deg);
     }
-    100% {
-        -webkit-transform: rotate(100deg);
-        transform: rotate(100deg);
+    12.5% {
+        transform: rotate(0deg);
     }
-}
-
-@-webkit-keyframes full-rotate {
+    25% {
+        transform: rotate(270deg);
+    }
+    37.5% {
+        transform: rotate(270deg);
+    }
+    50% {
+        transform: rotate(540deg);
+    }
+    62.5% {
+        transform: rotate(540deg);
+    }
+    75% {
+        transform: rotate(810deg);
+    }
+    87.5% {
+        transform: rotate(810deg);
+    }
     100% {
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
+        transform: rotate(1080deg);
     }
 }
 
@@ -69,21 +68,6 @@
     100% {
         -webkit-transform: rotate(360deg);
         transform: rotate(360deg);
-    }
-}
-
-@-webkit-keyframes dash {
-    0% {
-        stroke-dasharray: 2,200;
-        stroke-dashoffset: 0;
-    }
-    50% {
-        stroke-dasharray: 90,200;
-        stroke-dashoffset: 0;
-    }
-    100% {
-        stroke-dasharray: 2,200;
-        stroke-dashoffset: -90;
     }
 }
 @keyframes dash {
@@ -97,6 +81,6 @@
     }
     100% {
         stroke-dasharray: 2,200;
-        stroke-dashoffset: -90;
+        stroke-dashoffset: 0;
     }
 }

@@ -8,10 +8,27 @@ export default class FoodInputWidget extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            breakfastChecked: this.props.food ? this.props.food.breakfast : false,
-            lunchChecked: this.props.food ? this.props.food.lunch : false,
-            dinnerChecked: this.props.food ? this.props.food.dinner : false
+        if (this.props.all) {
+            var b = true;
+            var l = true;
+            var d = true;
+            for (var i = 0; i < this.props.foods.length; i++) {
+                if (!this.props.foods[i].breakfast) b = false;
+                if (!this.props.foods[i].lunch) l = false;
+                if (!this.props.foods[i].dinner) d = false;
+            }
+            this.state = {
+                breakfastChecked: b,
+                lunchChecked: l,
+                dinnerChecked: d
+            }
+        }
+        else {
+            this.state = {
+                breakfastChecked: this.props.food ? this.props.food.breakfast : false,
+                lunchChecked: this.props.food ? this.props.food.lunch : false,
+                dinnerChecked: this.props.food ? this.props.food.dinner : false
+            }
         }
 
         this.letters = [];
@@ -26,7 +43,7 @@ export default class FoodInputWidget extends Component {
 
     changeState(i) {
         this.setState(prevState => {
-            this.props.parent.setFood(this.props.index, i); //i says which food
+            this.props.parent.setFood(this.props.index, i, i == 0 ? !prevState.breakfastChecked : i == 1 ? !prevState.lunchChecked : !prevState.dinnerChecked); //i says which food
             if (i == 0) {
                 return {
                     breakfastChecked: !prevState.breakfastChecked
@@ -64,6 +81,30 @@ export default class FoodInputWidget extends Component {
                         <p className="food-type-title">Breakfast</p>
                         <p className="food-type-title">Lunch</p>
                         <p className="food-type-title">Dinner</p>
+                    </div>
+                </div>
+            )
+        }
+        else if (this.props.all) {
+            return (
+                <div className="food-input-widget">
+                    <div className="fiw-row">
+                        <p className="fiw-title">All</p>
+                        <div className="fiw-checkbox-wrap">
+                            <button ripplecolor="gray" onClick={() => {this.changeState(0)}} className={"fiw-checkbox" + (this.state.breakfastChecked ? " checked" : "")}>
+                                <i className="material-icons">done</i>
+                            </button>
+                        </div>
+                        <div className="fiw-checkbox-wrap">
+                            <button ripplecolor="gray" onClick={() => {this.changeState(1)}} className={"fiw-checkbox" + (this.state.lunchChecked ? " checked" : "")}>
+                                <i className="material-icons">done</i>
+                            </button>
+                        </div>
+                        <div className="fiw-checkbox-wrap">
+                            <button ripplecolor="gray" onClick={() => {this.changeState(2)}} className={"fiw-checkbox" + (this.state.dinnerChecked ? " checked" : "")}>
+                                <i className="material-icons">done</i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             )

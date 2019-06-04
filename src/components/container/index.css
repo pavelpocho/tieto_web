@@ -54,7 +54,7 @@ input.dark::placeholder {
     position: fixed;
     z-index: 100;
     right: 0;
-    bottom: 35.5px;
+    bottom: 66px;
     font-size: 13px;
     margin: 20px;
     color: black;
@@ -63,10 +63,20 @@ input.dark::placeholder {
     position: fixed;
     z-index: 100;
     right: 0;
+    bottom: 30.5px;
+    font-size: 13px;
+    margin: 20px;
+    color: black;
+}
+.changelog-link {
+    position: fixed !important;
+    z-index: 100;
+    right: 0;
     bottom: 0px;
     font-size: 13px;
     margin: 20px;
     color: black;
+    font-family: HelveticaNeue, sans-serif;
 }
 .api-version.dark, .web-app-version.dark {
     color: white;

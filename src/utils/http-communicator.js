@@ -3,9 +3,7 @@ import CookieManager from './cookie-manager';
 export default class HttpCommunicator {
 
     constructor() {
-        this.testUrl = "http://localhost:49292/api/";
-        this.prodUrl = "http://localhost:49292/api/";
-        this.url = this.testUrl;
+        this.url = window.location.href + "api/";
         this.genUrl = this.url.substring(0, this.url.length - 4);
         this.buffer = [];
         this.firing = false;
@@ -140,7 +138,7 @@ export default class HttpCommunicator {
     changeOnlyLocation(locationId, callback) { this.addPostToBuffer(this.url + "location/changeOnlyLocation/", callback, locationId) }
 
 
-    saveFood(locationId, dayIndex, foodIndex, callback) { this.addPostToBuffer(this.url + "location/saveFood/", callback, { locationId, dayIndex, foodIndex }) }
+    saveFood(locationId, dayIndex, foodIndex, select, callback) { this.addPostToBuffer(this.url + "location/saveFood/", callback, { locationId, dayIndex, foodIndex, select }) }
 
     deleteLocation(locationId, callback) { this.addPostToBuffer(this.url + "location/delete/", callback, locationId) }
 

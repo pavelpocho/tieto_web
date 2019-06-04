@@ -180,6 +180,20 @@
     margin: 0px 0px 0px 12px;
     font-size: 15px;
 }
+.trip-only-point-info {
+    color: gray;
+    margin: -14px 16px;
+    line-height: 22px;
+    height: 44px;
+    width: 563px;
+    padding: 0px 20px 0px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+.trip-only-point-info i {
+    display: none;
+}
 
 @media all/*screen*/ and (max-width: 1550px) {
     .pd-wrap {

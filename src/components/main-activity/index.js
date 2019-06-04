@@ -225,9 +225,9 @@ export default class MainActivity extends Component {
                 <div className="activity" id="main-activity" ref={this.ref}>
                     <div className={"ma-topbar-content" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
                         {/*<button className="ma-settings-toggle" title="Settings" onClick={() => {this.openSettings()}}><i className="material-icons">settings</i></button>*/}
-                        <button ripplecolor="gray" className={"ma-settings-toggle" + (ObjectContainer.isDarkTheme() ? " dark" : "")} title="Toggle Animations" onClick={() => {this.toggleAnimations()}}><i className={ObjectContainer.isAnimations() ? "material-icons" : (ObjectContainer.isDarkTheme() ? "material-icons blue dark" : "material-icons blue")}>offline_bolt</i></button>
+                        {/*<button ripplecolor="gray" className={"ma-settings-toggle" + (ObjectContainer.isDarkTheme() ? " dark" : "")} title="Toggle Animations" onClick={() => {this.toggleAnimations()}}><i className={ObjectContainer.isAnimations() ? "material-icons" : (ObjectContainer.isDarkTheme() ? "material-icons blue dark" : "material-icons blue")}>offline_bolt</i></button>
                         <button ripplecolor="gray" className={"ma-settings-toggle" + (ObjectContainer.isDarkTheme() ? " dark" : "")} title="Toggle Night Mode" onClick={() => {this.toggleNightMode()}}><i className="material-icons" style={{color: ObjectContainer.isDarkTheme() ? "yellow" : "", transformOrigin: "center", transform: "rotate(135deg)"}} >brightness_3</i></button>
-                        <div className="ma-toggle-separator"></div>
+                        <div className="ma-toggle-separator"></div>*/}
                         <button ripplecolor="gray" className={"ma-settings-toggle" + (ObjectContainer.isDarkTheme() ? " dark" : "")} title="Help" onClick={() => {this.openHelp()}}><i className="material-icons">help</i></button>
                         <button ripplecolor="gray" className={"ma-settings-toggle" + (ObjectContainer.isDarkTheme() ? " dark" : "")} title="Send Feedback" onClick={() => {this.openFeedback()}}><i className="material-icons">feedback</i></button>
                         <div className="ma-toggle-separator"></div>

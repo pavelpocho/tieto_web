@@ -9,7 +9,7 @@ export default class SaveIndicator extends Component {
         super(props);
         //state refers to -> 0 = saved, 1 = saving, 2 = failed
         this.state = {
-            status: 0,
+            status: this.props.defaultStatus,
             lastSaveDate: null
         }
 
@@ -53,9 +53,9 @@ export default class SaveIndicator extends Component {
                 <p className="si-trip-name">{this.props.name ? this.props.name : <i>Unnamed trip</i>}</p>
                 <div className="si-background" ref={this.ref}>
                     <div className="si-background-inner">
-                        <p className="si-state">{this.state.status == 0 ? "Saved" + saveTimeText : this.state.status == 1 ? "Saving..." : "Save failed!"}</p>
+                        <p className="si-state">{this.state.status == 0 ? "Saved" + saveTimeText : this.state.status == 1 ? "Saving..." : this.state.status == 2 ? "Save failed!" : "Nothing to save"}</p>
                         {
-                            this.state.status == 0 ? (
+                            this.state.status == 0 || this.state.status == 3 ? (
                                 <i className="material-icons si-icon">done</i>
                             ) : this.state.status == 1 ? (
                                 <Spinner  size={18} position={"relative"}/>

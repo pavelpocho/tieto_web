@@ -207,6 +207,7 @@ export default class TripPoint extends Component {
                 <div ref={this.master} className="trip-point-master-wrap">
                     <div className="tp-travel-line-wrap">
                         {
+                            //this was originaly crossTime > -2 and can now be very very broken!
                             crossTime > -2 ? (
                                 <button ripplecolor="gray" onClick={() => {this.props.parent.select(this.props.location.id)}} className="tp-border-cross-wrap" ref={this.crossWrap}>
                                     <p className="tp-border-cross-title">{crossFrom} <i className="material-icons">keyboard_arrow_right</i> {crossTo}: <span ref={this.title}>{display}</span></p>
@@ -218,6 +219,13 @@ export default class TripPoint extends Component {
                                     <p className="tp-border-cross-title">Timeline error</p>
                                     <div className="tp-separator"></div>                                
                                     <i className="material-icons tp-edit-icon" style={iconToDisplay == "priority_high" ? {color: "#FF4E0B"} : {}}>priority_high</i>
+                                </div>
+                            ) : prevLocation.city.country.name != nextLocation.city.country.name && prevLocation.city.country.name != "" && nextLocation.city.country.name != "" ? (
+                                //Unfinished info
+                                <div className="tp-border-cross-wrap" ref={this.crossWrap}>
+                                    <p className="tp-border-cross-title">Insufficient info</p>
+                                    <div className="tp-separator"></div>                                
+                                    <i className="material-icons tp-edit-icon" style={{color: "#FAA519"}}>info_outline</i>
                                 </div>
                             ) : null
                         }
