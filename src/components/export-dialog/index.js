@@ -55,8 +55,9 @@ export default class ExportDialog extends Component {
         document.body.onmousemove = (f) => {
             this.content.current.style.marginTop = "0px";
             this.content.current.style.marginLeft = "0px";
-            this.content.current.style.top = f.clientY - subtractY + "px";
-            this.content.current.style.left = f.clientX - subtractX + "px";
+            this.content.current.style.top = "0px";
+            this.content.current.style.left = "0px";
+            this.content.current.style.transform = "translate(" + (f.clientX - subtractX) + "px" + "," + (f.clientY - subtractY) + "px" + ")";
         }
         document.body.onmouseup = () => {
             document.body.onmousemove = null;
@@ -71,50 +72,50 @@ export default class ExportDialog extends Component {
         return (
             <div ref={this.wrap} className="export-dialog-wrap">
                 <Overlay ref={this.overlay} onClick={() => {this.back()}} />
-                <div ref={this.content} className="export-dialog-content">
+                <div ref={this.content} className={"export-dialog-content" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
                     <div className="edc-topbar" onMouseDown={(e) => {this.moveStart(e)}}>
-                        <button ripplecolor="gray" className="edc-back" onClick={() => {this.back()}}><i className="material-icons">arrow_back</i>Back</button>
-                        <p className="edc-title">Before you export...</p>
+                        <button ripplecolor="gray" className={"edc-back" + (ObjectContainer.isDarkTheme() ? " dark" : "")} onClick={() => {this.back()}}><i className="material-icons">arrow_back</i>Back</button>
+                        <p className={"edc-title" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Before you export...</p>
                         <span className="edc-span"></span>
                     </div>
-                    <p className="edc-list-title">We found some things you might want to check</p>
+                    <p className={"edc-list-title" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>We found some things you might want to check</p>
                     <ul className="edc-list">
                         {
                             t.purpose == "" ? (
-                                <li className="edc-warning">Your trip doesn't have a purpose.</li>
+                                <li className={"edc-warning" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Your trip doesn't have a purpose.</li>
                             ) : null
                         }
                         {
                             t.project == "" ? (
-                                <li className="edc-warning">Your trip doesn't have a project number.</li>
+                                <li className={"edc-warning" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Your trip doesn't have a project number.</li>
                             ) : null
                         }
                         {
                             t.task == "" ? (
-                                <li className="edc-warning">Your trip has no task number.</li>
+                                <li className={"edc-warning" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Your trip has no task number.</li>
                             ) : null
                         }
                         {
                             t.project != "" && t.project.length != 6 || isNaN(t.project) ? (
-                                <li className="edc-warning">Your trip's project has a non-standard format</li>
+                                <li className={"edc-warning" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Your trip's project has a non-standard format</li>
                             ) : null
                         }
                         {
                             t.task != "" && (!t.task.includes(".") || t.task.split(".")[0].length != 2 || t.task.split(".")[1].length != 1 || 
                             isNaN(t.task.split(".")[0]) || isNaN(t.task.split(".")[1])) ? (
-                                <li className="edc-warning">Your trip's task has a non-standard format</li>
+                                <li className={"edc-warning" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Your trip's task has a non-standard format</li>
                             ) : null
                         }
                     </ul>
-                    <p className="edc-sorry">Sorry for the annoyance if it was intentional! :)</p>
+                    <p className={"edc-sorry" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Sorry for the annoyance if it was intentional! :)</p>
                     <div className="edc-bottom-bar">
-                        <button ripplecolor="gray" className="stay-signed-button" onClick={() => {this.disableWarnings()}}>
-                            <div ripplecolor="gray" className={"fiw-checkbox uncheck-white" + (this.state.noWarnings ? " checked check-blue" : "")}>
+                        <button ripplecolor="gray" className={"stay-signed-button" + (ObjectContainer.isDarkTheme() ? " dark" : "")} onClick={() => {this.disableWarnings()}}>
+                            <div ripplecolor="gray" className={"fiw-checkbox uncheck-white" + (this.state.noWarnings ? " checked check-blue" : "") + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
                                 <i className="material-icons">done</i>
                             </div>
-                            <p className="no-again-text">Don't display this warning screen</p>
+                            <p className={"no-again-text" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Don't display this warning screen</p>
                         </button>
-                        <button className="edc-export" onClick={() => {this.props.parent.confirmExport(); this.close()}}>Export</button>
+                        <button className={"edc-export" + (ObjectContainer.isDarkTheme() ? " dark" : "")} onClick={() => {this.props.parent.confirmExport(); this.close()}}>Export</button>
                     </div>
                 </div>
             </div>

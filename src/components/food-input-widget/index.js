@@ -68,7 +68,7 @@ export default class FoodInputWidget extends Component {
             return (
                 <div className="food-input-widget">
                     <div className="fiw-row" style={{width: "326px"}}>
-                        <p className="food-type-title" style={{paddingTop: "4px", paddingBottom: "0px", width: "100%", color: "#777"}}>Set {this.props.onlyPoint ? "start" : "arrival"} & {this.props.onlyPoint ? "end" : "departure"} dates</p>
+                        <p className={"food-type-title" + (ObjectContainer.isDarkTheme() ? " dark" : "")} style={{paddingTop: "4px", paddingBottom: "0px", width: "100%", color: "#777"}}>Set {this.props.onlyPoint ? "start" : "arrival"} & {this.props.onlyPoint ? "end" : "departure"} dates</p>
                     </div>
                 </div>
             )
@@ -78,9 +78,9 @@ export default class FoodInputWidget extends Component {
                 <div className="food-input-widget">
                     <div className="fiw-row">
                         <p style={{color: "#f1f1f1", opacity: "0", width: "62px", margin: "0px"}}>Hi :0</p>
-                        <p className="food-type-title">Breakfast</p>
-                        <p className="food-type-title">Lunch</p>
-                        <p className="food-type-title">Dinner</p>
+                        <p className={"food-type-title" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Breakfast</p>
+                        <p className={"food-type-title" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Lunch</p>
+                        <p className={"food-type-title" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Dinner</p>
                     </div>
                 </div>
             )
@@ -91,17 +91,17 @@ export default class FoodInputWidget extends Component {
                     <div className="fiw-row">
                         <p className="fiw-title">All</p>
                         <div className="fiw-checkbox-wrap">
-                            <button ripplecolor="gray" onClick={() => {this.changeState(0)}} className={"fiw-checkbox" + (this.state.breakfastChecked ? " checked" : "")}>
+                            <button ripplecolor="gray" onClick={() => {this.changeState(0)}} className={"fiw-checkbox" + (this.state.breakfastChecked ? " checked" : "") + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
                                 <i className="material-icons">done</i>
                             </button>
                         </div>
                         <div className="fiw-checkbox-wrap">
-                            <button ripplecolor="gray" onClick={() => {this.changeState(1)}} className={"fiw-checkbox" + (this.state.lunchChecked ? " checked" : "")}>
+                            <button ripplecolor="gray" onClick={() => {this.changeState(1)}} className={"fiw-checkbox" + (this.state.lunchChecked ? " checked" : "") + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
                                 <i className="material-icons">done</i>
                             </button>
                         </div>
                         <div className="fiw-checkbox-wrap">
-                            <button ripplecolor="gray" onClick={() => {this.changeState(2)}} className={"fiw-checkbox" + (this.state.dinnerChecked ? " checked" : "")}>
+                            <button ripplecolor="gray" onClick={() => {this.changeState(2)}} className={"fiw-checkbox" + (this.state.dinnerChecked ? " checked" : "") + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
                                 <i className="material-icons">done</i>
                             </button>
                         </div>
@@ -115,17 +115,17 @@ export default class FoodInputWidget extends Component {
                     <div className="fiw-row">
                         <p className="fiw-title">{new Date(this.props.date).getUTCDate() + "." + (new Date(this.props.date).getUTCMonth() + 1)}</p>
                         <div className="fiw-checkbox-wrap">
-                            <button ripplecolor="gray" onClick={() => {this.changeState(0)}} className={"fiw-checkbox" + (this.state.breakfastChecked ? " checked" : "")}>
+                            <button ripplecolor="gray" onClick={() => {this.changeState(0)}} className={"fiw-checkbox" + (this.state.breakfastChecked ? " checked" : "") + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
                                 <i className="material-icons">done</i>
                             </button>
                         </div>
                         <div className="fiw-checkbox-wrap">
-                            <button ripplecolor="gray" onClick={() => {this.changeState(1)}} className={"fiw-checkbox" + (this.state.lunchChecked ? " checked" : "")}>
+                            <button ripplecolor="gray" onClick={() => {this.changeState(1)}} className={"fiw-checkbox" + (this.state.lunchChecked ? " checked" : "") + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
                                 <i className="material-icons">done</i>
                             </button>
                         </div>
                         <div className="fiw-checkbox-wrap">
-                            <button ripplecolor="gray" onClick={() => {this.changeState(2)}} className={"fiw-checkbox" + (this.state.dinnerChecked ? " checked" : "")}>
+                            <button ripplecolor="gray" onClick={() => {this.changeState(2)}} className={"fiw-checkbox" + (this.state.dinnerChecked ? " checked" : "") + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
                                 <i className="material-icons">done</i>
                             </button>
                         </div>

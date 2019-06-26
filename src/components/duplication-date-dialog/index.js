@@ -16,11 +16,9 @@ export default class DuplicationDateDialog extends Component {
         
         this.wrap = React.createRef();
         this.overlay = React.createRef();
-        console.log("dd const");
     }
 
     cancel() {
-        console.log("CANCELING");
         this.wrap.current.style.opacity = "0";
         this.overlay.current.div.current.style.opacity = "0";
         setTimeout(() => {
@@ -29,7 +27,6 @@ export default class DuplicationDateDialog extends Component {
     }
 
     componentDidMount() {
-        console.log("dd mount");
         setTimeout(() => {
             this.wrap.current.style.opacity = "1";
             this.overlay.current.div.current.style.opacity = "0.45";
@@ -46,13 +43,15 @@ export default class DuplicationDateDialog extends Component {
     }
 
     moveStart(e) {
-        var subtractX = e.clientX - this.wrap.current.offsetLeft;
-        var subtractY = e.clientY - this.wrap.current.offsetTop;
+        var t = this.wrap.current.style.transform;
+        var subtractX = e.clientX - this.wrap.current.offsetLeft - (t == "" ? 0 : parseInt(t.split("(")[1].split("px")[0]));
+        var subtractY = e.clientY - this.wrap.current.offsetTop - (t == "" ? 0 : parseInt(t.split(",")[1].split("px")[0]));
         document.body.onmousemove = (f) => {
             this.wrap.current.style.marginTop = "0px";
             this.wrap.current.style.marginLeft = "0px";
-            this.wrap.current.style.top = f.clientY - subtractY + "px";
-            this.wrap.current.style.left = f.clientX - subtractX + "px";
+            this.wrap.current.style.top = "0px";
+            this.wrap.current.style.left = "0px";
+            this.wrap.current.style.transform = "translate(" + (f.clientX - subtractX) + "px" + "," + (f.clientY - subtractY) + "px" + ")";
         }
         document.body.onmouseup = () => {
             document.body.onmousemove = null;
@@ -61,17 +60,16 @@ export default class DuplicationDateDialog extends Component {
     }
 
     render() {
-        console.log("dd render");
         return (
             <Fragment>
                 <Overlay ref={this.overlay} onClick={() => {this.cancel()}} />
-                <div className="dd-wrap" ref={this.wrap}>
+                <div className={"dd-wrap" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ref={this.wrap}>
                     <div className="dd-topbar" onMouseDown={(e) => {this.moveStart(e)}}>
-                        <button ripplecolor="gray" className="dd-cancel" onClick={() => {this.cancel()}}><i className="material-icons">arrow_back</i>Back</button>
-                        <p className="dd-title">Duplicate "{this.props.tripName}"</p>
+                        <button ripplecolor="gray" className={"dd-cancel" + (ObjectContainer.isDarkTheme() ? " dark" : "")} onClick={() => {this.cancel()}}><i className="material-icons">arrow_back</i>Back</button>
+                        <p className={"dd-title" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Duplicate "{this.props.tripName}"</p>
                         <span className="dd-span"></span>
                     </div>
-                    <div className="dd-content">
+                    <div className={"dd-content" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
                         <p>Select the start date of the duplicate. The other dates will be automatically adjusted.</p>
                         <DayInput color={"blue"} parent={this} default={null} highlight={this.props.highlightDate == null || this.props.highlightDate == -1 ? null : new Date(this.props.highlightDate)}/>
                     </div>

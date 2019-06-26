@@ -7,10 +7,16 @@
     justify-content: center;
     align-items: center;
 }
+.trip-point-button-circle.dark {
+    background-color:#1C6D9E;
+}
 .tpb-transit {
     background-color: #707070;
     height: 40px;
     border-radius: 20px;
+}
+.tpb-transit.dark {
+    background-color: #8F8F8F;
 }
 .trip-point-wrap {
     background-color: transparent;
@@ -29,9 +35,6 @@
 .trip-point-short > div > p {
     line-height: 52px;
 }
-.trip-point-texts {
-    
-}
 .add-point {
     margin-bottom: 50px;
     /*Is always last*/
@@ -41,11 +44,17 @@
 .trip-point-wrap:hover, .trip-point-wrap:active {
     background-color: #e1e1e1;
 }
+.trip-point-wrap.dark:hover, .trip-point-wrap.dark:active {
+    background-color: #1E1E1E;
+}
 .trip-point-text-first-line {
     margin: 0px 18px 0px 18px;
     font-size: 22px;
     padding-left: 12px;
     text-align: right;
+}
+.trip-point-text-first-line.dark {
+    color: #1C6D9E;
 }
 .trip-point-text-only-line {
     margin: 0px 18px 0px 18px;
@@ -55,24 +64,42 @@
     padding-left: 12px;
     text-align: right;
 }
+.trip-point-text-only-line.dark {
+    color: #BFBFBF;
+}
 .tpt-gray {
     color: #5F5F5F;
+}
+.tpt-gray.dark {
+    color: #A0A0A0;
 }
 .tp-add-point {
     line-height: 70px;
     color: #5F5F5F;
+}
+.tp-add-point {
+    color: #A0A0A0;
 }
 .trip-point-text-second-line {
     margin: 0px 18px 0px 18px;
     text-align: right;
     font-size: 17px;
 }
+.trip-point-text-second-line.dark {
+    color: #1C6D9E;
+}
 .tp-gray-text {
     color: #5F5F5F;
+}
+.tp-gray-text.dark {
+    color: #A0A0A0;
 }
 .trip-point-plus {
     font-size: 34px !important;
     color: white;
+}
+.trip-point-plus.dark {
+    color: black;
 }
 .trip-point-placeholder-circle {
     height: 16px;
@@ -165,8 +192,15 @@
     transition: opacity 0.31s, background-color 0.21s;
     margin-right: 24px;
 }
+.tp-border-cross-wrap.dark {
+    background-color: #0A0A0A;
+    border: 3px solid #0A0A0A;
+}
 button.tp-border-cross-wrap:hover, button.tp-border-cross-wrap:active {
     background-color: white;
+}
+button.tp-border-cross-wrap.dark:hover, button.tp-border-cross-wrap.dark:active {
+    background-color: black;
 }
 .tp-border-cross-title {
     color: #5F5F5F;
@@ -177,15 +211,26 @@ button.tp-border-cross-wrap:hover, button.tp-border-cross-wrap:active {
     display: flex;
     align-items: center;
 }
+.tp-border-cross-title.dark {
+    color: #A0A0A0;
+}
 .tp-border-cross-title span {
     margin-left: 8px;
     font-size: 17px;
     color: #62B3E4;
 }
+.tp-border-cross-title.dark span {
+    margin-left: 8px;
+    font-size: 17px;
+    color: #1C6D9E;
+}
 .tp-separator {
     height: 20px;
     width: 2px;
     background-color: #aaa;
+}
+.tp-separator.dark {
+    background-color: #5F5F5F;
 }
 .tp-edit-icon {
     color: #777;
@@ -197,11 +242,8 @@ button.tp-border-cross-wrap:hover, button.tp-border-cross-wrap:active {
     margin: 0px 6px 0px 4px;
     font-size: 21px !important;
 }
-.tp-add-transit-wrap {
-    width: 30px;
-    height: 30px;
-    margin-right: 40px;
-    margin-top: 4px;
+.tp-edit-icon.dark {
+    color: #8F8F8F;
 }
 .tp-add-transit-button {
     height: 29px;
@@ -212,8 +254,14 @@ button.tp-border-cross-wrap:hover, button.tp-border-cross-wrap:active {
     border-radius: 100%;
     color: #444;
 }
+.tp-add-transit-button.dark {
+    color: #A0A0A0;
+}
 .tp-add-transit-button:hover, .tp-add-transit-button:active {
     background-color: #e1e1e1;
+}
+.tp-add-transit-button.dark:hover, .tp-add-transit-button.dark:active {
+    background-color: #1E1E1E;
 }
 .tp-country-dot-arrival {
     display: block;
@@ -223,6 +271,9 @@ button.tp-border-cross-wrap:hover, button.tp-border-cross-wrap:active {
     margin-left: 0px !important;
     margin-right: 8px !important;
     background-color: #5F5F5F;
+}
+.tp-country-dot-arrival.dark {
+    background-color: #A0A0A0;
 }
 .tp-country-dot-departure {
     display: block;

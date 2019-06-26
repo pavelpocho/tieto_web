@@ -34,7 +34,7 @@ export default class GeneralTripInfo extends Component {
     }
 
     randomTitlePlaceholder() {
-        var titles = ["Title", "Title", "Title", "Vacation", "Best Trip Ever", "Life's Journey", "More Travels", "To The Moon And Back"]
+        var titles = ["Name", "Name", "Name", "Vacation", "Best Trip Ever", "Life's Journey", "More Travels", "To The Moon And Back"]
         var random = Math.random();
         var max = 1;
         for (var i = 1; i < 8; i++) {
@@ -46,7 +46,7 @@ export default class GeneralTripInfo extends Component {
     }
 
     randomPurposePlaceholder() {
-        var purposes = ["Purpose", "Purpose", "Purpose", "Save The Day", "Get The Deal", "Rescue Mission", "Relax", "To Travel The World"]
+        var purposes = ["Purpose", "Purpose", "Purpose", "Salvation", "Get The Deal", "Rescue Mission", "Relax", "To Travel The World"]
         var random = Math.random();
         var max = 1;
         for (var i = 1; i < 8; i++) {
@@ -98,7 +98,7 @@ export default class GeneralTripInfo extends Component {
         return (
             <div className="gti-wrap">
                 <div className="gti-section less-top">
-                    <p className="trip-property-label">Title</p>
+                    <p className="trip-property-label">Trip Name<i style={{fontSize: "20px", marginLeft: "8px", color: "#888"}}className="material-icons" title="This will not be shown in the Trip Report">info_outline</i></p>
                     <input className={ObjectContainer.isDarkTheme() ? "dark" : ""} autoComplete="off" onFocus={() => {this.setState({defaultTitle: this.props.title})}} defaultValue={this.props.title} onChange={(e) => {this.props.parent.update("title", e.target.value)}} onBlur={(e) => {if (e.target.value !== this.state.defaultTitle) this.props.parent.autoSave("title", e.target.value)}} ref={this.title} placeholder={this.state.titlePlaceholder} ></input>
                 </div>
                 <div className="gti-section">

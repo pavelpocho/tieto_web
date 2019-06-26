@@ -78,6 +78,47 @@ input.dark::placeholder {
     color: black;
     font-family: HelveticaNeue, sans-serif;
 }
-.api-version.dark, .web-app-version.dark {
-    color: white;
+.api-version.dark, .web-app-version.dark, .changelog-link.dark {
+    color: #999;
+}
+.perfTestBackground {
+    position: fixed;
+    width: 400%;
+    height: 100px;
+    left: -150%;
+    bottom: 0px;
+    background-color: white;
+    z-index: 100;
+    display: flex;
+}
+.perfTestBackground.dark {
+    background-color: black;
+}
+.perfTestElement {
+    background-color: #ddd;
+    border-radius: 4px;
+    height: 20px;
+    width: 20px;
+    margin-right: 20px;
+    z-index: 1;
+}
+.perfTestElement.dark {
+    background-color: #333;
+}
+#perfTestText {
+    color: #aaa;
+    font-size: 22px;
+    height: 30px;
+    line-height: 30px;
+    position: absolute;
+    bottom: 35px;
+    left: 50%;
+    width: 600px;
+    z-index: 2;
+    text-align: center;
+    margin: 0px;
+    margin-left: -300px;
+}
+#perfTestText.dark {
+    color: #666;
 }

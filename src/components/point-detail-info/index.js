@@ -352,10 +352,8 @@ export default class PointDetailInfo extends Component {
         foodWidgets.push(<FoodInputWidget title={true} key={0}/>);
         if (this.props.location.departureDate != null && this.props.location.departureDate != -1 && this.props.location.arrivalDate != null && this.props.location.arrivalDate != -1 && this.props.location.food) {
             foodWidgets.push(<FoodInputWidget all={true} key={1} index={-1} parent={this} foods={this.props.location.food.days} />);
-            console.log("Key list:");
             for (var i = 0; i < (this.props.location.departureDate / 24 / 60 / 60000) - (this.props.location.arrivalDate / 24 / 60 / 60000) + 1; i++) {
                 let food = this.props.location.food.days[i];
-                console.log((i + 2) * 8 + food.breakfast ? 1 : 0 + food.lunch ? 2 : 0 + food.dinner ? 4 : 0);
                 foodWidgets.push(<FoodInputWidget parent={this} index={i} key={((i + 2) * 8) + (food.breakfast ? 1 : 0) + (food.lunch ? 2 : 0) + (food.dinner ? 4 : 0)} food={food} date={(this.props.location.arrivalDate / 24 / 60 / 60000 + i) * 60000 * 60 * 24} />);
             }
         }
@@ -387,10 +385,10 @@ export default class PointDetailInfo extends Component {
         //isCrossing or transit
         const modificationWarning = this.props.location.sectionModified && (this.props.location.transit || this.props.location.isCrossing) ? (
             <Fragment>
-                <div className="pdi-reset-separator"></div>
+                <div className={"pdi-reset-separator" + (ObjectContainer.isDarkTheme() ? " dark" : "")}></div>
                 <div className="pdi-reset-wrap">
-                    <p className="pdi-reset-text">You manually changed some info about your travel from {this.from} to {this.to}. You can reset the values here.</p>
-                    <button ref={this.reset} ripplecolor="gray" className="pdi-reset-button" onClick={() => {this.resetModifications()}}><i className="material-icons">refresh</i>Reset travel between {this.from} and {this.to}</button>
+                    <p className={"pdi-reset-text" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>You manually changed some info about your travel from {this.from} to {this.to}. You can reset the values here.</p>
+                    <button ref={this.reset} ripplecolor="gray" className={"pdi-reset-button" + (ObjectContainer.isDarkTheme() ? " dark" : "")} onClick={() => {this.resetModifications()}}><i className="material-icons">refresh</i>Reset travel between {this.from} and {this.to}</button>
                 </div>
             </Fragment>
         ) : null
@@ -399,20 +397,20 @@ export default class PointDetailInfo extends Component {
         const specialPart = this.props.location.transit ? (
             <Fragment>
                 <div className="gti-section no-left-margin above">
-                    <p className="trip-property-label">Country *</p>
+                    <p className={"trip-property-label" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Country *</p>
                     <div className="city-input">
-                        <input key={this.props.location && this.props.location.city ? this.props.location.city.country.name : "country_name"} onFocus={() => {this.setState({defaultCountry: this.props.location && this.props.location.city ? this.props.location.city.country.name : ""})}} onBlur={(e) => {this.selectFirstCountry(e.target)}} onKeyUp={(e) => {this.validateCountry(e.target)}} defaultValue={this.props.location ? this.props.location.city ? this.props.location.city.country.name : "" : ""} ref={this.country} placeholder={this.state.countryPlaceholder} ></input>
+                        <input className={(ObjectContainer.isDarkTheme() ? "dark" : "")} key={this.props.location && this.props.location.city ? this.props.location.city.country.name : "country_name"} onFocus={() => {this.setState({defaultCountry: this.props.location && this.props.location.city ? this.props.location.city.country.name : ""})}} onBlur={(e) => {this.selectFirstCountry(e.target)}} onKeyUp={(e) => {this.validateCountry(e.target)}} defaultValue={this.props.location ? this.props.location.city ? this.props.location.city.country.name : "" : ""} ref={this.country} placeholder={this.state.countryPlaceholder} ></input>
                         <CountrySuggestions ref={this.countryPicker} parent={this} suggestions={this.state.disableCountrySuggestor ? null : this.state.countrySuggestions} />
                     </div>
                 </div>
-                <div className="pd-transit-info">
+                <div className={"pd-transit-info" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
                     <p>* This is a country you passed through when going from {this.from} to {this.to}</p>
                 </div>
             </Fragment>
         ) : this.props.location.isCrossing ? (
             <Fragment>
                 <div className="gti-section no-left-margin">
-                    <p className="trip-property-label">Border crossing *</p>
+                    <p className={"trip-property-label" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Border crossing *</p>
                     <DateInput dateKey={"crossedAtDate" + this.props.location.id} timeKey={"crossedAtTime" + this.props.location.id} ref={this.borderCrossRef} setTime={(time) => {this.setCrossTime(time)}} setDate={(date) => {this.setCrossDate(date)}} parent={this} highlightDate={highlightDate} defaultDate={this.props.location.crossedAtDate} defaultTime={this.props.location.crossedAtTime} />
                 </div>
                 <div className="pd-transit-info">
@@ -423,10 +421,10 @@ export default class PointDetailInfo extends Component {
             <Fragment>
                 {/*Styles for gti-section and trip-property-label are in general-trip-info, because they are the same*/}
                 <div className="gti-section no-left-margin above">
-                    <p className="trip-property-label">City</p>
+                    <p className={"trip-property-label" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>City</p>
                     <div className="city-input">
-                        <input onFocus={() => {this.setState({defaultCity: this.props.location && this.props.location.city ? this.props.location.city.name : ""})}} onBlur={(e) => {this.selectFirstCity(e.target)}} onKeyUp={(e) => {this.validateCity(e.target)}} defaultValue={this.props.location ? this.props.location.city ? this.props.location.city.name : "" : ""} ref={this.city} placeholder={this.state.cityPlaceholder} ></input>
-                        <p ref={this.country} className="city-country-info">{this.props.location && this.props.location.city ? this.props.location.city.country.name : ""}</p>
+                        <input className={(ObjectContainer.isDarkTheme() ? "dark" : "")} onFocus={() => {this.setState({defaultCity: this.props.location && this.props.location.city ? this.props.location.city.name : ""})}} onBlur={(e) => {this.selectFirstCity(e.target)}} onKeyUp={(e) => {this.validateCity(e.target)}} defaultValue={this.props.location ? this.props.location.city ? this.props.location.city.name : "" : ""} ref={this.city} placeholder={this.state.cityPlaceholder} ></input>
+                        <p ref={this.country} className={("city-country-info") + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{this.props.location && this.props.location.city ? this.props.location.city.country.name : ""}</p>
                         <CitySuggestions ref={this.cityPicker} parent={this} suggestions={this.state.disableCitySuggestor ? null : this.state.citySuggestions} />
                     </div>
                 </div>
@@ -436,33 +434,33 @@ export default class PointDetailInfo extends Component {
                             {
                                 !this.state.onlyLocation ? (
                                     <div className="gti-section no-left-margin">
-                                        <p className="trip-property-label">Inbound travel</p>
-                                        <div className="travel-picker">
-                                            <button onClick={() => {this.selectTravel(1)}} ripplecolor="gray" className={"tp-button" + (this.state.travel == 1 ? " tp-selected" : "")}><i className="material-icons">directions_car</i><p>Car</p></button>
-                                            <button onClick={() => {this.selectTravel(2)}} ripplecolor="gray" className={"tp-button" + (this.state.travel == 2 ? " tp-selected" : "")}><i className="material-icons">train</i><p>Bus / Train</p></button>
-                                            <button onClick={() => {this.selectTravel(4)}} ripplecolor="gray" className={"tp-button" + (this.state.travel == 4 ? " tp-selected" : "")}><i className="material-icons">directions_boat</i><p>Ship</p></button>
-                                            <button onClick={() => {this.selectTravel(3)}} ripplecolor="gray" className={"tp-button" + (this.state.travel == 3 ? " tp-selected" : "")}><i className="material-icons" style={{transform: "rotate(45deg)"}}>airplanemode_active</i><p>Plane</p></button>
+                                        <p className={"trip-property-label" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Inbound travel</p>
+                                        <div className={"travel-picker" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
+                                            <button onClick={() => {this.selectTravel(1)}} ripplecolor="gray" className={"tp-button" + (this.state.travel == 1 ? " tp-selected" : "") + (ObjectContainer.isDarkTheme() ? " dark" : "")}><i className="material-icons">directions_car</i><p>Car</p></button>
+                                            <button onClick={() => {this.selectTravel(2)}} ripplecolor="gray" className={"tp-button" + (this.state.travel == 2 ? " tp-selected" : "") + (ObjectContainer.isDarkTheme() ? " dark" : "")}><i className="material-icons">train</i><p>Bus / Train</p></button>
+                                            <button onClick={() => {this.selectTravel(4)}} ripplecolor="gray" className={"tp-button" + (this.state.travel == 4 ? " tp-selected" : "") + (ObjectContainer.isDarkTheme() ? " dark" : "")}><i className="material-icons">directions_boat</i><p>Ship</p></button>
+                                            <button onClick={() => {this.selectTravel(3)}} ripplecolor="gray" className={"tp-button" + (this.state.travel == 3 ? " tp-selected" : "") + (ObjectContainer.isDarkTheme() ? " dark" : "")}><i className="material-icons" style={{transform: "rotate(45deg)"}}>airplanemode_active</i><p>Plane</p></button>
                                         </div>
                                     </div>
                                 ) : null
                             }
                             <div className="gti-section no-left-margin">
-                                <p className="trip-property-label">{this.state.onlyLocation ? "Start" : "Arrival"}</p>
+                                <p className={"trip-property-label" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{this.state.onlyLocation ? "Start" : "Arrival"}</p>
                                 <DateInput dateKey={"arrivalDate" + this.props.location.id} timeKey={"arrivalTime" + this.props.location.id} setTime={(time) => {this.setArrivalTime(time)}} setDate={(date) => {this.setArrivalDate(date)}} parent={this} highlightDate={highlightDate} defaultDate={this.props.location.arrivalDate} defaultTime={this.props.location.arrivalTime} />
                             </div>
                         </Fragment>
                     ) : null
                 }
                 <div className="gti-section no-left-margin">
-                    <p className="trip-property-label">{this.state.onlyLocation ? "End" : "Departure"}</p>
+                    <p className={"trip-property-label" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{this.state.onlyLocation ? "End" : "Departure"}</p>
                     <DateInput dateKey={"departureDate" + this.props.location.id} timeKey={"departureTime" + this.props.location.id} setTime={(time) => {this.setDepartureTime(time)}} setDate={(date) => {this.setDepartureDate(date)}} parent={this} highlightDate={highlightDate} defaultDate={this.props.location.departureDate} defaultTime={this.props.location.departureTime} />
                 </div>
                 {
                     !this.props.firstPoint || this.state.onlyLocation ? (
                         <Fragment>
                             <div className="gti-section no-left-margin">
-                                <p className="trip-property-label">Provided food</p>
-                                <div ref={this.foodWrap} className="trip-point-food-wrap">
+                                <p className={"trip-property-label" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Provided food</p>
+                                <div ref={this.foodWrap} className={"trip-point-food-wrap" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
                                     <div>
                                         { foodWidgets }
                                     </div>
@@ -475,8 +473,8 @@ export default class PointDetailInfo extends Component {
                     this.props.firstPoint && this.props.parent.state.tripObject.locations.length == 1 ? (
                         <Fragment>
                         <div className="gti-section no-left-margin" style={{marginTop: "30px"}}>
-                            <p className="trip-property-label">Single Point Trip</p>
-                            <button ripplecolor="gray" className="pd-only-point-button" onClick={() => {this.changeOnlyLocation()}}>
+                            <p className={"trip-property-label" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Single Point Trip</p>
+                            <button ripplecolor="gray" className={"pd-only-point-button" + (ObjectContainer.isDarkTheme() ? " dark" : "")} onClick={() => {this.changeOnlyLocation()}}>
                                 <div className={"fiw-checkbox" + (this.state.onlyLocation ? " checked" : "")}>
                                     <i className="material-icons">done</i>
                                 </div>
@@ -490,14 +488,14 @@ export default class PointDetailInfo extends Component {
             </Fragment>
         )
         return (
-            <div className="pd-wrap" ref={this.wrap} style={!this.props.animate && this.props.location && this.props.location.id > -1 ? {opacity: 1, transform: "translateX(0px)", display: "block", zIndex: this.props.zIndex.toString()} : {zIndex: this.props.zIndex.toString()}}>
+            <div className={"pd-wrap" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ref={this.wrap} style={!this.props.animate && this.props.location && this.props.location.id > -1 ? {opacity: 1, transform: "translateX(0px)", display: "block", zIndex: this.props.zIndex.toString()} : {zIndex: this.props.zIndex.toString()}}>
                 <span ref={this.inner}>
                     <div className="pd-topbar">
-                        <button ripplecolor="gray" className="pd-back" onClick={() => {this.props.pointSelector.select(-1)}}>
+                        <button ripplecolor="gray" className={"pd-back" + (ObjectContainer.isDarkTheme() ? " dark" : "")} onClick={() => {this.props.pointSelector.select(-1)}}>
                             <i className="material-icons">arrow_back</i>
                             Back
                         </button>
-                        <button style={{display: (this.props.location.isCrossing || this.props.location.onlyLocation) ? "none" : ""}} ripplecolor="gray" className="pd-back pd-del" onClick={() => {this.props.parent.removePoint(this.props.location)}}>
+                        <button style={{display: (this.props.location.isCrossing || this.props.location.onlyLocation) ? "none" : ""}} ripplecolor="gray" className={"pd-back pd-del" + (ObjectContainer.isDarkTheme() ? " dark" : "")} onClick={() => {this.props.parent.removePoint(this.props.location)}}>
                             <i className="material-icons">delete</i>
                             Delete
                         </button>

@@ -13,11 +13,13 @@
     position: fixed;
     background-color: white;
     border-radius: 10px;
-    box-shadow: 1px 1px 10px -4px #999;
     top: 50%;
     left: 50%;
     margin-left: -350px;
     z-index: 12;
+}
+.export-dialog-content.dark {
+    background-color: black;
 }
 .edc-topbar {
     display: flex;
@@ -31,6 +33,9 @@
     margin: 0px;
     line-height: 72px;
 }
+.edc-title.dark {
+    color: #aaa;
+}
 .edc-back {
     height: 36px;
     padding: 0px 9px 0px 6px;
@@ -43,8 +48,14 @@
     color: #5F5F5F;
     transition: background-color 0.31s;
 }
+.edc-back.dark {
+    color: #A0A0A0;
+}
 .edc-back:hover {
     background-color: #f1f1f1;
+}
+.edc-back.dark:hover {
+    background-color: #0f0f0f;
 }
 .edc-back i {
     margin-right: 6px;
@@ -59,6 +70,9 @@
     text-align: center;
     color: #444;
 }
+.edc-list-title.dark {
+    color: #AAA;
+}
 .edc-warning {
     font-size: 17px;
     height: 40px;
@@ -66,6 +80,9 @@
     color: #FF4E0B;
     text-align: left;
     font-family: HelveticaNeue, sans-serif;
+}
+.edc-warning.dark {
+    color: #c32600;
 }
 .edc-list {
     width: 400px;
@@ -80,6 +97,10 @@
     color: #5F5F5F;
     text-align: center;
     margin: 20px 100px;
+}
+.edc-sorry.dark {
+    color: #A0A0A0;
+    border-top: 2px solid #333;
 }
 .edc-bottom-bar {
     display: flex;
@@ -100,6 +121,10 @@
     color: white;
     font-weight: bold;
 }
+.edc-export.dark {
+    background-color: #1C6D9E;
+    color: black;
+}
 
 .no-again-text {
     margin: 0px 8px;
@@ -107,4 +132,7 @@
     font-size: 17px;
     line-height: 25px;
     height: 25px;
+}
+.no-again-text.dark {
+    color: #AAA;
 }

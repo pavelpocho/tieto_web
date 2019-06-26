@@ -9,8 +9,111 @@
         user-scalable=no, target-densitydpi=device-dpi"/>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="icon" href="./icon3.0.ico"/>
+        <style>
+            #init-loader {
+                position: relative;
+                margin: 0px 10px 0px 4px;
+                width: 18px;
+                height: 18px;
+                -webkit-transform-origin: center center;
+                -ms-transform-origin: center center;
+                transform-origin: center center;
+                animation: full-rotate 2s linear infinite;
+                -webkit-animation: full-rotate 2s linear infinite;
+                z-index: 11;
+            }
+
+            #init-circular-loader {
+                animation: rotate 6s ease-in-out infinite;
+                height: 100%;
+                -webkit-transform-origin: center center;
+                -ms-transform-origin: center center;
+                transform-origin: center center;
+                width: 100%;
+                position: absolute;
+                top: 0;
+                left: 0;
+                margin: auto;
+            }
+
+            #init-loader-path {
+                stroke-dasharray: 150,200;
+                stroke-dashoffset: -10;
+                -webkit-transform-origin: center center;
+                -ms-transform-origin: center center;
+                transform-origin: center center;
+                animation: dash 1.5s ease-in-out infinite;
+                stroke-linecap: round;
+            }
+
+            @keyframes rotate {
+                0% {
+                    transform: rotate(0deg);
+                }
+                12.5% {
+                    transform: rotate(0deg);
+                }
+                25% {
+                    transform: rotate(270deg);
+                }
+                37.5% {
+                    transform: rotate(270deg);
+                }
+                50% {
+                    transform: rotate(540deg);
+                }
+                62.5% {
+                    transform: rotate(540deg);
+                }
+                75% {
+                    transform: rotate(810deg);
+                }
+                87.5% {
+                    transform: rotate(810deg);
+                }
+                100% {
+                    transform: rotate(1080deg);
+                }
+            }
+
+            @keyframes full-rotate {
+                100% {
+                    -webkit-transform: rotate(360deg);
+                    transform: rotate(360deg);
+                }
+            }
+            @keyframes dash {
+                0% {
+                    stroke-dasharray: 2,200;
+                    stroke-dashoffset: 0;
+                }
+                50% {
+                    stroke-dasharray: 90,200;
+                    stroke-dashoffset: 0;
+                }
+                100% {
+                    stroke-dasharray: 2,200;
+                    stroke-dashoffset: 0;
+                }
+            }
+        </style>
     </head>
     <body>
+        <div id="init-loader">
+            <svg id="init-circular-loader" viewBox="25 25 50 50" >
+                <circle id="init-loader-path" cx="50" cy="50" r="20" fill="none" stroke="lightgray" stroke-width="4" />
+            </svg>
+        </div>
+        <script>
+            var loader = document.getElementById("init-loader");
+            loader.style.height = "50px";
+            loader.style.width = "50px";
+            loader.style.position = "fixed";
+            loader.style.left = "50%";
+            loader.style.top = "50%";
+            loader.style.marginLeft = "-25px";
+            loader.style.marginTop = "-25px";
+        </script>
         <div id="app-root"></div>
     </body>
 </html>

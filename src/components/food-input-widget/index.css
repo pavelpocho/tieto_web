@@ -30,8 +30,15 @@
     align-items: center;
     box-sizing: border-box;
 }
+.fiw-checkbox.dark {
+    border: 2px solid #8F8F8F;
+    background-color: #0F0F0F;
+}
 .fiw-checkbox:hover, .fiw-checkbox:active {
     background-color: #e6e6e6;
+}
+.fiw-checkbox.dark:hover, .fiw-checkbox.dark:active {
+    background-color: #191919;
 }
 .fiw-checkbox-wrap {
     width: 88px;
@@ -46,11 +53,21 @@
     margin-top: 1px;
     font-size: 19px !important;
 }
+.fiw-checkbox.dark i {
+    color: black;
+}
 .checked {
     background-color: #FAA519;
     border: 2px solid #FAA519;
 }
+.checked.dark {
+    background-color: #e79206;
+    border: 2px solid #e79206;
+}
 .checked:hover, .checked:active {
+    background-color: #EA9509;
+}
+.checked.dark:hover, .checked.dark:active {
     background-color: #EA9509;
 }
 .checked i {
@@ -62,4 +79,7 @@
     text-align: center;
     margin: 0px;
     width: 88px;
+}
+.food-type-title.dark {
+    color: #BFBFBF;
 }

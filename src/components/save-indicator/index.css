@@ -15,6 +15,9 @@
     overflow: hidden;
     transition: width 0.51s cubic-bezier(0.19, 1, 0.22, 1);
 }
+.si-background.dark {
+    background-color: #1E1E1E;
+}
 .si-background-inner {
     display: flex;
     height: 40px;
@@ -24,11 +27,17 @@
     margin: 0px 8px;
     cursor: default;
 }
+.si-trip-name.dark {
+    color: #1C6D9E;
+}
 .si-state, .si-icon {
     color: #5F5F5F;
     margin: 0px 8px;
     cursor: default;
     white-space: nowrap;
+}
+.si-state.dark, .si-icon.dark {
+    color: #A0A0A0;
 }
 .si-retry {
     background-color: transparent;
@@ -39,7 +48,14 @@
     text-decoration: underline;
     white-space: nowrap;
 }
+.si-retry.dark {
+    color: #A0A0A0;
+}
 .si-retry:hover, .si-retry:active {
     cursor: pointer;
     color: black;
+}
+.si-retry.dark:hover, .si-retry.dark:active {
+    cursor: pointer;
+    color: white;
 }

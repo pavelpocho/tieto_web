@@ -32,8 +32,14 @@
     padding: 0px 20px 0px 14px;
     border-radius: 24px;
 }
+#trip-activity .back-button.dark {
+    color: #A0A0A0;
+}
 #trip-activity .back-button:hover, #trip-activity .back-button:active {
     background-color: #ececec;
+}
+#trip-activity .back-button.dark:hover, #trip-activity .back-button.dark:active {
+    background-color: #131313;
 }
 #trip-activity .back-icon {
     margin-right: 16px;

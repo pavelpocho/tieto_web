@@ -50,21 +50,23 @@ export default class SaveIndicator extends Component {
 
         return (
             <div className="save-indicator">
-                <p className="si-trip-name">{this.props.name ? this.props.name : <i>Unnamed trip</i>}</p>
-                <div className="si-background" ref={this.ref}>
+                <p className={"si-trip-name" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{this.props.name ? this.props.name : <i>Unnamed trip</i>}</p>
+                <div className={"si-background" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ref={this.ref}>
                     <div className="si-background-inner">
-                        <p className="si-state">{this.state.status == 0 ? "Saved" + saveTimeText : this.state.status == 1 ? "Saving..." : this.state.status == 2 ? "Save failed!" : "Nothing to save"}</p>
+                        <p className={"si-state" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{this.state.status == 0 ? "Saved" + saveTimeText : this.state.status == 1 ? "Saving..." : this.state.status == 2 ? "Save failed!" : "Nothing to save"}</p>
                         {
                             this.state.status == 0 || this.state.status == 3 ? (
                                 <i className="material-icons si-icon">done</i>
                             ) : this.state.status == 1 ? (
-                                <Spinner  size={18} position={"relative"}/>
+                                <Spinner size={18} position={"relative"} />
                             ) : (
                                 <Fragment>
-                                    <i className="material-icons si-icon" style={{color: "red"}}>clear</i>
+                                    <i className={"material-icons si-icon" + (ObjectContainer.isDarkTheme() ? " dark" : "")} style={{color: "red"}}>clear</i>
                                     {
-                                        this.props.admin ? null : (
-                                            <button className="si-retry" ripplecolor="none" onClick={() => {this.props.parent.forceSave(() => {})}}>Click to retry</button>
+                                        this.props.admin ? (
+                                            <button className={"si-retry" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ripplecolor="none" onClick={() => {window.location.reload()}}>Reload Page</button>
+                                        ) : (
+                                            <button className={"si-retry" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ripplecolor="none" onClick={() => {this.props.parent.forceSave(() => {})}}>Click to retry</button>
                                         )
                                     }
                                 </Fragment>

@@ -15,10 +15,6 @@ export default class DateInput extends Component {
             this.props.setDate(undefined);
         }
         else {
-            console.log("Saving date:");
-            console.log("Day: " + day);
-            console.log("Month: " + month);
-            console.log("Year: " + year);
             let d = new Date(year, month, day);
             d.setUTCDate(day);
             d.setUTCMonth(month);
@@ -37,8 +33,6 @@ export default class DateInput extends Component {
     }
 
     render() {
-        console.log("Highlight date is ->");
-        console.log(this.props.highlightDate);
         return (
             <div>
                 <TimeInput key={this.props.defaultTime ? this.props.defaultTime : this.props.timeKey} parent={this} default={this.props.defaultTime} />

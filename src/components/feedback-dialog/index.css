@@ -20,6 +20,10 @@
     margin-left: -450px;
     z-index: 12;
 }
+.feedback-dialog-content.dark {
+    background-color: black;
+    box-shadow: 1px 1px 10px -4px #444;
+}
 .feedback-empty {
     color: #444;
     text-align: center;
@@ -30,6 +34,9 @@
     width: 180px;
     margin-top: -10px;
     margin-left: -90px;
+}
+.feedback-empty.dark {
+    color: #aaa;
 }
 .feedback-type-icon > .state-wrap {
     margin: 0px;
@@ -43,9 +50,15 @@
     margin-bottom: 12px;
     align-items: center;
 }
+.feedback-type-wrap.dark {
+    background-color: black;
+}
 .feedback-type-wrap p {
     color: #5F5F5F;
     margin-left: 12px;
+}
+.feedback-type-wrap.dark p {
+    color: #A0A0A0;
 }
 .feedback-text-input {
     position: relative;
@@ -58,10 +71,17 @@
     resize: none;
     padding: 6px;
 }
+.feedback-text-input.dark {
+    border: 2px solid #3E3E3E;
+    background-color: black;
+}
 .feedback-section-title {
     font-size: 19px;
     color: #707070;
     text-align: center;
+}
+.feedback-section-title.dark {
+    color: #8F8F8F;
 }
 .feedback-wrap {
     display: flex;
@@ -75,6 +95,9 @@
     box-sizing: border-box;
     padding: 10px 0px;
 }
+.feedback-wrap.dark {
+    background-color: #0f0f0f;
+}
 .feedback-wrap p {
     margin: 0px;
     max-width: 260px;
@@ -82,8 +105,14 @@
 .feedback-text {
     color: #444;
 }
+.feedback-text.dark {
+    color: #BFBFBF;
+}
 .feedback-date {
     color: #5F5F5F;
+}
+.feedback-date.dark {
+    color: #A0A0A0;
 }
 .feedback-wrap > div {
     display: flex;
@@ -94,6 +123,18 @@
 }
 .feedback-wrap > div:last-child {
     justify-content: flex-end;
+}
+.feedback-response-title {
+    color: #777;
+}
+.feedback-response-title.dark {
+    color: #8F8F8F;
+}
+.feedback-response-body {
+    color: black;
+}
+.feedback-response-body.dark {
+    color: white;
 }
 
 /*The rest of the styling is in main-activity*/

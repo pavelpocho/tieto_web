@@ -10,8 +10,6 @@ import HttpCommunicator from '../../utils/http-communicator';
 import AdminActivity from '../admin-activity';
 const preval = require('preval.macro');
 
-var version = require('../../../package.json').version;
-
 export default class Container extends Component {
 
     constructor(props) {
@@ -29,13 +27,15 @@ export default class Container extends Component {
 
         this.background = React.createRef();
 
-        if (ObjectContainer.isDarkTheme) document.body.style.color = "black";
+        if (ObjectContainer.isDarkTheme()) document.body.style.backgroundColor = "black";
 
     }
 
     startApp() {
 
         var h = ObjectContainer.getHttpCommunicator();
+        
+        document.body.removeChild(document.getElementById("init-loader"));
 
         if (CookieManager.getCookie("token") != undefined && CookieManager.getCookie("token") != "") {
             h.tokenCheck(CookieManager.getCookie("token"), (r) => {
@@ -224,7 +224,7 @@ export default class Container extends Component {
                         <Fragment>
                             <p className={"web-app-version" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Trippi WebApp Alpha {version} - Build Date: {dateString}</p>
                             <p className={"api-version" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Trippi API Alpha {this.state.apiVersion} - Build Date: {apiDateString}</p>
-                            <a ripple="none" href="./changelog.html" target="_blank" className="changelog-link">Changelog</a>
+                            <a ripple="none" href="./changelog.html" target="_blank" className={"changelog-link" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Changelog</a>
                         </Fragment>
                     ) : null
                 }

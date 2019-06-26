@@ -32,6 +32,9 @@
     width: 230px;
     line-height: 42px;
     margin: 15px 0px;
+    display: flex;
+    align-items: center;
+    align-self: start;
 }
 #gti-project {
     width: 180px;

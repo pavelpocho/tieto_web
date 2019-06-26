@@ -1,15 +1,8 @@
 #login-activity {
     transform: translate(0px, 40px);
 }
-#login-activity .content-wrap {
-    margin: 110px auto;
-    width: 360px;
-    display: flex;
-    flex-direction: column;
-    border-radius: 24px;
-    padding: 24px;
-    background-color: #f7f7f7;
-    border: 2px solid #ddd;
+#login-activity.dark {
+    background-color: black;
 }
 .la-content-wrap {
     height: 170px;
@@ -32,12 +25,18 @@
     font-size: 19px;
     margin: -20px auto 10px;
 }
+.la-content-title.dark {
+    color: #6F6F6F;
+}
 .la-separator {
     height: 2px;
     width: 100%;
     border-radius: 1px;
     background-color: #e1e1e1;
     margin: 5px 0px 10px 0px;
+}
+.la-separator.dark {
+    background-color: #1E1E1E;
 }
 .la-login-expand, .la-register-expand {
     height: 50px;
@@ -48,21 +47,40 @@
     transition: background-color 0.31s;
     box-shadow: 1px 1px 10px -4px #aaa;
 }
+.la-login-expand.dark, .la-register-expand.dark {
+    box-shadow: 1px 1px 10px -4px #444;
+}
 .la-login-expand {
     background-color: #62B3E4;
     border: 3px solid #62B3E4;
     color: white;
 }
+.la-login-expand.dark {
+    background-color: #1C6D9E;
+    border: 3px solid #1C6D9E;
+    color: black;
+}
 .la-login-expand:hover, .la-login-expand:active {
     background-color: #52A3D4;
+}
+.la-login-expand.dark:hover, .la-login-expand.dark:active {
+    background-color: #2C7DAE;
 }
 .la-register-expand {
     background-color: white;
     border: 3px solid #eaeaea;
     color: #808080;
 }
+.la-register-expand.dark {
+    background-color: black;
+    border: 3px solid #151515;
+    color: #7F7F7F;
+}
 .la-register-expand:hover, .la-register-expand:active {
     background-color: #f1f1f1;
+}
+.la-register-expand.dark:hover, .la-register-expand.dark:active {
+    background-color: #0f0f0f;
 }
 #login-activity .blue-text-logo {
     height: 120px;
@@ -76,8 +94,14 @@
     display: block;
     margin: 10px auto;
 }
+#login-activity .login-input.dark {
+    background-color: #191919;
+}
 #login-activity .login-input::placeholder {
     color: #a1a1a1;
+}
+#login-activity .login-input.dark::placeholder {
+    color: #5E5E5E;
 }
 #login-activity .login-button {
     height: 42px;
@@ -91,8 +115,15 @@
     margin: 30px auto 0px;
     transition: background-color 0.31s;
 }
+#login-activity .login-button.dark {
+    background-color: #1C6D9E;
+    color: black;
+}
 #login-activity .login-button:disabled {
     background-color: #999;
+}
+#login-activity .login-button.dark:disabled {
+    background-color: #6F6F6F;
 }
 .la-icons {
     display: flex;
@@ -103,6 +134,12 @@
 .la-icons i {
     font-size: 100px !important;
     color: #e4e4e4;
+    display: flex;
+    align-items: center;
+}
+.la-icons.dark i {
+    font-size: 100px !important;
+    color: #1B1B1B;
     display: flex;
     align-items: center;
 }
@@ -137,6 +174,9 @@
     transform: scale(1);
     transition: transform 1.41s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
+.la-login-register-background.dark {
+    background-color: black;
+}
 .la-login-register-content {
     opacity: 0;
     transition: opacity 0.21s;
@@ -155,6 +195,9 @@
     opacity: 0;
     display: none;
     transition: opacity 0.31s;
+}
+.la-backdrop.dark {
+    background-color: #444;
 }
 .la-window-topbar {
     height: 56px;
@@ -176,6 +219,9 @@
     align-items: center;
     color: #5F5F5F;
 }
+.la-window-topbar.dark button {
+    color: #A0A0A0;
+}
 .la-window-topbar button i {
     font-size: 20px;
     margin-right: 6px;
@@ -187,6 +233,10 @@
     text-align: center;
     line-height: 120px;
 }
+.la-login-register-content.dark p {
+    color: #A0A0A0;
+}
+
 .la-less-margin {
     line-height: 80px !important;
 }
@@ -199,6 +249,9 @@
     width: 55%;
     margin: 0px auto 22px !important;
 }
+.la-info.dark {
+    color: #8F8F8F !important;
+}
 .la-window-topbar span {
     display: block;
     width: 79px;
@@ -207,15 +260,28 @@
 .uncheck-white {
     background-color: white;
 }
+.uncheck-white.dark {
+    background-color: black;
+}
 .uncheck-white:hover, .uncheck-white:active {
     background-color: #f1f1f1;
+}
+.uncheck-white.dark:hover, .uncheck-white.dark:active {
+    background-color: #0f0f0f;
 }
 .check-blue {
     background-color: #62B3E4;
     border-color: #62B3E4;
 }
+.check-blue.dark {
+    background-color: #1C6D9E;
+    border-color: #1C6D9E;
+}
 .check-blue:hover, .check-blue:active {
     background-color: #52A3D4;
+}
+.check-blue.dark:hover, .check-blue.dark:active {
+    background-color: #2C7DAE;
 }
 .long-sign-wrap {
     width: 60%;
@@ -235,6 +301,9 @@
     padding: 0px 20px;
     background-color: white;
 }
+.stay-signed-button.dark {
+    background-color: black;
+}
 .email-input-wrap {
     display: flex;
     width: 60%;
@@ -248,8 +317,14 @@
     width: 100%;
     padding-right: 42%;
 }
+.email-specific.dark {
+    background-color: #191919;
+}
 .email-specific::placeholder {
     color: #a1a1a1;
+}
+.email-specific.dark::placeholder {
+    color: #5E5E5E;
 }
 
 .email-input-wrap p {
@@ -263,4 +338,7 @@
     text-align: left;
     border-top-right-radius: 21px;
     border-bottom-right-radius: 21px;
+}
+.email-input-wrap.dark p {
+    background-color: #191919;
 }

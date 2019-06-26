@@ -161,6 +161,9 @@
     margin: 0px;
     line-height: 72px;
 }
+.ma-window-topbar.dark p {
+    color: #BFBFBF;
+}
 .ma-window-topbar button {
     height: 36px;
     padding: 0px 9px 0px 6px;
@@ -173,8 +176,14 @@
     color: #5F5F5F;
     transition: background-color 0.31s;
 }
+.ma-window-topbar.dark button {
+    color: #A0A0A0;
+}
 .ma-window-topbar button:hover {
     background-color: #f1f1f1;
+}
+.ma-window-topbar.dark button:hover {
+    background-color: #0f0f0f;
 }
 .ma-window-topbar span {
     width: 109px;

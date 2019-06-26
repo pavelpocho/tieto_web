@@ -16,6 +16,9 @@
     margin: 0px;
     margin-right: 14px;
 }
+.ri-currency.dark {
+    color: #A0A0A0;
+}
 .ri-rate {
     height: 34px;
     border-radius: 17px;
@@ -27,12 +30,22 @@
     width: 80px;
     padding: 10px;
 }
+.ri-rate.dark {
+    color: #1C6D9E;
+    background-color: #0F0F0F;
+}
 .ri-rate:disabled {
     color: #999;
+}
+.ri-rate.dark:disabled {
+    color: #6F6F6F;
 }
 .ri-amount {
     font-size: 22px;
     margin: 0px;
+}
+.ri-amount.dark {
+    color: #1C6D9E;
 }
 .ri-refresh {
     border-radius: 100%;
@@ -42,6 +55,12 @@
     width: 30px;
     margin-left: 12px;
 }
+.ri-refresh.dark {
+    color: #A0A0A0;
+}
 .ri-refresh:hover, .ri-refresh:active {
     background-color: #e6e6e6;
+}
+.ri-refresh.dark:hover, .ri-refresh.dark:active {
+    background-color: #191919;
 }

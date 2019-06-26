@@ -5,6 +5,9 @@
     margin-top: 16px;
     padding-top: 6px;
 }
+.day-input.dark {
+    background-color: #0f0f0f;
+}
 .di-header {
     display: flex;
     align-items: center;
@@ -20,8 +23,14 @@
     color: #5f5f5f;
     transition: background-color 0.21s;
 }
+.di-month-switch.dark {
+    color: #a0a0a0;
+}
 .di-month-switch:hover, .di-month-switch:active {
     background-color: #e4e4e4;
+}
+.di-month-switch.dark:hover, .di-month-switch.dark:active {
+    background-color: #1B1B1B;
 }
 .di-month-switch > button > i {
     font-size: 24px !important;
@@ -34,12 +43,18 @@
     width: 145px;
     text-align: center;
 }
+.di-month-title.dark {
+    color: #a0a0a0;
+}
 .di-separator {
     background-color: #ccc;
     height: 2px;
     width: 90%;
     margin: 6px auto;
     border-radius: 1px;
+}
+.di-separator.dark {
+    background-color: #3F3F3F;
 }
 .di-number-wrap {
     text-align: center;
@@ -72,11 +87,20 @@ td {
     transition: background-color 0.21s, color 0.21s;
     font-size: 16px;
 }
+.day-button.dark {
+    color: white;
+}
 .day-button:hover, .day-button:active {
     background-color: #FFE298;
 }
-.db-blue:hover, .db-blue:active {
+.day-button.dark:hover, .day-button.dark:active {
+    background-color: #a57f1f;
+}
+table.blue .day-button:hover, table.blue .day-button:active {
     background-color: #A7F0FF;
+}
+table.blue .day-button.dark:hover, table.blue .day-button.dark:active {
+    background-color: #1f8296;
 }
 .day-button:active {
     font-weight: 400;
@@ -85,11 +109,21 @@ td {
 .db-today {
     background-color: #ddd;
 }
+.db-today.dark {
+    background-color: #2F2F2F;
+}
 .db-selected {
     background-color: #FAA519 !important;
     font-weight: 400;
     color: white;
 }
-.db-selected.db-blue {
+.db-selected.dark {
+    background-color: #E79206 !important;
+    color: black;
+}
+table.blue .db-selected.db-blue {
     background-color: #62B3E4 !important;
+}
+table.blue .db-selected.db-blue.dark {
+    background-color: #1C6D9E !important;
 }

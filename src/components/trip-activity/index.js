@@ -99,7 +99,6 @@ export default class TripActivity extends Component {
             }
             var realTrip = new Trip();
             Object.assign(realTrip, r);
-            console.log("LocFieldCallback");
 
             var oldIds = this.state.tripObject.locations.map(l => l.id);
             var newIds = realTrip.locations.map(l => l.id);
@@ -187,17 +186,19 @@ export default class TripActivity extends Component {
     }
 
     autoSave(field, value) {
-        if (this.state.notYetSaved) {
-            this.setState({
-                notYetSaved: false
-            });
-            this.forceSave(() => {
+        setTimeout(() => {
+            if (this.state.notYetSaved) {
+                this.setState({
+                    notYetSaved: false
+                });
+                this.forceSave(() => {
+                    this.autoSaveMain(field, value);
+                });
+            }
+            else {
                 this.autoSaveMain(field, value);
-            });
-        }
-        else {
-            this.autoSaveMain(field, value);
-        }
+            }
+        }, 200);
     }
 
     autoSaveMain(field, value) {
@@ -284,12 +285,9 @@ export default class TripActivity extends Component {
             if (this.state.lastSelect == 1) {
                 this.setState(prevState => {
                     var realI = i;
-                    console.log(i);
-                    console.log(prevState.firstSelectedPoint);
                     if (prevState.firstSelectedPoint == i) {
                         realI = i + "only";
                     }
-                    console.log(realI);
                     return {
                         secondSelectedPoint: realI,
                         selectedPoint: position,
@@ -499,7 +497,7 @@ export default class TripActivity extends Component {
                 <Spinner ref={this.spinner} size={60} position={"fixed"}/>
                 <div className="activity" id="trip-activity" ref={this.ref}>
                     <div className={"top-bar" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
-                        <button ripplecolor="gray" onClick={() => {this.close()}} className="back-button"><i className="material-icons back-icon">arrow_back</i>Trip list</button>
+                        <button ripplecolor="gray" onClick={() => {this.close()}} className={"back-button" + (ObjectContainer.isDarkTheme() ? " dark" : "")}><i className="material-icons back-icon">arrow_back</i>Trip list</button>
                         <SaveIndicator ref={this.saveIndicator} parent={this} name={this.state.tripObject.title} defaultStatus={this.state.notYetSaved ? 3 : 0}/>
                     </div>
                     <div className={"trip-activity-content" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>

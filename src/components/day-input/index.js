@@ -71,7 +71,7 @@ export default class DayInput extends Component {
     }
 
     select(e) {
-        if (e.target.getAttribute("class") == "day-button db-selected") {
+        if (e.target.getAttribute("class").includes("day-button db-selected")) {
             this.graphicalSelect(null);
             this.setState({
                 selectedDay: undefined,
@@ -95,23 +95,23 @@ export default class DayInput extends Component {
         if (target == null) {
             for (var i = 0; i < this.ref.length; i++) {
                 if (this.ref[i].current != null && this.ref[i].current.getAttribute("class").includes("db-today")) {
-                    this.ref[i].current.setAttribute("class", "day-button db-today");
+                    this.ref[i].current.setAttribute("class", "day-button db-today" + (ObjectContainer.isDarkTheme() ? " dark" : ""));
                 }
                 else if (this.ref[i].current != null) {
-                    this.ref[i].current.setAttribute("class", "day-button");
+                    this.ref[i].current.setAttribute("class", "day-button" + (ObjectContainer.isDarkTheme() ? " dark" : ""));
                 }
             }
             return;
         }
         for (var i = 0; i < this.ref.length; i++) {
             if (this.ref[i].current != target && this.ref[i].current != null && this.ref[i].current.getAttribute("class").includes("db-today")) {
-                this.ref[i].current.setAttribute("class", "day-button db-today");
+                this.ref[i].current.setAttribute("class", "day-button db-today" + (ObjectContainer.isDarkTheme() ? " dark" : ""));
             }
             else if (this.ref[i].current != target && this.ref[i].current != null) {
-                this.ref[i].current.setAttribute("class", "day-button");
+                this.ref[i].current.setAttribute("class", "day-button" + (ObjectContainer.isDarkTheme() ? " dark" : ""));
             }
             else if (this.ref[i].current == target) {
-                target.setAttribute("class", "day-button db-selected");
+                target.setAttribute("class", "day-button db-selected" + (ObjectContainer.isDarkTheme() ? " dark" : ""));
             }
         }
     }
@@ -150,32 +150,41 @@ export default class DayInput extends Component {
             days[Math.floor(i / 7)][i] = <td key={i} style={{height: "24px", width: "24px"}}></td>
         }
         for (var i = dayIndex; i < this.state.monthLengths[this.state.month] + dayIndex; i++) {
+            var buttonClass = ((this.state.selectedDay && this.state.selectedDay == x && this.state.selectedMonth == this.state.month && this.state.selectedYear == this.state.year) ? ("day-button db-selected") : (!this.state.selectedDay && highlightDay == x && this.state.month == highlightMonth && this.state.year == highlightYear) ? "day-button db-today" : "day-button");
             days[Math.floor(i / 7)][i] = (
                 <td key={i}>
                     <button ref={this.ref[i - dayIndex]} 
                             onClick={(e) => {this.select(e)}} 
                             ripplecolor={this.props.color == "blue" ? "blue" : "orange"} 
-                            className={((this.state.selectedDay && this.state.selectedDay == x && this.state.selectedMonth == this.state.month && this.state.selectedYear == this.state.year) ? ("day-button db-selected") : (highlightDay == x && this.state.month == highlightMonth && this.state.year == highlightYear) ? "day-button db-today" : "day-button") + (this.props.color == "blue" ? " db-blue" : "")}
+                            className={buttonClass + (ObjectContainer.isDarkTheme() ? " dark" : "")}
                     >{x}</button>
                 </td>
-            )
+            );
             x++;
         }
 
+        days.map((d, i) => {
+            return d.map((f, j) => {
+                if (f.props.children) {
+                    return f.props.children.props.className;
+                }
+            });
+        });
+
         return (
-            <div className="day-input">
+            <div className={"day-input" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
                 <div className="di-header">
-                    <button ripplecolor="gray" className="di-month-switch" onClick={() => {this.addMonth(-1)}} ><i className="material-icons">arrow_left</i></button>
-                    <p className="di-month-title">{this.state.months[this.state.month] + " " + this.state.year}</p>
-                    <button ripplecolor="gray" className="di-month-switch" onClick={() => {this.addMonth(1)}} ><i className="material-icons">arrow_right</i></button>
+                    <button ripplecolor="gray" className={"di-month-switch" + (ObjectContainer.isDarkTheme() ? " dark" : "")} onClick={() => {this.addMonth(-1)}} ><i className="material-icons">arrow_left</i></button>
+                    <p className={"di-month-title" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{this.state.months[this.state.month] + " " + this.state.year}</p>
+                    <button ripplecolor="gray" className={"di-month-switch" + (ObjectContainer.isDarkTheme() ? " dark" : "")} onClick={() => {this.addMonth(1)}} ><i className="material-icons">arrow_right</i></button>
                 </div>
-                <div className="di-separator"></div>
+                <div className={"di-separator" + (ObjectContainer.isDarkTheme() ? " dark" : "")}></div>
                 <div className="di-number-wrap">
-                    <table>
+                    <table className={this.props.color == "blue" ? "blue" : ""}>
                         <thead>
                             <tr>
                                 {
-                                    this.state.days.map((t, i) => <th key={i}>{t}</th>)
+                                    this.state.days.map((t, i) => <th style={{color: ObjectContainer.isDarkTheme() ? "white" : "black" }}key={i}>{t}</th>)
                                 }
                             </tr>
                         </thead>
@@ -184,9 +193,7 @@ export default class DayInput extends Component {
                                 days.map((a, i) => {
                                     return (
                                         <tr key={i}>
-                                            {
-                                                days[i].map(e => e)
-                                            }
+                                            {a.map(e => e)}
                                         </tr>
                                     )
                                 })

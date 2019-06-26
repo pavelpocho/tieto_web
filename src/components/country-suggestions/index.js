@@ -1,5 +1,6 @@
 import css from './index.css';
 import React, {Component, Fragment} from 'react';
+import ObjectContainer from '../../utils/object-container';
 import { RippleManager } from '../ripple';
 import Spinner from '../spinner';
 
@@ -57,13 +58,13 @@ export default class CountrySuggestions extends Component {
         if (this.props.suggestions == null || this.props.suggestions.length == 0) return null;
 
         return (
-            <div ref={this.wrap} className="cs-wrap country-wrap">
+            <div ref={this.wrap} className={"cs-wrap country-wrap" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
                 <div className="cs-spinner-wrap country">
                     <Spinner position="relative" size={28} />
                 </div>
                 {
                     this.props.suggestions != "loading" ? (
-                        <div ref={this.content} className="cs-content-wrap country">
+                        <div ref={this.content} className={"cs-content-wrap country" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
                         {
                             this.props.suggestions.map((s, i) => {
                                 return <button onClick={(e) => {this.select(i)}} ripplecolor="gray" key={i}><span>{s.name}</span></button>

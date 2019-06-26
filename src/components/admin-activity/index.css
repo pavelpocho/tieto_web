@@ -84,3 +84,19 @@
 .aa-welcome-reset-wrap button:hover {
     border-color: #f1f1f1;
 }
+.f-liked-number {
+    font-family: HelveticaNeue, 'sans-serif';
+    color: #444;
+    margin-left: 20px;
+}
+.feedback-wrap-admin {
+    background-color: white;
+    padding: 20px;
+    border-radius: 20px;
+}
+.feedback-wrap-admin.dark {
+    background-color: black;
+}
+.feedback-reply-box {
+    display: flex;
+}

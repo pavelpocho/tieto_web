@@ -67,7 +67,7 @@ export default class TripReceipt extends Component {
 
         return (
             <div ref={this.wrap} className={"trip-receipt" + (ObjectContainer.isDarkTheme() ? " dark" : "")} style={{paddingBottom: money.total == 0 ? "28px" : "12px"}}>
-                <div className="tr-card">
+                <div className={"tr-card" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
                     {
                         money.total != 0 ? (
                             <Fragment>
@@ -78,15 +78,15 @@ export default class TripReceipt extends Component {
                                     <ReceiptItem currency="GBP" amount={money.gbp.amount} allowMods={this.props.allowMods} rate={money.gbp.rate} altered={money.gbp.altered} parent={this}/>
                                     <ReceiptItem currency="CHF" amount={money.chf.amount} allowMods={this.props.allowMods} rate={money.chf.rate} altered={money.chf.altered} parent={this}/>
                                 </div>
-                                <p className="tr-valid">Exchange rates for {(date.getUTCDate() + "." + (date.getUTCMonth() + 1) + "." + date.getUTCFullYear())}</p>
-                                <div className="tr-separator"></div>
+                                <p className={"tr-valid" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Exchange rates for {(date.getUTCDate() + "." + (date.getUTCMonth() + 1) + "." + date.getUTCFullYear())}</p>
+                                <div className={"tr-separator" + (ObjectContainer.isDarkTheme() ? " dark" : "")}></div>
                             </Fragment>
                         ) : null
                     }
-                    <div className="tr-total">
+                    <div className={"tr-total" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
                         {
                             !this.props.daySections || this.props.daySections.length == 0 ? (
-                                <p className="tr-unfinished">Unfinished Trip</p>
+                                <p className={"tr-unfinished" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Unfinished Trip</p>
                             ) : (
                                 <Fragment>
                                     <p>Total</p>
@@ -97,8 +97,8 @@ export default class TripReceipt extends Component {
                     </div>
                 </div>
                 <div className="tr-expand-wrap">
-                    <button onClick={() => {this.reverseExpand()}} ripplecolor="gray" className="tr-expand-button">
-                        <p className="tr-expand-text">Billing Information</p>
+                    <button onClick={() => {this.reverseExpand()}} ripplecolor="gray" className={"tr-expand-button" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
+                        <p className={"tr-expand-text" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Billing Information</p>
                         <i className="material-icons" style={{transform: this.state.rotate ? "rotate(270deg)" : "rotate(90deg)"}}>keyboard_arrow_up</i>
                     </button>
                 </div> 

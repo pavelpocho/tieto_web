@@ -12,6 +12,11 @@
     border: 3px solid #eee;
     transition: opacity 0.31s;
 }
+.cs-wrap.dark {
+    border: 3px solid #1F1F1F;
+    box-shadow: 1px 1px 10px -4px #444;
+    background-color: #0f0f0f;
+}
 .cs-wrap button {
     padding: 12px 20px;
     width: 100%;
@@ -26,6 +31,9 @@
     white-space: nowrap;
     text-overflow: ellipsis;
 }
+.cs-wrap.dark button {
+    color: #A0A0A0;
+}
 .cs-wrap button span.country {
     text-align: right;
     color: #777;
@@ -35,6 +43,9 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+.cs-wrap.dark button span.country {
+    color: #8F8F8F;
 }
 .cs-spinner-wrap {
     position: absolute;
@@ -55,4 +66,7 @@
     z-index: 2;
     opacity: 0;
     transition: opacity 0.2s;
+}
+.cs-content-wrap.dark {
+    background-color: #0f0f0f;
 }

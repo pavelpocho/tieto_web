@@ -15,6 +15,9 @@
     box-sizing: border-box;
     transform: translateX(40px);
 }
+.pd-wrap.dark {
+    background-color: #1E1E1E;
+}
 .pd-topbar {
     display: flex;
     height: 40px;
@@ -34,14 +37,23 @@
     padding: 0px 14px 0px 12px;
     margin-bottom: 10px;
 }
+.pd-back.dark {
+    color: #A0A0A0;
+}
 .pd-del {
     color: #777;
+}
+.pd-del.dark {
+    color: #8F8F8F;
 }
 .pd-back i {
     margin-right: 8px;
 }
 .pd-back:hover, .pd-back:active {
     background-color: #e8e8e8;
+}
+.pd-back.dark:hover, .pd-back.dark:active {
+    background-color: #171717;
 }
 .no-left-margin {
     margin-left: 16px; /*Some offset is required*/
@@ -59,6 +71,9 @@
     border-radius: 21px;
     overflow: hidden;
 }
+.travel-picker.dark {
+    background-color: #0F0F0F;
+}
 .tp-button {
     height: 42px;
     background-color: transparent;
@@ -75,15 +90,27 @@
     font-size: 13px;
     text-align: center;
 }
+.tp-button.dark p {
+    color: #A0A0A0;
+}
 .tp-selected {
     background-color: #d5d5d5;
+}
+.tp-selected.dark {
+    background-color: #2A2A2A;
 }
 .tp-selected p, .tp-selected i {
     color: #222 !important;
 }
+.tp-selected.dark p, .tp-selected.dark i {
+    color: #DFDFDF !important;
+}
 .tp-button i {
     color: #5F5F5F;
     font-size: 20px !important;
+}
+.tp-button.dark i {
+    color: #A0A0A0;
 }
 .city-input {
     position: relative;
@@ -103,6 +130,9 @@
     color: #999;
     text-align: right;
 }
+.city-country-info.dark {
+    color: #6F6F6F;
+}
 .trip-point-food-wrap {
     background-color: #f1f1f1;
     border-radius: 22px;
@@ -111,6 +141,9 @@
     overflow: hidden;
     transition: height 0.51s cubic-bezier(0.19, 1, 0.22, 1);
     padding: 2px 12px 6px 12px;
+}
+.trip-point-food-wrap.dark {
+    background-color: #0F0F0F;
 }
 .pd-transit-info {
     display: flex;
@@ -123,6 +156,9 @@
     color: #777;
     margin: 0px 16px;
 }
+.pd-transit-info.dark i, .pd-transit-info.dark p {
+    color: #8F8F8F;
+}
 
 .pdi-reset-separator {
     margin: 20px 16px;
@@ -131,6 +167,9 @@
     border-radius: 1px;
     background-color: #d1d1d1;
 }
+.pdi-reset-separator.dark {
+    background-color: #2E2E2E;
+}
 .pdi-reset-wrap {
     margin: 8px 16px;
     width: 580px;
@@ -138,6 +177,9 @@
 .pdi-reset-text {
     color: #444;
     text-align: center;
+}
+.pdi-reset-text.dark {
+    color: #aaa;
 }
 .pdi-reset-button {
     margin: 0px auto;
@@ -154,11 +196,19 @@
     border: 4px solid white;
     transition: border 0.31s;
 }
+.pdi-reset-button.dark {
+    background-color: black;
+    color: #aaa;
+    border: 4px solid black;
+}
 .pdi-reset-button i {
     margin-right: 8px;
 }
 .pdi-reset-button:hover, .pdi-reset-button:active {
     border: 4px solid #f1f1f1;
+}
+.pdi-reset-button.dark:hover, .pdi-reset-button.dark:active {
+    border: 4px solid #0f0f0f;
 }
 .pd-only-point-button {
     background-color: transparent;
@@ -172,13 +222,23 @@
     box-sizing: border-box;
     transition: background-color 0.21s;
 }
+.pd-only-point-button.dark {
+    border: 3px solid #0f0f0f;
+    background-color: #0f0f0f;
+}
 .pd-only-point-button:hover {
     background-color: white;
+}
+.pd-only-point-button.dark:hover {
+    background-color: black;
 }
 .pd-only-point-button p {
     color: #5F5F5F;
     margin: 0px 0px 0px 12px;
     font-size: 15px;
+}
+.pd-only-point-button.dark p {
+    color: #A0A0A0;
 }
 .trip-only-point-info {
     color: gray;

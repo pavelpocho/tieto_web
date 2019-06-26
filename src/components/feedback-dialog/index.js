@@ -117,7 +117,11 @@ export default class FeedbackDialog extends Component {
         var subtractX = e.clientX - this.content.current.offsetLeft;
         var subtractY = e.clientY - this.content.current.offsetTop;
         document.body.onmousemove = (f) => {
-            this.content.current.style.transform = "translate(" + (f.clientX - subtractX) + "px ," + (f.clientY - subtractY) + "px)";
+            this.content.current.style.marginTop = "0px";
+            this.content.current.style.marginLeft = "0px";
+            this.content.current.style.top = "0px";
+            this.content.current.style.left = "0px";
+            this.content.current.style.transform = "translate(" + (f.clientX - subtractX) + "px" + "," + (f.clientY - subtractY) + "px" + ")";
         }
         document.body.onmouseup = () => {
             document.body.onmousemove = null;
@@ -162,23 +166,23 @@ export default class FeedbackDialog extends Component {
         return (
             <div ref={this.wrap} className="feedback-dialog-wrap">
                 <Overlay ref={this.overlay} onClick={() => {this.close()}} />
-                <div ref={this.content} className="feedback-dialog-content">
-                    <div className="ma-window-topbar" onMouseDown={(e) => {this.moveStart(e)}}>
+                <div ref={this.content} className={"feedback-dialog-content" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
+                    <div className={"ma-window-topbar" + (ObjectContainer.isDarkTheme() ? " dark" : "")} onMouseDown={(e) => {this.moveStart(e)}}>
                         <button onClick={() => {this.close()}} ripplecolor="gray" ref={this.closeButton} className="ma-window-close"><i className="material-icons">arrow_back</i>Back</button>
                         <p>Feedback</p>
                         <span></span> {/*This is here so that I can use justify-content space-between*/}
                     </div>
                     <div className="ma-window-main">
                         <div className="ma-window-left">
-                            <p className="feedback-section-title">Other Users' Feedback</p>
+                            <p className={"feedback-section-title" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Other Users' Feedback</p>
                         {
                             this.state.feedbacks == null ? (
                                 <Spinner position={"absolute"} size={40} />
                             ) : this.state.feedbacks.length == 0 ? (
-                                <p className="feedback-empty">Wow, such empty ( ͠° ͟ʖ ͠°)</p>
+                                <p className={"feedback-empty" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Wow, such empty ( ͠° ͟ʖ ͠°)</p>
                             ) : this.state.feedbacks.map((f, i) => {
                                 return (
-                                    <div key={i} className="feedback-wrap">
+                                    <div key={i} className={"feedback-wrap" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
                                         <div>
                                             <div className="feedback-type-icon" style={{backgroundColor: f.type == 1 ? (ObjectContainer.isDarkTheme() ? "#E79206" : "#FAA519") : "", transform: f.type == 2 || f.type == 0 ? "scale(0.782608)" : ""}}>
                                                 {
@@ -191,10 +195,10 @@ export default class FeedbackDialog extends Component {
                                                     ) : null
                                                 }
                                             </div>
-                                            <p className="feedback-text">{f.text}</p>
+                                            <p className={"feedback-text" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{f.text} {f.reply != "" ? <Fragment><br></br><span className={"feedback-response-title" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Response: </span><span className={"feedback-response-body" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{f.reply}</span></Fragment> : ""}</p>
                                         </div>
                                         <div>
-                                            <p className="feedback-date">{new Date(f.postedAt).getUTCDate() + "." + (new Date(f.postedAt).getUTCMonth() + 1) + "." + new Date(f.postedAt).getUTCFullYear()}</p>
+                                            <p className={"feedback-date" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{new Date(f.postedAt).getUTCDate() + "." + (new Date(f.postedAt).getUTCMonth() + 1) + "." + new Date(f.postedAt).getUTCFullYear()}</p>
                                             <button ripplecolor="gray" title={f.liked ? "Unlike this feedback" : "Like this feedback"} onClick={() => {this.likeFeedback(f.id)}} className="feedback-like"><i className={"material-icons " + (f.liked ? "f-liked" : "f-not-liked")}>thumb_up</i><span className={(f.liked ? "f-liked" : "f-not-liked")}>{f.likeNumber}</span></button>
                                         </div>
                                     </div>
@@ -204,8 +208,8 @@ export default class FeedbackDialog extends Component {
                         </div>
                         <div className="ma-window-right">
                             <p className="feedback-section-title">Submit Feedback</p>
-                            <button ripplecolor="gray" onClick={() => {this.isLike()}} className="feedback-type-wrap">
-                                <div className={"fiw-checkbox uncheck-white" + (this.state.isLike ? " checked check-blue" : "")}>
+                            <button ripplecolor="gray" onClick={() => {this.isLike()}} className={"feedback-type-wrap" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
+                                <div className={"fiw-checkbox uncheck-white" + (this.state.isLike ? " checked check-blue" : "") + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
                                     <i className="material-icons">done</i>
                                 </div>
                                 <p>I like something</p>
@@ -213,8 +217,8 @@ export default class FeedbackDialog extends Component {
                                     <TripPreviewState status={1} />
                                 </div>
                             </button>
-                            <button ripplecolor="gray" onClick={() => {this.isImprovement()}} className="feedback-type-wrap">
-                                <div className={"fiw-checkbox uncheck-white" + (this.state.isImprovement ? " checked check-blue" : "")}>
+                            <button ripplecolor="gray" onClick={() => {this.isImprovement()}} className={"feedback-type-wrap" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
+                                <div className={"fiw-checkbox uncheck-white" + (this.state.isImprovement ? " checked check-blue" : "") + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
                                     <i className="material-icons">done</i>
                                 </div>
                                 <p>I want to suggest somehing</p>
@@ -222,8 +226,8 @@ export default class FeedbackDialog extends Component {
                                     <i className="material-icons">{"add"}</i>
                                 </div>
                             </button>
-                            <button ripplecolor="gray" onClick={() => {this.isError()}} className="feedback-type-wrap">
-                                <div className={"fiw-checkbox uncheck-white" + (this.state.isError ? " checked check-blue" : "")}>
+                            <button ripplecolor="gray" onClick={() => {this.isError()}} className={"feedback-type-wrap" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
+                                <div className={"fiw-checkbox uncheck-white" + (this.state.isError ? " checked check-blue" : "") + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
                                     <i className="material-icons">done</i>
                                 </div>
                                 <p>I found an error</p>
@@ -232,7 +236,7 @@ export default class FeedbackDialog extends Component {
                                 </div>
                             </button>
                             <p className="feedback-specify">Please specify further:</p>
-                            <textarea ref={this.feedbackText} className="feedback-text-input" onChange={() => {this.forceUpdate()}}/>
+                            <textarea ref={this.feedbackText} className={"feedback-text-input" + (ObjectContainer.isDarkTheme() ? " dark" : "")} onChange={() => {this.forceUpdate()}}/>
                             <p className="feedback-warning">All feedback is also available for other users to see.</p>
                             <button disabled={(!this.state.isLike && !this.state.isImprovement && !this.state.isError) || this.feedbackText.current != null && this.feedbackText.current.value == ""} onClick={() => {this.sendFeedback()}} className="send-feedback">Send feedback</button>
                         </div>

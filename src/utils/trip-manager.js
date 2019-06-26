@@ -7,8 +7,6 @@ export default class TripManager {
         var chf = {amount: 0};
         var czk = {amount: 0, rate: 1};
 
-        console.log("calculating");
-
         if (trip.exchange != null) {
             for (var i = 0; i < trip.exchange.rates.length; i++) {
                 if (trip.exchange.rates[i].currencyCode == 0) {

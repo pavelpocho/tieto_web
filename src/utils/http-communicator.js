@@ -187,4 +187,10 @@ export default class HttpCommunicator {
 
     resetWelcomeDone(callback) { this.addPostToBuffer(this.url + "app/resetWelcomeDone", callback) }
 
+    resolveFeedback(id, callback) { this.addPostToBuffer(this.url + "feedback/resolve", callback, id) }
+    
+    deleteFeedback(id, callback) { this.addPostToBuffer(this.url + "feedback/delete", callback, id) }
+
+    addFeedbackReply(id, text, callback) { this.addPostToBuffer(this.url + "feedback/addReply/" + id, callback, text) }
+
 }

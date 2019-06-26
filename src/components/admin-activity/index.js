@@ -4,7 +4,9 @@ import ObjectContainer from '../../utils/object-container';
 import SaveIndicator from '../save-indicator';
 import CookieManager from '../../utils/cookie-manager';
 import { RippleManager } from '../ripple';
+import TripPreviewState from '../trip-preview-state';
 import Spinner from '../spinner';
+import { readFile } from 'fs';
 
 export default class AdminActivity extends Component {
 
@@ -16,7 +18,8 @@ export default class AdminActivity extends Component {
             configuration: [],
             pendingRequests: 0,
             doneLoading: false,
-            ripple: false
+            ripple: false,
+            feedbacks: null
         }
 
         this.saveIndicator = React.createRef();
@@ -52,6 +55,19 @@ export default class AdminActivity extends Component {
                 //Failed...
             }
         });
+        h.getFeedbackList((r, s) => {
+            if (s == 200) {
+                //List fetch successful
+                r.sort((a, b) => {return b.postedAt - a.postedAt});
+                this.setState({
+                    feedbacks: r
+                })
+            }
+            else {
+                //List fetch failed
+            }
+        });
+        
     }
 
     checkDone() {
@@ -220,6 +236,92 @@ export default class AdminActivity extends Component {
         window.location.reload();
     }
 
+    //Feedback stuff updated in parallel with server, but not from server!
+
+    replyToFeedback(id, text) {
+
+        var h = ObjectContainer.getHttpCommunicator();
+
+        this.saveIndicator.current.setStatus(1);
+
+        h.addFeedbackReply(id, text, (r, s) => {
+            if (s == 200) {
+                this.setState((prevState) => {
+                    let f = prevState.feedbacks;
+                    for (var i = 0; i < f.length; i++) {
+                        if (f[i].id == id) {
+                            f[i].reply = text;
+                            break;
+                        }
+                    }
+                    return {
+                        feedbacks: f
+                    }
+                });
+                this.saveIndicator.current.setStatus(0);
+            }
+            else {
+                this.saveIndicator.current.setStatus(2);
+            }
+        });
+    }
+
+    resolveFeedback(id) {
+
+        var h = ObjectContainer.getHttpCommunicator();
+
+        this.saveIndicator.current.setStatus(1);
+
+        h.resolveFeedback(id, (r, s) => {
+            if (s == 200) {
+                this.setState((prevState) => {
+                    let f = prevState.feedbacks;
+                    for (var i = 0; i < f.length; i++) {
+                        if (f[i].id == id) {
+                            f.splice(i, 1);
+                            break;
+                        }
+                    }
+                    return {
+                        feedbacks: f
+                    }
+                });
+                this.saveIndicator.current.setStatus(0);
+            }
+            else {
+                this.saveIndicator.current.setStatus(2);
+            }
+        });
+    }
+
+    deleteFeedback(id) {
+
+        var h = ObjectContainer.getHttpCommunicator();
+
+        this.saveIndicator.current.setStatus(1);
+
+        h.deleteFeedback(id, (r, s) => {
+            if (s == 200) {
+                this.setState((prevState) => {
+                    let f = prevState.feedbacks;
+                    for (var i = 0; i < f.length; i++) {
+                        if (f[i].id == id) {
+                            f.splice(i, 1);
+                            break;
+                        }
+                    }
+                    return {
+                        feedbacks: f
+                    }
+                });
+                this.saveIndicator.current.setStatus(0);
+            }
+            else {
+                this.saveIndicator.current.setStatus(2);
+            }
+        });
+    }
+
     render() {
         var countries = this.state.countries.map((c, i) => {
             return (
@@ -259,15 +361,13 @@ export default class AdminActivity extends Component {
                             c.name == "PerFoodSubtractForThird" ? "Fraction of allowance subtracted per each food when 1/3 allowance is paid" : 
                             c.name == "PerFoodSubtractForTwoThirds" ? "Fraction of allowance subtracted per each food when 2/3 allowance is paid" :
                             c.name == "PerFoodSubtractForFull" ? "Fraction of allowance subtracted per each food when full allowance is paid" :
-                            c.name == "AllowExchangeRateMods" ? "Allow users to modify exchange rates (1 = YES, 0 = NO)" : ""}</p>
+                            c.name == "AllowExchangeRateMods" ? "Allow users to modify exchange rates (1 = YES, 0 = NO)" :
+                            c.name == "PocketMoneyPercentage" ? "The percentage of full allowance paid as pocket money" :
+                            c.name == "PocketMoneyThreshold" ? "The required length of a trip in days for pocket money to be paid for each day abroad" : ""}</p>
                         <input reduced={(c.value > 1000000).toString()} configid={c.id} configname={c.name} defaultValue={c.value > 1000000 ? c.value / 3600000 : c.value} onChange={(e) => {this.checkNumber(e.target)}} onBlur={(e) => {this.saveConfig(e.target)}}/>
                     </div>
                     {
-                        i == 3 ? (
-                            <p>---------------------------------------</p>
-                        ) : i == 6 ? (
-                            <p>---------------------------------------</p>
-                        ) : i == 7 ? (
+                        i == 3 || i == 6 || i == 7 || i == 9 ? (
                             <p>---------------------------------------</p>
                         ) : null
                     }
@@ -279,7 +379,7 @@ export default class AdminActivity extends Component {
                 <Fragment>
                     <div className="aa-top-bar">
                         <button ripplecolor="gray" onClick={() => {this.signOut()}} className="back-button"><i className="material-icons back-icon">exit_to_app</i>Log Out</button>
-                        <SaveIndicator ref={this.saveIndicator} admin={true} parent={this} name={"Trippi Configuration"} />
+                        <SaveIndicator defaultStatus={3} ref={this.saveIndicator} admin={true} parent={this} name={"Trippi Configuration"} />
                     </div>
                     <div className="aa-wrap">
                         <div className="aa-welcome-reset-wrap">
@@ -290,6 +390,45 @@ export default class AdminActivity extends Component {
                         {
                             config
                         }
+                        <div className={"feedback-wrap-admin" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
+                            {
+                                this.state.feedbacks == null ? (
+                                    <Spinner position={"absolute"} size={40} />
+                                ) : this.state.feedbacks.length == 0 ? (
+                                    <p className="feedback-empty">Wow, such empty ( ͠° ͟ʖ ͠°)</p>
+                                ) : this.state.feedbacks.map((f, i) => {
+                                    return (
+                                        <div key={i} className="feedback-wrap feedback-wrap-a">
+                                            <div>
+                                                <div className="feedback-type-icon" style={{backgroundColor: f.type == 1 ? (ObjectContainer.isDarkTheme() ? "#E79206" : "#FAA519") : "", transform: f.type == 2 || f.type == 0 ? "scale(0.782608)" : ""}}>
+                                                    {
+                                                        f.type == 1 ? (
+                                                            <i className="material-icons">add</i>
+                                                        ) : f.type == 2 ? (
+                                                            <TripPreviewState status={1} />
+                                                        ) : f.type == 0 ? (
+                                                            <TripPreviewState status={2} />
+                                                        ) : null
+                                                    }
+                                                </div>
+                                                <p className="feedback-text">{f.text} {f.reply != "" ? <Fragment><br></br><span className="feedback-response-title">Response: </span>{f.reply}</Fragment> : ""}</p>
+                                            </div>
+                                            <div>
+                                                <p className="feedback-date">{new Date(f.postedAt).getUTCDate() + "." + (new Date(f.postedAt).getUTCMonth() + 1) + "." + new Date(f.postedAt).getUTCFullYear()}</p>
+                                                <span className={"f-liked-number"}>Liked by {f.likeNumber} {f.likeNumber == 1 ? "person" : "people"}.</span>
+                                                <div className="feedback-reply-box">
+                                                    <input className="feedback-reply-input" placeholder="Comment on feedback"/>
+                                                    <button ripplecolor="gray" title={"Reply to this feedback (visible to all users)"} onClick={(e) => {this.replyToFeedback(f.id, e.currentTarget.parentElement.childNodes[0].value)}} className="feedback-like"><i className={"material-icons " + (f.liked ? "f-liked" : "f-not-liked")}>reply</i></button>
+                                                </div>
+                                                <button ripplecolor="gray" title={"Mark this as resolved"} onClick={() => {this.resolveFeedback(f.id)}} className="feedback-like"><i className={"material-icons " + (f.liked ? "f-liked" : "f-not-liked")}>done</i></button>
+                                                <button ripplecolor="gray" title={"Delete"} onClick={() => {this.deleteFeedback(f.id)}} className="feedback-like"><i className={"material-icons " + (f.liked ? "f-liked" : "f-not-liked")}>delete</i></button>
+                                            </div>
+                                        </div>
+                                    )
+                                })
+                            }
+                        </div>
+                        <p>---------------------------------------</p>
                         {
                             countries
                         }
