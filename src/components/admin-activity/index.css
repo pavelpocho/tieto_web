@@ -92,6 +92,7 @@
 .feedback-wrap-admin {
     background-color: white;
     padding: 20px;
+    position: relative;
     border-radius: 20px;
 }
 .feedback-wrap-admin.dark {

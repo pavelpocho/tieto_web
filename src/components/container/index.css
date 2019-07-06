@@ -8,6 +8,12 @@ button {
     outline: none;
     padding: 0px;
 }
+button:hover {
+    cursor: pointer;
+}
+button:disabled {
+    cursor: default !important;
+}
 input {
     border: none;
     height: 42px;
@@ -121,4 +127,29 @@ input.dark::placeholder {
 }
 #perfTestText.dark {
     color: #666;
+}
+.main-show-allowances {
+    position: fixed !important;
+    display: block;
+    z-index: 7;
+    right: 12px;
+    bottom: 120px;
+    height: 28px;
+    font-size: 14px;
+    padding: 0px 12px;
+    border-radius: 14px;
+    color: #444;
+    background-color: #f5f5f5;
+    border: 3px solid #f5f5f5;
+}
+.main-show-allowances.dark {
+    background-color: #0a0a0a;
+    border: 3px solid #0a0a0a;
+    color: #ccc;
+}
+.main-show-allowances:hover, .main-show-allowances:active {
+    background-color: #f1f1f1;
+}
+.main-show-allowances.dark:hover, .main-show-allowances.dark:active {
+    background-color: #0f0f0f;
 }

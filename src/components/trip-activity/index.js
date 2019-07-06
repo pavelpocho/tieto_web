@@ -186,19 +186,17 @@ export default class TripActivity extends Component {
     }
 
     autoSave(field, value) {
-        setTimeout(() => {
-            if (this.state.notYetSaved) {
-                this.setState({
-                    notYetSaved: false
-                });
-                this.forceSave(() => {
-                    this.autoSaveMain(field, value);
-                });
-            }
-            else {
+        if (this.state.notYetSaved) {
+            this.setState({
+                notYetSaved: false
+            });
+            this.forceSave(() => {
                 this.autoSaveMain(field, value);
-            }
-        }, 200);
+            });
+        }
+        else {
+            this.autoSaveMain(field, value);
+        }
     }
 
     autoSaveMain(field, value) {

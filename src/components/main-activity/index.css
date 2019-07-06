@@ -200,15 +200,23 @@
 .ma-window-left, .ma-window-right {
     position: relative;
     height: 100%;
-    box-sizing: border-box;
-    padding: 0px 16px;
 }
 .ma-window-left {
     width: 55%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+.ma-window-left-scroll {
+    height: 100%;
     overflow-y: scroll;
+}
+.ma-window-left-inner-scroll {
+    padding: 0px 26px 0px 12px;
 }
 .ma-window-right {
     width: 45%;
+    box-sizing: border-box;
+    padding: 0px 12px 0px 4px;
 }
 .f-liked {
     color: #62B3E4;
@@ -264,11 +272,20 @@
     margin: 0px auto;
     transition: background-color 0.31s;
 }
+.send-feedback.dark {
+    background-color: #1C6D9E;
+}
 .send-feedback:hover, .send-feedback:active {
     background-color: #52A3D4;
 }
+.send-feedback.dark:hover, .send-feedback.dark:active {
+    background-color: #2C7DAE;
+}
 .send-feedback:disabled {
     background-color: #999 !important;
+}
+.send-feedback.dark:disabled {
+    background-color: #6F6F6F !important;
 }
 /*End*/ /*This exact same code is in login activity*/
 

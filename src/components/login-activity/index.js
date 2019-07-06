@@ -152,7 +152,7 @@ export default class LoginActivity extends Component {
         var http = ObjectContainer.getHttpCommunicator();
         this.spinner.current.ref.current.style.display = "block";
         //Put this in a config file as companyDomain
-        http.register(this.username.current.value + "@tieto.com", this.password.current.value, this.fullname.current.value, this.superiorEmail.current.value, (response) => {
+        http.register(this.username.current.value + "@tieto.com", this.password.current.value, this.fullname.current.value, this.superiorEmail.current.value + "@tieto.com", (response) => {
             this.loginCallback(response);
         });
     }

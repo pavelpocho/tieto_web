@@ -38,6 +38,13 @@
     padding: 0px 12px 0px 16px;
     margin-left: -16px;
     margin-top: 8px;
+    transition: background-color 0.21s;
+}
+.sort-widget-expand:hover, .sort-widget-expand:active {
+    background-color: #ddd;
+}
+.sort-widget-expand.dark:hover, .sort-widget-expand.dark:active {
+    background-color: #222;
 }
 .arrow {
     transition: transform 0.51s cubic-bezier(0.19, 1, 0.22, 1);

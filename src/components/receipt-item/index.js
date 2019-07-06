@@ -66,7 +66,7 @@ export default class ReceiptItem extends Component {
                             <input defaultValue={"1.000"} type="text" className={"ri-rate" + (ObjectContainer.isDarkTheme() ? " dark" : "")} disabled={true} style={{color: ObjectContainer.isDarkTheme() ? "#6F6F6F" : "#999"}}/>
                         ) : (
                             <Fragment>
-                                <input disabled={!this.props.allowMods} ref={this.ref} onBlur={(e) => {this.check(e.target)}} defaultValue={rate ? (rate.toString().length == 2 ? rate + ".00" : rate.toString().length == 4 ? rate + "0" : rate) : ""} type="text" className={"ri-rate" + (ObjectContainer.isDarkTheme() ? " dark" : "")} />
+                                <input disabled={!this.props.allowMods} ref={this.ref} onBlur={(e) => {this.check(e.target)}} defaultValue={rate ? (rate.toString().length == 2 ? rate + ".00" : rate.toString().length == 4 ? rate + "0" : rate) : "0"} type="text" className={"ri-rate" + (ObjectContainer.isDarkTheme() ? " dark" : "")} />
                                 {
                                     (this.state.altered != null ? this.state.altered : this.props.altered) ? (
                                         <button onClick={() => {this.resetRate()}} ripplecolor="gray" className={"ri-refresh" + (ObjectContainer.isDarkTheme() ? " dark" : "")}><i className="material-icons">refresh</i></button>

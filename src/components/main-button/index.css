@@ -11,10 +11,19 @@
     letter-spacing: 2px;
     transition: background-color 0.35s;
 }
+.main-button-wrap:hover, .main-button-wrap:active {
+    background-color: #52A3D4;
+}
 .main-button-wrap.dark {
     color: black;
     background-color: #1C6D9E
 }
+.main-button-wrap.dark:hover, .main-button-wrap.dark:active {
+    background-color: #2C7DAE;
+}
 .main-button-wrap:disabled {
     background-color: #999 !important;
+}
+.main-button-wrap.dark:disabled {
+    background-color: #6F6F6F !important;
 }

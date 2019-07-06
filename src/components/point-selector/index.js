@@ -4,6 +4,8 @@ import ObjectContainer from '../../utils/object-container';
 import MainButton from '../main-button';
 import TripPoint from '../trip-point';
 import Location from '../../utils/location';
+import Scrollbar from '../scrollbar';
+import Spinner from '../spinner';
 
 export default class PointSelector extends Component {
 
@@ -13,12 +15,14 @@ export default class PointSelector extends Component {
         this.state = {
             selectedIndex: -1,
             removed: [],
-            spinner: false
+            spinner: false,
+            firstLoad: true
         }
 
         this.scrollState = 0;
         this.scroll = React.createRef();
         this.psComment = React.createRef();
+        this.scrollbar = React.createRef();
 
     }
 
@@ -26,6 +30,15 @@ export default class PointSelector extends Component {
         if (this.psComment.current) {
             this.psComment.current.style.opacity = "1";
         }
+        this.scrollbar.current.setUpScrollbar(1020);
+        this.scroll.current.onscroll = (e) => {
+            this.scrollbar.current.setUpScrollbar();
+        }
+        setTimeout(() => {
+            this.setState({
+                firstLoad: false
+            })
+        }, 510);
     }
     componentDidUpdate() {
         this.scrollTop = this.scrollState;
@@ -36,6 +49,7 @@ export default class PointSelector extends Component {
 
     addPoint() {
         this.props.parent.addLocation(-1);
+        this.scrollbar.current.setUpScrollbar(510);
         return;
     }
 
@@ -77,6 +91,7 @@ export default class PointSelector extends Component {
         this.setState({
             removed: ids
         });
+        this.scrollbar.current.setUpScrollbar(510);
     }
 
     resetPointRemoval() {
@@ -92,18 +107,19 @@ export default class PointSelector extends Component {
                     <div className="point-list">
                         {
                             this.props.locations.map((l, i) => {
-                                return <TripPoint toBeRemoved={this.state.removed.includes(l.id)} key={l.id} parent={this} location={l} selected={this.state.selectedIndex == l.id || this.state.selectedIndex == l.id} index={i}/>
+                                return <TripPoint firstLoad={this.state.firstLoad} toBeRemoved={this.state.removed.includes(l.id)} key={l.id} parent={this} location={l} selected={this.state.selectedIndex == l.id || this.state.selectedIndex == l.id} index={i}/>
                             })
                         }
                         {
                             this.props.locations.length == 0 || !this.props.locations[0].onlyLocation ? (
-                                <TripPoint toBeRemoved={this.state.removed.length != 0 && this.props.locations.length == 1} newPoint={true} parent={this}/>
+                                <TripPoint firstLoad={this.state.firstLoad} toBeRemoved={this.state.removed.length != 0 && this.props.locations.length == 1} newPoint={true} parent={this}/>
                             ) : (
                                 <p ref={this.psComment} className="ps-comment">The first point is set as "Only Point". Change this to add more points.</p>
                             )
                         }
                     </div>
                 </div>
+                <Scrollbar parent={this.scroll} ref={this.scrollbar} />
                 <div className={"export-wrap" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
                     <MainButton spinner={this.state.spinner} disabled={!this.props.exportable} text="Export" onClick={() => {this.export()}}/>
                 </div>

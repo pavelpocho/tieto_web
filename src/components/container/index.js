@@ -8,6 +8,7 @@ import LoginActivity from '../login-activity';
 import CookieManager from '../../utils/cookie-manager';
 import HttpCommunicator from '../../utils/http-communicator';
 import AdminActivity from '../admin-activity';
+import AllowanceDialog from '../allowance-dialog';
 const preval = require('preval.macro');
 
 export default class Container extends Component {
@@ -222,6 +223,11 @@ export default class Container extends Component {
                 {
                     this.state.activityHistory.length == 0 || this.state.activityHistory[this.state.activityHistory.length - 1].key != "tripActivity" ? (
                         <Fragment>
+                            {
+                                this.state.activityHistory.length == 0 || this.state.activityHistory[this.state.activityHistory.length - 1].key != "loginActivity" ? (
+                                    <button className={"main-show-allowances" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ripplecolor="gray" onClick={() => {this.openDialog(<AllowanceDialog key={"allowanceDialog"} container={this} />)}}>Show Allowance Rates</button>
+                                ) : null
+                            }
                             <p className={"web-app-version" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Trippi WebApp Alpha {version} - Build Date: {dateString}</p>
                             <p className={"api-version" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Trippi API Alpha {this.state.apiVersion} - Build Date: {apiDateString}</p>
                             <a ripple="none" href="./changelog.html" target="_blank" className={"changelog-link" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Changelog</a>

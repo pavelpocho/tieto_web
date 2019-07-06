@@ -24,7 +24,7 @@ export default class OverflowMenu extends Component {
     componentDidMount() {
 
         this.ref.current.style.left = this.props.x - this.ref.current.offsetWidth + 44 + "px";
-        this.ref.current.style.top = this.props.y - 8 + "px";
+        this.ref.current.style.top = Math.min(this.props.y - 8, window.innerHeight - this.ref.current.childNodes.length * 50) + "px";
 
         setTimeout(() => {
             this.ref.current.style.height = this.ref.current.childNodes.length * 50 + "px";
@@ -37,8 +37,7 @@ export default class OverflowMenu extends Component {
         return (
             <Fragment>
                 <div ref={this.ref} className={"overflow-menu" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
-                    <OverflowButton menu={this} text={"Duplicate"} icon={"queue"} onClick={() => {this.props.parent.startDuplicate()}}/>
-                    <OverflowButton menu={this} text={"Delete"} icon={"delete"} onClick={() => {this.props.parent.delete()}}/>
+                    { this.props.children }
                 </div>
                 <Overlay onClick={() => {this.close()}}/>
             </Fragment>

@@ -13,3 +13,13 @@
     box-shadow: 1px 1px 10px -4px black;
     background-color: #0A0A0A;
 }
+.overflow-menu p {
+    color: #6F6F6F;
+    text-align: center;
+    line-height: 50px;
+    padding: 0px 12px;
+    margin: 0px;
+}
+.overflow-menu.dark p {
+    color: #999;
+}

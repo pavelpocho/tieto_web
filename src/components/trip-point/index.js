@@ -3,6 +3,8 @@ import React, { Fragment, Component } from 'react';
 import ObjectContainer from '../../utils/object-container';
 import { RippleManager } from '../ripple';
 import TimeInput from '../time-input';
+import OverflowMenu from '../overflow-menu';
+import OverflowButton from '../overflow-button';
 
 export default class TripPoint extends Component {
 
@@ -17,6 +19,7 @@ export default class TripPoint extends Component {
         this.departure = React.createRef();
         this.newPointLine = React.createRef();
         this.crossWrap = React.createRef();
+        this.overflow = React.createRef();
 
     }
 
@@ -47,7 +50,7 @@ export default class TripPoint extends Component {
                 if (this.button.current != null) {
                     this.button.current.style.opacity = "1";
                 }
-            }, 50);
+            }, this.props.firstLoad ? 510 : 50);
         }
         else if (this.props.newPoint && this.props.toBeRemoved) {
             setTimeout(() => {
@@ -71,8 +74,14 @@ export default class TripPoint extends Component {
             if (this.departure.current) this.departure.current.style.color = ObjectContainer.isDarkTheme() ? "#1C6D9E" : "#62B3E4";
         }
         else {
-            this.circle.current.style.backgroundColor = "#8F8F8F";
-            if (this.title.current) this.title.current.style.color = "#A0A0A0";
+            if (ObjectContainer.isDarkTheme()) {
+                this.circle.current.style.backgroundColor = "#8F8F8F";
+                if (this.title.current) this.title.current.style.color = "#A0A0A0";
+            }
+            else {
+                this.circle.current.style.backgroundColor = "#707070";
+                if (this.title.current) this.title.current.style.color = "#5F5F5F";
+            }
         }
         var crossTime = this.props.parent.props.locations[this.props.index + 1] && this.props.parent.props.locations[this.props.index + 1].crossedAt != null ? this.props.parent.props.locations[this.props.index + 1].crossedAt : -2;
         crossTime += this.props.location && crossTime > -1 ? this.props.location.departureTime : 0;
@@ -82,7 +91,7 @@ export default class TripPoint extends Component {
     componentDidMount() {
         setTimeout(() => {
             if (this.crossWrap.current) {
-                this.crossWrap.current.style.opacity = "1"
+                this.crossWrap.current.style.opacity = "1";
             }
         }, 50);
         if (this.props.newPoint && !this.props.toBeRemoved) {
@@ -94,7 +103,7 @@ export default class TripPoint extends Component {
                 if (this.button.current != null) {
                     this.button.current.style.opacity = "1";
                 }
-            }, 50);
+            }, this.props.firstLoad ? 510 : 50);
         }
         else if (this.props.newPoint && this.props.toBeRemoved) {
             setTimeout(() => {
@@ -122,7 +131,7 @@ export default class TripPoint extends Component {
                 else {
                     this.master.current.style.height = "82px";
                 }
-            }, 50);
+            }, this.props.firstLoad ? 510 : 50);
             if (this.button.current) RippleManager.setToButton(this.button.current); 
         }
     }
@@ -133,6 +142,33 @@ export default class TripPoint extends Component {
 
     zeroBeforeText(t) {
         return t.toString().length < 2 ? "0" + t.toString() : t.toString();
+    }
+
+    openOverflow(e) {
+        this.props.parent.props.parent.props.container.openDialog(
+            <OverflowMenu ref={this.overflow} parent={this} key="overflow-menu" container={this.props.parent.props.parent.props.container} x={e.clientX} y={e.clientY}>
+                {
+                    this.props.index == 0 && this.props.parent.props.parent.state.tripObject.locations.length == 1 ? (
+                        <OverflowButton menu={this.overflow} text={"Set As " + (this.props.location.onlyLocation ? "First" : "Only") + " Point"} icon={"repeat_one"} onClick={() => {this.props.parent.props.parent.changeOnlyLocation(this.props.location)}}/>
+                    ) : null
+                }
+                {
+                    this.props.location.sectionModified ? (
+                        <OverflowButton menu={this.overflow} text={"Reset Modifications"} icon={"refresh"} onClick={() => {this.props.parent.props.parent.resetModifications(this.props.location.id)}}/>
+                    ) : null
+                }
+                {
+                    !this.props.location.isCrossing ? (
+                        <OverflowButton menu={this.overflow} text={"Delete"} icon={"delete"} onClick={() => {this.props.parent.props.parent.removePoint(this.props.location)}}/>
+                    ) : null
+                }
+                {
+                    this.props.location.isCrossing && !this.props.location.sectionModified ? (
+                        <p>No Actions Available</p>
+                    ) : null
+                }
+            </OverflowMenu>
+        );
     }
 
     render() {
@@ -207,9 +243,8 @@ export default class TripPoint extends Component {
                 <div ref={this.master} className="trip-point-master-wrap">
                     <div className="tp-travel-line-wrap">
                         {
-                            //this was originaly crossTime > -2 and can now be very very broken!
                             crossTime > -2 ? (
-                                <button ripplecolor="gray" onClick={() => {this.props.parent.select(this.props.location.id)}} className={"tp-border-cross-wrap" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ref={this.crossWrap}>
+                                <button ripplecolor="gray" onContextMenu={(e) => {e.preventDefault();this.openOverflow(e)}} onClick={() => {this.props.parent.select(this.props.location.id)}} className={"tp-border-cross-wrap" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ref={this.crossWrap}>
                                     <p className={"tp-border-cross-title" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{crossFrom} <i className="material-icons">keyboard_arrow_right</i> {crossTo}: <span ref={this.title}>{display}</span></p>
                                     <div className={"tp-separator" + (ObjectContainer.isDarkTheme() ? " dark" : "")}></div>
                                     <i className={"material-icons tp-edit-icon" + (ObjectContainer.isDarkTheme() ? " dark" : "")} style={iconToDisplay == "priority_high" ? {color: ObjectContainer.isDarkTheme() ? "#c32600" : "#FF4E0B"} : {}}>{iconToDisplay}</i>
@@ -265,7 +300,7 @@ export default class TripPoint extends Component {
         else if (this.props.location.transit) {
             return (
                 <div ref={this.master} className="trip-point-master-wrap">
-                    <button ref={this.button} className={"trip-point-wrap trip-point-short" + (ObjectContainer.isDarkTheme() ? " dark" : "")} onClick={() => {this.props.parent.select(this.props.location.id)}}>
+                    <button ref={this.button} className={"trip-point-wrap trip-point-short" + (ObjectContainer.isDarkTheme() ? " dark" : "")} onContextMenu={(e) => {e.preventDefault(); this.openOverflow(e)}}onClick={() => {this.props.parent.select(this.props.location.id)}}>
                         <div className="trip-point-texts">
                             {
                                 !this.props.location.city || this.props.location.city.name == "" || this.props.location.city.country.name == ""  ? (
@@ -295,7 +330,7 @@ export default class TripPoint extends Component {
 
             return (
                 <div ref={this.master} className="trip-point-master-wrap">
-                    <button ref={this.button} className={"trip-point-wrap" + (ObjectContainer.isDarkTheme() ? " dark" : "")} onClick={() => {this.props.parent.select(this.props.location.id)}}>
+                    <button ref={this.button} className={"trip-point-wrap" + (ObjectContainer.isDarkTheme() ? " dark" : "")} onContextMenu={(e) => {e.preventDefault(); this.openOverflow(e)}} onClick={() => {this.props.parent.select(this.props.location.id)}}>
                         <div className="trip-point-texts">
                             {
                                 !this.props.location.city || this.props.location.city.name == "" ? (

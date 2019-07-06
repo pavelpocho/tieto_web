@@ -3,6 +3,7 @@ import React, { Fragment, Component } from 'react';
 import ObjectContainer from '../../utils/object-container';
 import TripPreviewState from '../trip-preview-state';
 import OverflowMenu from '../overflow-menu';
+import OverflowButton from '../overflow-button';
 import Trip from '../../utils/trip';
 import Spinner from '../spinner';
 import { RippleManager } from '../ripple';
@@ -20,6 +21,11 @@ export default class TripPreview extends Component {
             loading: false,
             status: this.props.status
         }
+
+        this.openButton = React.createRef();
+        this.prevButtonOne = React.createRef();
+        this.prevButtonTwo = React.createRef();
+        this.overflowMenu = React.createRef();
     }
 
     componentDidMount() {
@@ -35,11 +41,29 @@ export default class TripPreview extends Component {
             }, 20);
             this.props.trip.duplicated = undefined;
         }
+        this.openButton.current.onmouseover = () => {
+            this.openButton.current.style.borderColor = ObjectContainer.isDarkTheme() ? "#2F2F2F" : "#ddd";
+        }
+        this.openButton.current.onmouseout = () => {
+            this.openButton.current.style.borderColor = "transparent";
+        }
+        this.prevButtonOne.current.onmouseover = () => {
+            this.openButton.current.style.borderColor = ObjectContainer.isDarkTheme() ? "#2F2F2F" : "#ddd";
+        }
+        this.prevButtonTwo.current.onmouseover = () => {
+            this.openButton.current.style.borderColor = ObjectContainer.isDarkTheme() ? "#2F2F2F" : "#ddd";
+        }
     }
 
-    overflow(e) {
-        var bounding = e.target.getBoundingClientRect();
-        this.props.container.openDialog(<OverflowMenu parent={this} key="overflow-menu" container={this.props.container} x={bounding.left} y={bounding.top}/>);
+    overflow(e, right) {
+        var bounding = e.currentTarget.getBoundingClientRect();
+        this.props.container.openDialog(
+            <OverflowMenu ref={this.overflowMenu} parent={this} key="overflow-menu" container={this.props.container} x={right ? e.clientX : bounding.left} y={right ? e.clientY : bounding.top}>
+                <OverflowButton menu={this.overflowMenu} text={"Edit"} icon={"edit"} onClick={() => {this.props.activity.editTrip(this.props.trip)}}/>
+                <OverflowButton menu={this.overflowMenu} text={"Duplicate"} icon={"queue"} onClick={() => {this.startDuplicate()}}/>
+                <OverflowButton menu={this.overflowMenu} text={"Delete"} icon={"delete"} onClick={() => {this.delete()}}/>
+            </OverflowMenu>
+        );
     }
 
     startDuplicate() {
@@ -198,10 +222,11 @@ export default class TripPreview extends Component {
                             <Spinner size={24} position={"absolute"}/>
                         ) : null
                     }
+                    <button ref={this.openButton} className={"trip-open-button" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ripplecolor="gray" onContextMenu={(e) => {e.preventDefault(); this.overflow(e, true)}} onClick={(e) => {this.props.activity.editTrip(this.props.trip)}}></button>
                     <div className="trip-preview-left">
                         <TripPreviewState status={this.state.status} />
                         <div className="trip-preview-text-wrap">
-                            <button onClick={() => {this.props.activity.editTrip(this.props.trip)}} className={"trip-preview-title" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{this.props.trip.title ? this.props.trip.title : <i>Unnamed trip</i>}</button>
+                            <p className={"trip-preview-title" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{this.props.trip.title ? this.props.trip.title : <i>Unnamed trip</i>}</p>
                             <p className={"trip-preview-purpose" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{this.props.trip.purpose ? this.props.trip.purpose : <i>No purpose</i>}</p>
                         </div>
                     </div>
@@ -212,8 +237,8 @@ export default class TripPreview extends Component {
                             }</p>
                             <p className={"trip-preview-money" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{total == 0 ? "--" : total + " CZK"}</p>
                         </div>
-                        <button disabled={!this.props.trip.exportable} className={"trip-preview-button" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ripplecolor="gray" onClick={() => {this.tryExport()}}><i className="material-icons">local_printshop</i></button>
-                        <button className={"trip-preview-button" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ripplecolor="gray" onClick={(e) => {this.overflow(e)}}><i className="material-icons">more_vert</i></button>
+                        <button ref={this.prevButtonOne} disabled={!this.props.trip.exportable} className={"trip-preview-button" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ripplecolor="gray" onClick={() => {this.tryExport()}}><i className="material-icons">local_printshop</i></button>
+                        <button ref={this.prevButtonTwo} className={"trip-preview-button" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ripplecolor="gray" onClick={(e) => {this.overflow(e, false)}}><i className="material-icons">more_vert</i></button>
                     </div>
                 </div>
             </Fragment>

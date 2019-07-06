@@ -1,0 +1,28 @@
+.scrollbar-wrap {
+    position: absolute;
+    width: 6px;
+    right: 0;
+    top: 0;
+    z-index: 100;
+}
+.scrollbar {
+    position: absolute;
+    width: 6px;
+    top: 8px;
+    right: 8px;
+    border-radius: 3px;
+    background-color: #aaa;
+    transition: background-color 0.21s, width 0.21s cubic-bezier(0.19, 1, 0.22, 1), border-radius 0.21s cubic-bezier(0.19, 1, 0.22, 1);
+    z-index: 100;
+}
+.scrollbar.dark {
+    background-color: #5F5F5F;
+}
+.scrollbar:hover, .scrollbar:active {
+    background-color: #5F5F5F;
+    width: 10px;
+    border-radius: 5px;
+}
+.scrollbar.dark:hover, .scrollbar.dark:active {
+    background-color: #aaa;
+}

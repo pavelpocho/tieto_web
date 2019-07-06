@@ -1,19 +1,26 @@
 .pd-wrap {
-    padding-top: 70px;
-    padding-left: 34px;
     min-height: 210px;
     width: 100%;
-    transition: opacity 0.31s, transform 0.51s cubic-bezier(0.19, 1, 0.22, 1);
-    position: absolute;
     background-color: #e1e1e1;
-    overflow-y: scroll;
+    overflow-y: scroll;    
+    position: relative;
+    height: 100%;
+}
+.pd-outer-wrap {
+    transition: opacity 0.31s, transform 0.51s cubic-bezier(0.19, 1, 0.22, 1);
+    transform: translateX(40px);
     top: 0;
     bottom: 0;
-    padding-bottom: 70px;
+    right: 0;
+    width: 100%;
+    position: absolute;
+    overflow-x: hidden;
     opacity: 0;
     display: none;
-    box-sizing: border-box;
-    transform: translateX(40px);
+}
+.pd-wrap-inner {
+    padding: 70px 0px;
+    display: block;
 }
 .pd-wrap.dark {
     background-color: #1E1E1E;
@@ -137,10 +144,9 @@
     background-color: #f1f1f1;
     border-radius: 22px;
     height: 36px;
-    max-height: 186px;
-    overflow: hidden;
     transition: height 0.51s cubic-bezier(0.19, 1, 0.22, 1);
     padding: 2px 12px 6px 12px;
+    position: relative;
 }
 .trip-point-food-wrap.dark {
     background-color: #0F0F0F;
@@ -253,10 +259,4 @@
 }
 .trip-only-point-info i {
     display: none;
-}
-
-@media all/*screen*/ and (max-width: 1550px) {
-    .pd-wrap {
-        padding-bottom: 130px;
-    }
 }

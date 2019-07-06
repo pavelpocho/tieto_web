@@ -1,0 +1,85 @@
+.allowance-dialog-wrap {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100vh;
+    opacity: 0;
+    transition: opacity 0.31s;
+    z-index: 8;
+}
+.allowance-dialog-content {
+    height: 600px;
+    width: 900px;
+    position: fixed;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 1px 1px 10px -4px #999;
+    top: 50%;
+    left: 50%;
+    margin-left: -450px;
+    z-index: 12;
+    overflow-x: hidden;
+}
+.allowance-dialog-content.dark {
+    background-color: black;
+    box-shadow: 1px 1px 10px -4px #444;
+}
+.ad-country-scroll {
+    overflow-y: scroll;
+    height: 100%;
+}
+.ad-country {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.ad-country p {
+    width: 20%;
+    line-height: 20px;
+    margin: 0px 18px;
+    color: #5F5F5F;
+}
+.ad-country p {
+    color: #aaa;
+}
+.ad-country p:nth-child(2) {
+    color: #444;
+    font-size: 18px;
+}
+.ad-country.dark p:nth-child(2) {
+    color: #ccc;
+}
+.ad-country p:first-child {
+    background-color: #62B3E4;
+    color: white;
+    height: 40px;
+    width: 42px;
+    border-radius: 100%;
+    text-align: center;
+    line-height: 40px;
+    font-weight: bold;
+    box-sizing: border-box;
+}
+.ad-country.dark p:first-child {
+    background-color: #1C6D9E;
+    color: black;
+}
+.ad-country > button {
+    height: 40px;
+    width: 42px;
+    border-radius: 100%;
+    margin: 0px 18px;
+    background-color: transparent;
+    transition: background-color 0.21s;
+}
+.ad-country.dark > button > i {
+    color: #ccc;
+}
+.ad-country > button:hover {
+    background-color: #f1f1f1;
+}
+.ad-country.dark > button:hover {
+    background-color: #0f0f0f;
+}

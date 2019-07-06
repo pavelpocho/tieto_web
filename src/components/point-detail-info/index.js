@@ -8,6 +8,7 @@ import FoodInputWidget from '../food-input-widget';
 import CitySuggestions from '../city-suggestions';
 import CountrySuggestions from '../country-suggestions';
 import HttpCommunicator from '../../utils/http-communicator';
+import Scrollbar from '../scrollbar';
 
 export default class PointDetailInfo extends Component {
 
@@ -15,6 +16,7 @@ export default class PointDetailInfo extends Component {
         super(props);
 
         this.wrap = React.createRef();
+        this.outerWrap = React.createRef();
 
         if (this.props.location == undefined) return;
         
@@ -40,6 +42,7 @@ export default class PointDetailInfo extends Component {
         this.country = React.createRef();
         this.reset = React.createRef();
         this.foodWrap = React.createRef();
+        this.scrollbar = React.createRef();
     }
 
     randomCityPlaceholder() {
@@ -68,6 +71,7 @@ export default class PointDetailInfo extends Component {
 
     componentDidMount() {
         RippleManager.setUp();
+        this.outerWrap.current.style.width = this.outerWrap.current.parentElement.offsetWidth - 34 + "px";
         if (this.props.location != undefined && this.props.location.id > -1) {
             setTimeout(() => {
                 this.animateIn();
@@ -81,13 +85,13 @@ export default class PointDetailInfo extends Component {
         setTimeout(() => {
             if (this.foodWrap && this.foodWrap.current) {
                 var offset = this.foodWrap.current.childNodes[0].offsetHeight;
-                offset = offset > 186 ? 186 : offset;
                 this.foodWrap.current.style.height = offset + "px";
-                if (offset == 186) {
-                    this.foodWrap.current.style.overflowY = "scroll";
-                }
             }
         }, 50);
+        this.scrollbar.current.setUpScrollbar(510);
+        this.wrap.current.onscroll = () => {
+            this.scrollbar.current.setUpScrollbar();
+        }
     }
 
     componentDidUpdate() {
@@ -95,11 +99,7 @@ export default class PointDetailInfo extends Component {
         setTimeout(() => {
             if (this.foodWrap && this.foodWrap.current) {
                 var offset = this.foodWrap.current.childNodes[0].offsetHeight;
-                offset = offset > 186 ? 186 : offset;
                 this.foodWrap.current.style.height = offset + "px";
-                if (offset == 186) {
-                    this.foodWrap.current.style.overflowY = "scroll";
-                }
             }
         }, 50);
         //Needs to be here as well
@@ -150,24 +150,24 @@ export default class PointDetailInfo extends Component {
     }
 
     animateIn() {
-        if (this.wrap.current) this.wrap.current.style.display = "block";
-        if (this.props.animate && this.props.zIndex > 1 && this.wrap.current) {
-            this.wrap.current.style.transform = "translateX(0px)";
+        if (this.outerWrap.current) this.outerWrap.current.style.display = "block";
+        if (this.props.animate && this.props.zIndex > 1 && this.outerWrap.current) {
+            this.outerWrap.current.style.transform = "translateX(0px)";
         }
         if (this.props.animate) {
             setTimeout(() => {
-                if (this.wrap.current) {
-                    this.wrap.current.style.opacity = "1";
-                    this.wrap.current.style.transform = "translateX(0px)";
+                if (this.outerWrap.current) {
+                    this.outerWrap.current.style.opacity = "1";
+                    this.outerWrap.current.style.transform = "translateX(0px)";
                 }
             }, 20);
         }
     }
 
     animateOut() {
-        if (this.wrap.current) {
-            this.wrap.current.style.opacity = "0";
-            this.wrap.current.style.transform = "translateX(40px)";
+        if (this.outerWrap.current) {
+            this.outerWrap.current.style.opacity = "0";
+            this.outerWrap.current.style.transform = "translateX(40px)";
         }
     }
 
@@ -475,7 +475,7 @@ export default class PointDetailInfo extends Component {
                         <div className="gti-section no-left-margin" style={{marginTop: "30px"}}>
                             <p className={"trip-property-label" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Single Point Trip</p>
                             <button ripplecolor="gray" className={"pd-only-point-button" + (ObjectContainer.isDarkTheme() ? " dark" : "")} onClick={() => {this.changeOnlyLocation()}}>
-                                <div className={"fiw-checkbox" + (this.state.onlyLocation ? " checked" : "")}>
+                                <div className={"fiw-checkbox" + (this.state.onlyLocation ? " checked" : "") + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
                                     <i className="material-icons">done</i>
                                 </div>
                                 <p>Set As Only Point</p>
@@ -488,21 +488,24 @@ export default class PointDetailInfo extends Component {
             </Fragment>
         )
         return (
-            <div className={"pd-wrap" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ref={this.wrap} style={!this.props.animate && this.props.location && this.props.location.id > -1 ? {opacity: 1, transform: "translateX(0px)", display: "block", zIndex: this.props.zIndex.toString()} : {zIndex: this.props.zIndex.toString()}}>
-                <span ref={this.inner}>
-                    <div className="pd-topbar">
-                        <button ripplecolor="gray" className={"pd-back" + (ObjectContainer.isDarkTheme() ? " dark" : "")} onClick={() => {this.props.pointSelector.select(-1)}}>
-                            <i className="material-icons">arrow_back</i>
-                            Back
-                        </button>
-                        <button style={{display: (this.props.location.isCrossing || this.props.location.onlyLocation) ? "none" : ""}} ripplecolor="gray" className={"pd-back pd-del" + (ObjectContainer.isDarkTheme() ? " dark" : "")} onClick={() => {this.props.parent.removePoint(this.props.location)}}>
-                            <i className="material-icons">delete</i>
-                            Delete
-                        </button>
-                    </div>
-                    { specialPart }
-                    { modificationWarning }
-                </span>
+            <div className="pd-outer-wrap" ref={this.outerWrap} style={!this.props.animate && this.props.location && this.props.location.id > -1 ? {opacity: 1, transform: "translateX(0px)", display: "block", zIndex: this.props.zIndex.toString()} : {zIndex: this.props.zIndex.toString()}}>
+                <div className={"pd-wrap" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ref={this.wrap}>
+                    <span ref={this.inner} className="pd-wrap-inner">
+                        <div className="pd-topbar">
+                            <button ripplecolor="gray" className={"pd-back" + (ObjectContainer.isDarkTheme() ? " dark" : "")} onClick={() => {this.props.pointSelector.select(-1)}}>
+                                <i className="material-icons">arrow_back</i>
+                                Back
+                            </button>
+                            <button style={{display: (this.props.location.isCrossing || this.props.location.onlyLocation) ? "none" : ""}} ripplecolor="gray" className={"pd-back pd-del" + (ObjectContainer.isDarkTheme() ? " dark" : "")} onClick={() => {this.props.parent.removePoint(this.props.location)}}>
+                                <i className="material-icons">delete</i>
+                                Delete
+                            </button>
+                        </div>
+                        { specialPart }
+                        { modificationWarning }
+                    </span>
+                </div>
+                <Scrollbar parent={this.wrap} zIndex={this.props.zIndex.toString()} ref={this.scrollbar} />
             </div>
         )
     }

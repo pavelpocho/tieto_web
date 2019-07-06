@@ -74,6 +74,7 @@
 .feedback-text-input.dark {
     border: 2px solid #3E3E3E;
     background-color: black;
+    color: white;
 }
 .feedback-section-title {
     font-size: 19px;

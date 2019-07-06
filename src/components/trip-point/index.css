@@ -27,6 +27,7 @@
     justify-content: flex-end;
     padding: 0px 6px 0px 6px;
     margin-right: 50px;
+    align-items: center;
 }
 .trip-point-short {
     height: 52px;
@@ -77,7 +78,7 @@
     line-height: 70px;
     color: #5F5F5F;
 }
-.tp-add-point {
+.tp-add-point.dark {
     color: #A0A0A0;
 }
 .trip-point-text-second-line {

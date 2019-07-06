@@ -8,7 +8,6 @@
 .point-list-wrap {
     position: relative;
     overflow-y: scroll;
-    padding-top: 50px;
     margin-bottom: 118px;
     height: 100%;
 }
@@ -18,6 +17,7 @@
     flex-direction: column;
     align-items: flex-end;
     flex-wrap: nowrap;
+    padding-top: 50px;
 }
 .export-wrap {
     background-color: #e8e8e8;
