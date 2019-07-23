@@ -14,7 +14,9 @@ export default class HttpCommunicator {
         xhttp.onreadystatechange = ((xhttp) => {
             if (xhttp.readyState == 4) {
                 try {
-                    if (JSON.parse(xhttp.response).token != undefined) CookieManager.setCookie("token", "Bearer " + JSON.parse(xhttp.response).token, 365);
+                    if (JSON.parse(xhttp.response).token != undefined) CookieManager.setCookie("token", "Bearer " + JSON.parse(xhttp.response).token, 10000);
+                    if (JSON.parse(xhttp.response).refreshToken != undefined) CookieManager.setCookie("refreshToken", JSON.parse(xhttp.response).refreshToken, 10000);
+                    if (JSON.parse(xhttp.response).tokenExpirationUTC != undefined) CookieManager.setCookie("tokenExpirationUTC", new Date(JSON.parse(xhttp.response).tokenExpirationUTC).getTime(), 10000);
                 }
                 catch (e) {
                 }
@@ -58,6 +60,19 @@ export default class HttpCommunicator {
     }
 
     fireNext() {
+        if (HttpCommunicator.authenticated && CookieManager.getCookie("tokenExpirationUTC") - 10000 < Date.now()) {
+            this.refreshToken(() => {
+                this.fireNextInner();
+            }, () => {
+                window.location.reload();
+            });
+        }
+        else {
+            this.fireNextInner();
+        }
+    }
+
+    fireNextInner() {
         if (this.buffer.length == 0) {
             this.firing = false;
             return;
@@ -65,6 +80,27 @@ export default class HttpCommunicator {
         this.firing = true;
         this.send(this.buffer[0]);
         this.buffer.splice(0, 1);
+    }
+
+
+    refreshToken(callback, unauthorizedCallback) { 
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                HttpCommunicator.authenticated = true;
+                if (JSON.parse(xhttp.response).token != undefined) CookieManager.setCookie("token", "Bearer " + JSON.parse(xhttp.response).token, 10000);
+                if (JSON.parse(xhttp.response).refreshToken != undefined) CookieManager.setCookie("refreshToken", JSON.parse(xhttp.response).refreshToken, 10000);
+                if (JSON.parse(xhttp.response).tokenExpirationUTC != undefined) CookieManager.setCookie("tokenExpirationUTC", new Date(JSON.parse(xhttp.response).tokenExpirationUTC).getTime(), 10000);
+                callback();
+            }
+            else if (this.readyState == 4 && this.status == 401) {
+                unauthorizedCallback();
+            }
+        }
+        var cookie = CookieManager.getCookie("refreshToken");
+        xhttp.open("POST", this.url + "user/refreshToken/" + cookie);
+        xhttp.setRequestHeader("Content-Type", "application/json");
+        xhttp.send();
     }
 
 
@@ -113,7 +149,7 @@ export default class HttpCommunicator {
 
     addLocation(index, tripId, callback) { this.addPostToBuffer(this.url + "trip/addLocation/" + index, callback, tripId) }
 
-    saveCity(locationId, callback, names) { this.addPostToBuffer(this.url + "location/saveCity/" + locationId, callback, names) }
+    saveCity(locationId, callback, saveCityDT) { this.addPostToBuffer(this.url + "location/saveCity/" + locationId, callback, saveCityDT) }
 
     saveCountry(locationId, callback, country) { this.addPostToBuffer(this.url + "location/setTransitCountryName/" + locationId, callback, country) }
 
@@ -156,19 +192,19 @@ export default class HttpCommunicator {
 
 
     tokenCheck(token, callback, unauthorizedCallback) {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                callback(xhttp.response);
-            }
-            else if (this.readyState == 4 && this.status == 401) {
-                unauthorizedCallback();
-            }
+        if (CookieManager.getCookie("refreshToken") == "") {
+            unauthorizedCallback();
         }
-        xhttp.open("GET", this.url + "user/tokenCheck");
-        xhttp.setRequestHeader("Authorization", token);
-        xhttp.setRequestHeader("Content-Type", "application/json");
-        xhttp.send();
+        else if (CookieManager.getCookie("tokenExpirationUTC") == "" || parseInt(CookieManager.getCookie("tokenExpirationUTC")) < Date.now()) {
+            this.refreshToken(() => {
+                callback();
+            }, () => {
+                unauthorizedCallback();
+            });
+        }
+        else {
+            callback();
+        }
     }
 
 

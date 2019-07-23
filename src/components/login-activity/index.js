@@ -172,8 +172,8 @@ export default class LoginActivity extends Component {
             this.spinner.current.ref.current.style.display = "none";
         }
         else {
-            HttpCommunicator.token = response.Token;
             this.close();
+            HttpCommunicator.authenticated = true;
             if (response.admin) {
                 this.props.container.openActivity(<AdminActivity container={this.props.container} key="adminActivity" />);
             }

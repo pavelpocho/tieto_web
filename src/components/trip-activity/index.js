@@ -163,7 +163,7 @@ export default class TripActivity extends Component {
 
     setCity(location, city) {
         this.incrementSaving();
-        this.props.http.saveCity(location.id, (r, s) => { this.locFieldCallback(r, s) }, [city.name, city.country.name, city.googlePlaceId]);
+        this.props.http.saveCity(location.id, (r, s) => { this.locFieldCallback(r, s) }, {CityName: city.name, CountryName: city.country.name, PlaceId: city.googlePlaceId});
     }
 
     setCountry(location, country) {

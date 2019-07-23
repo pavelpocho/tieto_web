@@ -147,6 +147,7 @@ export default class TripPoint extends Component {
     openOverflow(e) {
         this.props.parent.props.parent.props.container.openDialog(
             <OverflowMenu ref={this.overflow} parent={this} key="overflow-menu" container={this.props.parent.props.parent.props.container} x={e.clientX} y={e.clientY}>
+                <OverflowButton menu={this.overflow} text={"Edit"} icon={"edit"} onClick={() => {this.props.parent.select(this.props.location.id)}}/>
                 {
                     this.props.index == 0 && this.props.parent.props.parent.state.tripObject.locations.length == 1 ? (
                         <OverflowButton menu={this.overflow} text={"Set As " + (this.props.location.onlyLocation ? "First" : "Only") + " Point"} icon={"repeat_one"} onClick={() => {this.props.parent.props.parent.changeOnlyLocation(this.props.location)}}/>
@@ -186,7 +187,13 @@ export default class TripPoint extends Component {
                         ) : null
                     }
                     <button ref={this.button} className={"trip-point-wrap add-point" + (ObjectContainer.isDarkTheme() ? " dark" : "")} onClick={() => {this.props.parent.addPoint()}}>
-                        <p className={"trip-point-text-first-line tp-add-point" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Add Point</p>
+                        {
+                            this.props.parent.props.locations.length == 0 ? (
+                                <p className={"trip-point-text-first-line tp-add-point" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Add Start Point</p>
+                            ) : (
+                                <p className={"trip-point-text-first-line tp-add-point" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Add Point</p>
+                            )
+                        }
                         <div className={"trip-point-button-circle" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
                             <i className={"material-icons trip-point-plus" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>add</i>
                         </div>

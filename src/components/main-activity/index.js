@@ -22,6 +22,7 @@ export default class MainActivity extends Component {
         this.ref = React.createRef();
         this.spinner = React.createRef();
         this.errorDisplay = React.createRef();
+        this.http = ObjectContainer.getHttpCommunicator();
 
         this.state = {
             trips: [],
@@ -34,8 +35,7 @@ export default class MainActivity extends Component {
 
     componentDidMount() {
         RippleManager.setUp();
-        var http = ObjectContainer.getHttpCommunicator();
-        http.getWelcomeDone((r, s) => {
+        this.http.getWelcomeDone((r, s) => {
             if (s == 200) {
                 if (r || ObjectContainer.isIgnoreWelcome()) {
                     this.getTripList();
@@ -76,9 +76,8 @@ export default class MainActivity extends Component {
 
     getTripList() {
         this.spinner.current.ref.current.style.display = "block";
-        let h = ObjectContainer.getHttpCommunicator();
         this.errorDisplay.current.style.display = "none";
-        h.getTripList((tripList, status) => {
+        this.http.getTripList((tripList, status) => {
             if (status != 200) {
                 this.errorDisplay.current.style.display = "block";
                 this.setState({
@@ -144,12 +143,13 @@ export default class MainActivity extends Component {
     signOut() {
         this.spinner.current.ref.current.style.display = "block";
         CookieManager.deleteCookie("token");
+        CookieManager.deleteCookie("refreshToken");
+        CookieManager.deleteCookie("tokenExpirationUTC");
         window.location.reload();
     }
 
     openHelp() {
-        var h = ObjectContainer.getHttpCommunicator();
-        window.open(h.genUrl + "help.html", "_blank");
+        window.open(this.http.genUrl + "help.html", "_blank");
     }
 
     toggleNightMode() {
@@ -196,8 +196,7 @@ export default class MainActivity extends Component {
                 trips
             }
         });
-        var h = ObjectContainer.getHttpCommunicator();
-        h.setNoExportWarnings(value, callback);
+        this.http.setNoExportWarnings(value, callback);
     }
 
     render() {

@@ -124,8 +124,9 @@ export default class FeedbackDialog extends Component {
     }
 
     moveStart(e) {
-        var subtractX = e.clientX - this.content.current.offsetLeft;
-        var subtractY = e.clientY - this.content.current.offsetTop;
+        var t = this.content.current.style.transform;
+        var subtractX = e.clientX - this.content.current.offsetLeft - (t == "" ? 0 : parseInt(t.split("(")[1].split("px")[0]));
+        var subtractY = e.clientY - this.content.current.offsetTop - (t == "" ? 0 : parseInt(t.split(",")[1].split("px")[0]));
         document.body.onmousemove = (f) => {
             this.content.current.style.marginTop = "0px";
             this.content.current.style.marginLeft = "0px";
