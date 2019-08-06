@@ -87,10 +87,9 @@
 .feedback-wrap {
     display: flex;
     align-items: center;
-    min-height: 48px;
     width: 100%;
     background-color: #f1f1f1;
-    border-radius: 28px;
+    border-radius: 8px;
     margin-bottom: 16px;
     justify-content: space-between;
     box-sizing: border-box;

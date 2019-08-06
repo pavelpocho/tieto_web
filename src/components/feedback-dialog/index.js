@@ -33,7 +33,7 @@ export default class FeedbackDialog extends Component {
         RippleManager.setUp();
         var h = ObjectContainer.getHttpCommunicator();
         h.getFeedbackList((r, s) => {
-            if (s == 200) {
+            if (s == 200 || s == 204) {
                 //List fetch successful
                 RippleManager.setUp();
                 r.sort((a, b) => {return b.postedAt - a.postedAt});
@@ -90,7 +90,7 @@ export default class FeedbackDialog extends Component {
     likeFeedback(id) {
         var http = ObjectContainer.getHttpCommunicator();
         http.likeFeedback(id, (r, s) => {
-            if (s == 200) {
+            if (s == 200 || s == 204) {
                 this.setState(prevState => {
                     let f = prevState.feedbacks;
                     for (var i = 0; i < f.length; i++) {
@@ -152,7 +152,7 @@ export default class FeedbackDialog extends Component {
             postedAt: Date.now()
         }
         h.sendFeedback(object, (r, s) => {
-            if (s == 200) {
+            if (s == 200 || s == 204) {
                 this.feedbackText.current.value = "";
                 this.setState(prevState => {
                     let f = prevState.feedbacks;
@@ -215,6 +215,36 @@ export default class FeedbackDialog extends Component {
                                                         <button ripplecolor="gray" title={f.liked ? "Unlike this feedback" : "Like this feedback"} onClick={() => {this.likeFeedback(f.id)}} className="feedback-like"><i className={"material-icons " + (f.liked ? "f-liked" : "f-not-liked")}>thumb_up</i><span className={(f.liked ? "f-liked" : "f-not-liked")}>{f.likeNumber}</span></button>
                                                     </div>
                                                 </div>
+                                                /*<div key={i} className={"feedback-wrap" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
+                                                    <div className={"feedback-topbar" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
+                                                        <div className="feedback-type-icon" style={{backgroundColor: f.type == 1 ? (ObjectContainer.isDarkTheme() ? "#E79206" : "#FAA519") : "", transform: f.type == 2 || f.type == 0 ? "scale(0.782608)" : ""}}>
+                                                            {
+                                                                f.type == 1 ? (
+                                                                    <i className="material-icons">add</i>
+                                                                ) : f.type == 2 ? (
+                                                                    <TripPreviewState status={1} />
+                                                                ) : f.type == 0 ? (
+                                                                    <TripPreviewState status={2} />
+                                                                ) : null
+                                                                <TripPreviewState status={1} />
+                                                            }
+                                                        </div>
+                                                        <p className={"feedback-name" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>John Newman</p>
+                                                        <p className={"feedback-like-count" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>(5 likes)</p>
+                                                    </div>
+                                                    <p className={"feedback-text" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>I like your app very much</p>
+                                                    <div className={"feedback-button-row" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
+                                                        <div>
+                                                            <button>Like</button>
+                                                            <button>Comment</button>
+                                                        </div>
+                                                        <div>
+                                                            <button>Edit</button>
+                                                            <button>Delete</button>
+                                                        </div>
+                                                    </div>
+                                                    <div className={"feedback-comment-section" + (ObjectContainer.isDarkTheme() ? " dark" : "")}></div>
+                                                </div>*/
                                             )
                                         })
                                     }

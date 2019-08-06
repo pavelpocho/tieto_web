@@ -247,7 +247,7 @@ export default class PointDetailInfo extends Component {
         }
         let h = ObjectContainer.getHttpCommunicator();
         h.validateCity(target.value, (v, s) => {
-            if (s == 200) {
+            if (s == 200 || s == 204) {
                 if (!this.state.disableCitySuggestor && target.value != "" && target.value != this.state.defaultCity) {
                     this.setState({
                         citySuggestions: v
@@ -293,7 +293,7 @@ export default class PointDetailInfo extends Component {
         }
         let h = ObjectContainer.getHttpCommunicator();
         h.validateCountry(target.value, (v, s) => {
-            if (s == 200) {
+            if (s == 200 || s == 204) {
                 if (!this.state.disableCountrySuggestor && target.value != "" && target.value != this.state.defaultCountry) {
                     this.setState({
                         countrySuggestions: v

@@ -105,7 +105,7 @@ export default class LoginActivity extends Component {
         var http = ObjectContainer.getHttpCommunicator();
         //Config domain
         http.checkEmail(email + "@tieto.com", (r, s) => {
-            if (s == 200) {
+            if (s == 200 || s == 204) {
                 //Check successful
                 if (r) {
                     //Okay..

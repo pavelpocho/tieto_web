@@ -62,6 +62,7 @@ export default class TripReceipt extends Component {
     render() {
 
         var tripManager = ObjectContainer.getTripManager();
+        console.log(this.props.trip);
         var money = tripManager.calculateTotal(this.props.trip, true);
 
         var date = this.props.rates != null ? new Date(this.props.rates.date) : null;

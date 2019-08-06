@@ -86,7 +86,7 @@ export default class HttpCommunicator {
     refreshToken(callback, unauthorizedCallback) { 
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
+            if (this.readyState == 4 && (this.state == 200 || this.state == 204)) {
                 HttpCommunicator.authenticated = true;
                 if (JSON.parse(xhttp.response).token != undefined) CookieManager.setCookie("token", "Bearer " + JSON.parse(xhttp.response).token, 10000);
                 if (JSON.parse(xhttp.response).refreshToken != undefined) CookieManager.setCookie("refreshToken", JSON.parse(xhttp.response).refreshToken, 10000);

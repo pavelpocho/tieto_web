@@ -88,7 +88,7 @@ export default class TripPreview extends Component {
         this.ref.current.style.opacity = "0.6";
         var duplicateObject = { tripId: this.props.trip.id, date: date == null ? -1 : date };
         h.duplicateTrip(duplicateObject, (t, s) => {
-            if (s == 200) {
+            if (s == 200 || s == 204) {
                 setTimeout(() => {
                     var newTrip = new Trip();
                     Object.assign(newTrip, t);
@@ -146,7 +146,7 @@ export default class TripPreview extends Component {
         });
         var h = ObjectContainer.getHttpCommunicator();
         h.getExportToken(this.props.trip.id, (t, s) => {
-            if (s == 200 && t != "") {
+            if (s == 200 || s == 204 && t != "") {
                 if (t == null) {
                     //Incomplete info.. handle gracefully
                 }
@@ -188,7 +188,7 @@ export default class TripPreview extends Component {
             loading: true
         })
         h.deleteTrip(this.props.trip.id, (v, s) => {
-            if (s == 200) {
+            if (s == 200 || s == 204) {
                 setTimeout(() => {
                     this.ref.current.style.height = "0px";
                     this.ref.current.style.opacity = "0";

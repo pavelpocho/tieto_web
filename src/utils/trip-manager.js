@@ -70,7 +70,7 @@ export default class TripManager {
                 }
             }
         }
-
+        console.log(eur);
         var total = Math.round((eur.amount * eur.rate + usd.amount * usd.rate + gbp.amount * gbp.rate + chf.amount * chf.rate + czk.amount) * 100) / 100;
         if (isNaN(total)) {
             total = 0;

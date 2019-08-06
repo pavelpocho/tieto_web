@@ -36,7 +36,7 @@ export default class MainActivity extends Component {
     componentDidMount() {
         RippleManager.setUp();
         this.http.getWelcomeDone((r, s) => {
-            if (s == 200) {
+            if (s == 200 || s == 204) {
                 if (r || ObjectContainer.isIgnoreWelcome()) {
                     this.getTripList();
                 }

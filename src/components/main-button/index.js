@@ -13,7 +13,9 @@ export default class MainButton extends Component {
     render() {
         return (
             <button disabled={this.props.disabled} className={"main-button-wrap" + (ObjectContainer.isDarkTheme() ? " dark" : "")} onClick={() => {this.props.onClick()}}>
-                {this.props.spinner ? <Spinner color="white" size={24} position={"absolute"}/> : this.props.text.toUpperCase()}
+                <span>
+                    {this.props.spinner ? <Spinner color="white" size={24} position={"absolute"}/> : this.props.text.toUpperCase()}
+                </span>                
             </button>
         )
     }

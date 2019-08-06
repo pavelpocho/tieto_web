@@ -28,7 +28,7 @@ export default class AdminActivity extends Component {
     componentDidMount() {
         let h = ObjectContainer.getHttpCommunicator();
         h.getCountryList((r, s) => {
-            if (s == 200) {
+            if (s == 200 || s == 204) {
                 //Success
                 this.setState({
                     countries: r
@@ -42,7 +42,7 @@ export default class AdminActivity extends Component {
             }
         });
         h.getConfigurationList((r, s) => {
-            if (s == 200) {
+            if (s == 200 || s == 204) {
                 //Success
                 this.setState({
                     configuration: r
@@ -56,7 +56,7 @@ export default class AdminActivity extends Component {
             }
         });
         h.getFeedbackList((r, s) => {
-            if (s == 200) {
+            if (s == 200 || s == 204) {
                 //List fetch successful
                 r.sort((a, b) => {return b.postedAt - a.postedAt});
                 this.setState({
@@ -118,7 +118,7 @@ export default class AdminActivity extends Component {
 
         var h = ObjectContainer.getHttpCommunicator();
         h.saveCountryAllowance(allowance, (r, s) => {
-            if (s == 200) {
+            if (s == 200 || s == 204) {
                 if (this.state.pendingRequests == 1) {
                     this.saveIndicator.current.setStatus(0);
                 }
@@ -151,7 +151,7 @@ export default class AdminActivity extends Component {
 
         var h = ObjectContainer.getHttpCommunicator();
         h.saveConfiguration(config, (r, s) => {
-            if (s == 200) {
+            if (s == 200 || s == 204) {
                 if (this.state.pendingRequests == 1) {
                     this.saveIndicator.current.setStatus(0);
                 }
@@ -189,7 +189,7 @@ export default class AdminActivity extends Component {
 
         var h = ObjectContainer.getHttpCommunicator();
         h.saveCountryAllowances(allowances, (r, s) => {
-            if (s == 200) {
+            if (s == 200 || s == 204) {
                 if (this.state.pendingRequests == 1) {
                     this.saveIndicator.current.setStatus(0);
                 }
@@ -245,7 +245,7 @@ export default class AdminActivity extends Component {
         this.saveIndicator.current.setStatus(1);
 
         h.addFeedbackReply(id, text, (r, s) => {
-            if (s == 200) {
+            if (s == 200 || s == 204) {
                 this.setState((prevState) => {
                     let f = prevState.feedbacks;
                     for (var i = 0; i < f.length; i++) {
@@ -273,7 +273,7 @@ export default class AdminActivity extends Component {
         this.saveIndicator.current.setStatus(1);
 
         h.resolveFeedback(id, (r, s) => {
-            if (s == 200) {
+            if (s == 200 || s == 204) {
                 this.setState((prevState) => {
                     let f = prevState.feedbacks;
                     for (var i = 0; i < f.length; i++) {
@@ -301,7 +301,7 @@ export default class AdminActivity extends Component {
         this.saveIndicator.current.setStatus(1);
 
         h.deleteFeedback(id, (r, s) => {
-            if (s == 200) {
+            if (s == 200 || s == 204) {
                 this.setState((prevState) => {
                     let f = prevState.feedbacks;
                     for (var i = 0; i < f.length; i++) {

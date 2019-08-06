@@ -57,7 +57,7 @@ export default class Container extends Component {
         }
 
         h.getApiVersion((r, s) => {
-            if (s == 200) {
+            if (s == 200 || s == 204) {
                 this.setState({
                     apiVersion: r.split(";")[0],
                     apiBuildDate: r.split(";")[1]

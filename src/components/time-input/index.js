@@ -78,7 +78,7 @@ export default class TimeInput extends Component {
             e.preventDefault();
             this.minutes.current.focus();
         }
-        else if (e.target.value.length == 2 && e.keyCode != 8 && e.keyCode != 37 && e.keyCode != 39 && e.keyCode != 46) {
+        else if (e.target.value.length == 2 && e.target.selectionStart == e.target.selectionEnd && e.keyCode != 8 && e.keyCode != 37 && e.keyCode != 39 && e.keyCode != 46) {
             this.minutes.current.focus();
         }
     }

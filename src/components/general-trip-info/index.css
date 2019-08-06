@@ -45,3 +45,11 @@
     text-align: center;
     width: 150px;
 }
+.mandatory-text {
+    font-weight: bold;
+    color: #777;
+    margin-left: 50px;
+}
+.mandatory-text.dark {
+    color: #8F8F8F;
+}

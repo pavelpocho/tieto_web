@@ -93,7 +93,7 @@ export default class TripActivity extends Component {
     }
 
     locFieldCallback(r, s) {
-        if (s == 200) {
+        if (s == 200 || s == 204) {
             if (this.state.pendingRequests == 1) {
                 this.saveIndicator.current.setStatus(0);
             }
@@ -334,7 +334,7 @@ export default class TripActivity extends Component {
         var cc = currency == "EUR" ? 0 : currency == "USD" ? 1 : currency == "CZK" ? 2 : currency == "CHF" ? 3 : 4;
         this.incrementSaving();
         this.props.http.editExchangeRate(this.state.tripObject.id, currency, value, (r, s) => {
-            if (s == 200) {
+            if (s == 200 || s == 204) {
                 //Success
                 if (this.state.pendingRequests == 1) {
                     this.saveIndicator.current.setStatus(0);
@@ -374,7 +374,7 @@ export default class TripActivity extends Component {
             }
         });
         this.props.http.resetExchangeRate(this.state.tripObject.id, currency, (r, s) => {
-            if (s == 200) {
+            if (s == 200 || s == 204) {
                 //Success
                 if (this.state.pendingRequests == 1) {
                     this.saveIndicator.current.setStatus(0);
@@ -422,7 +422,7 @@ export default class TripActivity extends Component {
 
     confirmExport() {
         this.props.http.getExportToken(this.state.tripObject.id, (t, s) => {
-            if (s == 200 && t != "") {
+            if (s == 200 || s == 204 && t != "") {
                 this.props.http.exportTrip(t, (w) => {
                     this.pointSelector.current.exportDone();
                     if (w != null) {
@@ -446,7 +446,7 @@ export default class TripActivity extends Component {
         });
         this.incrementSaving();
         this.props.http.setNoExportWarnings(value, (r, s) => {
-            if (s == 200) {
+            if (s == 200 || s == 204) {
                 if (this.state.pendingRequests == 1) {
                     this.saveIndicator.current.setStatus(0);
                 }

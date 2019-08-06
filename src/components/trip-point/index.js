@@ -367,7 +367,15 @@ export default class TripPoint extends Component {
                         </div>
                         <div className={"trip-point-button-circle" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ref={this.circle} style={this.props.location && this.props.location.city && this.props.location.city.name == "Transit_Country" ? {backgroundColor: "#707070", height: "40px", borderRadius: "20px"} : {}}>
                         {
-                            (this.props.location.city == null || this.props.location.city.country.code == null || this.props.location.city.country.code == "") ? (
+                            (this.props.location.arrivalDate != null && 
+                            this.props.location.arrivalDate != -1 &&
+                            this.props.location.departureDate != null &&
+                            this.props.location.departureDate != -1 &&
+                            this.props.location.arrivalTime != null &&
+                            this.props.location.departureTime != null &&
+                            this.props.location.departureTime + this.props.location.departureDate < this.props.location.arrivalTime + this.props.location.arrivalDate) ? (
+                                <p style={{padding: "10px", borderRadius: "100%", backgroundColor: ObjectContainer.isDarkTheme() ? "black" : "white"}} className={"trip-point-country-code" + (ObjectContainer.isDarkTheme() ? " dark" : "")}><i className="material-icons" style={{fontSize: "36px", color: (ObjectContainer.isDarkTheme() ? "#C32600" : "#FF4E0B")}}>priority_high</i></p>
+                            ) : (this.props.location.city == null || this.props.location.city.country.code == null || this.props.location.city.country.code == "") ? (
                                 <div className={"trip-point-placeholder-circle" + (ObjectContainer.isDarkTheme() ? " dark" : "")}></div>
                             ) : (
                                 <p className={"trip-point-country-code" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{this.props.location.city.country.code}</p>
