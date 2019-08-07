@@ -257,14 +257,14 @@ export default class TripPoint extends Component {
                                     <i className={"material-icons tp-edit-icon" + (ObjectContainer.isDarkTheme() ? " dark" : "")} style={iconToDisplay == "priority_high" ? {color: ObjectContainer.isDarkTheme() ? "#c32600" : "#FF4E0B"} : {}}>{iconToDisplay}</i>
                                 </button>
                             ) : wrongTimesWarning ? (
-                                <div className={"tp-border-cross-wrap" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ref={this.crossWrap}>
+                                <div title={"You cannot travel in time!"} className={"tp-border-cross-wrap" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ref={this.crossWrap}>
                                     <p className={"tp-border-cross-title" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Timeline error</p>
                                     <div className={"tp-separator" + (ObjectContainer.isDarkTheme() ? " dark" : "")}></div>                                
                                     <i className={"material-icons tp-edit-icon" + (ObjectContainer.isDarkTheme() ? " dark" : "")} style={iconToDisplay == "priority_high" ? {color: ObjectContainer.isDarkTheme() ? "#c32600" : "#FF4E0B"} : {}}>priority_high</i>
                                 </div>
                             ) : prevLocation.city.country.name != nextLocation.city.country.name && prevLocation.city.country.name != "" && nextLocation.city.country.name != "" ? (
                                 //Unfinished info
-                                <div className={"tp-border-cross-wrap" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ref={this.crossWrap}>
+                                <div title={"There is some important info missing here."} className={"tp-border-cross-wrap" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ref={this.crossWrap}>
                                     <p className={"tp-border-cross-title" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Incomplete info</p>
                                     <div className={"tp-separator" + (ObjectContainer.isDarkTheme() ? " dark" : "")}></div>                                
                                     <i className={"material-icons tp-edit-icon" + (ObjectContainer.isDarkTheme() ? " dark" : "")} style={{color: ObjectContainer.isDarkTheme() ? "#e79206" : "#FAA519"}}>info_outline</i>
@@ -374,7 +374,7 @@ export default class TripPoint extends Component {
                             this.props.location.arrivalTime != null &&
                             this.props.location.departureTime != null &&
                             this.props.location.departureTime + this.props.location.departureDate < this.props.location.arrivalTime + this.props.location.arrivalDate) ? (
-                                <p style={{padding: "10px", borderRadius: "100%", backgroundColor: ObjectContainer.isDarkTheme() ? "black" : "white"}} className={"trip-point-country-code" + (ObjectContainer.isDarkTheme() ? " dark" : "")}><i className="material-icons" style={{fontSize: "36px", color: (ObjectContainer.isDarkTheme() ? "#C32600" : "#FF4E0B")}}>priority_high</i></p>
+                                <p title={"Departure cannot be earlier than the arrival."} style={{padding: "10px", borderRadius: "100%", backgroundColor: ObjectContainer.isDarkTheme() ? "black" : "white"}} className={"trip-point-country-code" + (ObjectContainer.isDarkTheme() ? " dark" : "")}><i className="material-icons" style={{fontSize: "36px", color: (ObjectContainer.isDarkTheme() ? "#C32600" : "#FF4E0B")}}>priority_high</i></p>
                             ) : (this.props.location.city == null || this.props.location.city.country.code == null || this.props.location.city.country.code == "") ? (
                                 <div className={"trip-point-placeholder-circle" + (ObjectContainer.isDarkTheme() ? " dark" : "")}></div>
                             ) : (

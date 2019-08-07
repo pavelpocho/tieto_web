@@ -30,13 +30,15 @@ export default class FeedbackDialog extends Component {
     }
 
     componentDidMount() {
-        RippleManager.setUp();
         var h = ObjectContainer.getHttpCommunicator();
         h.getFeedbackList((r, s) => {
             if (s == 200 || s == 204) {
                 //List fetch successful
-                RippleManager.setUp();
+                setTimeout(() => {
+                    RippleManager.setUp();
+                }, 150);
                 r.sort((a, b) => {return b.postedAt - a.postedAt});
+                console.log(r);
                 this.setState({
                     feedbacks: r
                 })
@@ -156,7 +158,7 @@ export default class FeedbackDialog extends Component {
                 this.feedbackText.current.value = "";
                 this.setState(prevState => {
                     let f = prevState.feedbacks;
-                    f.push({likeNumber: 1, text: object.text, id: r, liked: true, postedAt: object.postedAt, type: object.isError ? 0 : object.isImprovement ? 1 : 2});
+                    f.push(r);
                     f.sort((a, b) => {return b.postedAt - a.postedAt});
                     return {
                         feedbacks: f,
@@ -187,7 +189,7 @@ export default class FeedbackDialog extends Component {
                         <div className="ma-window-left" ref={this.leftPart}>
                             <div className="ma-window-left-scroll" ref={this.scroll}>
                                 <div className="ma-window-left-inner-scroll">
-                                    <p className={"feedback-section-title" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Other Users' Feedback</p>
+                                    <p className={"feedback-section-title" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Published Feedback</p>
                                     {
                                         this.state.feedbacks == null ? (
                                             <Spinner position={"absolute"} size={40} />
@@ -195,7 +197,7 @@ export default class FeedbackDialog extends Component {
                                             <p className={"feedback-empty" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Wow, such empty ( ͠° ͟ʖ ͠°)</p>
                                         ) : this.state.feedbacks.map((f, i) => {
                                             return (
-                                                <div key={i} className={"feedback-wrap" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
+                                                /*<div key={i} className={"feedback-wrap" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
                                                     <div>
                                                         <div className="feedback-type-icon" style={{backgroundColor: f.type == 1 ? (ObjectContainer.isDarkTheme() ? "#E79206" : "#FAA519") : "", transform: f.type == 2 || f.type == 0 ? "scale(0.782608)" : ""}}>
                                                             {
@@ -214,37 +216,53 @@ export default class FeedbackDialog extends Component {
                                                         <p className={"feedback-date" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{new Date(f.postedAt).getUTCDate() + "." + (new Date(f.postedAt).getUTCMonth() + 1) + "." + new Date(f.postedAt).getUTCFullYear()}</p>
                                                         <button ripplecolor="gray" title={f.liked ? "Unlike this feedback" : "Like this feedback"} onClick={() => {this.likeFeedback(f.id)}} className="feedback-like"><i className={"material-icons " + (f.liked ? "f-liked" : "f-not-liked")}>thumb_up</i><span className={(f.liked ? "f-liked" : "f-not-liked")}>{f.likeNumber}</span></button>
                                                     </div>
-                                                </div>
-                                                /*<div key={i} className={"feedback-wrap" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
+                                                </div>*/
+                                                <div key={i} className={"feedback-wrap" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
                                                     <div className={"feedback-topbar" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
-                                                        <div className="feedback-type-icon" style={{backgroundColor: f.type == 1 ? (ObjectContainer.isDarkTheme() ? "#E79206" : "#FAA519") : "", transform: f.type == 2 || f.type == 0 ? "scale(0.782608)" : ""}}>
-                                                            {
-                                                                f.type == 1 ? (
-                                                                    <i className="material-icons">add</i>
-                                                                ) : f.type == 2 ? (
-                                                                    <TripPreviewState status={1} />
-                                                                ) : f.type == 0 ? (
-                                                                    <TripPreviewState status={2} />
-                                                                ) : null
-                                                                <TripPreviewState status={1} />
-                                                            }
-                                                        </div>
-                                                        <p className={"feedback-name" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>John Newman</p>
-                                                        <p className={"feedback-like-count" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>(5 likes)</p>
+                                                        <span>
+                                                            <div className="feedback-type-icon" style={{backgroundColor: f.type == 1 ? (ObjectContainer.isDarkTheme() ? "#E79206" : "#FAA519") : "", transform: f.type == 2 || f.type == 0 ? "scale(0.782608)" : ""}}>
+                                                                {
+                                                                    f.type == 1 ? (
+                                                                        <i className="material-icons">add</i>
+                                                                    ) : f.type == 2 ? (
+                                                                        <TripPreviewState status={1} />
+                                                                    ) : f.type == 0 ? (
+                                                                        <TripPreviewState status={2} />
+                                                                    ) : null
+                                                                }
+                                                            </div>
+                                                            <p className={"feedback-name" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{f.author.fullName}</p>
+                                                        </span>
+                                                        <span>
+                                                            <p className={"feedback-date" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{new Date(f.postedAt).getUTCDate() + "." + (new Date(f.postedAt).getUTCMonth() + 1) + "." + new Date(f.postedAt).getUTCFullYear()}</p>
+                                                        </span>
                                                     </div>
-                                                    <p className={"feedback-text" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>I like your app very much</p>
+                                                    <p className={"feedback-text" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{f.text}</p>
                                                     <div className={"feedback-button-row" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
                                                         <div>
-                                                            <button>Like</button>
-                                                            <button>Comment</button>
+                                                            <button onClick={() => {this.likeFeedback(f.id)}} ripplecolor="white" title={f.liked ? "Unlike this feedback" : "Like this feedback"} className={"feedback-button feedback-left-button " + (f.liked ? "f-liked " : "f-not-liked ") + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Like<i className={"material-icons"}>thumb_up</i>({f.likeNumber})</button>
+                                                            {/*<button className={"feedback-button feedback-left-button" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Comment<i className="material-icons">add_comment</i></button>
                                                         </div>
                                                         <div>
-                                                            <button>Edit</button>
-                                                            <button>Delete</button>
+                                                            <button className={"feedback-button feedback-right-button" + (ObjectContainer.isDarkTheme() ? " dark" : "")}><i className="material-icons">edit</i></button>
+                                                            <button className={"feedback-button feedback-right-button" + (ObjectContainer.isDarkTheme() ? " dark" : "")}><i className="material-icons">delete</i></button>*/}
                                                         </div>
                                                     </div>
-                                                    <div className={"feedback-comment-section" + (ObjectContainer.isDarkTheme() ? " dark" : "")}></div>
-                                                </div>*/
+                                                    {/*<div className={"feedback-comment-section" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
+                                                        <div className={"feedback-comment-wrap" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
+                                                            <div className={"feedback-comment-topbar" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
+                                                                <span>
+                                                                    <div className={"feedback-comment-dot" + (ObjectContainer.isDarkTheme() ? " dark" : "")}></div>
+                                                                    <p className={"feedback-comment-name" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>John Newman</p>
+                                                                </span>
+                                                                <span>
+                                                                    <p className={"feedback-comment-date" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>6.8.2019</p>
+                                                                </span>
+                                                            </div>
+                                                            <p className={"feedback-comment-text" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>I very much agree</p>
+                                                        </div>
+                                                    </div>*/}
+                                                </div>
                                             )
                                         })
                                     }

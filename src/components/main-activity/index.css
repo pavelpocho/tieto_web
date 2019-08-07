@@ -202,7 +202,7 @@
     height: 100%;
 }
 .ma-window-left {
-    width: 55%;
+    width: 60%;
     overflow-x: hidden;
     overflow-y: hidden;
 }
@@ -220,14 +220,12 @@
 }
 .f-liked {
     color: #62B3E4;
-    margin-right: 4px;
 }
 .f-not-liked {
-    color: #aaa;
-    margin-right: 4px;
+    color: #777;
 }
 .f-not-liked:hover, .f-not-liked:active {
-    color: #aaa;
+    color: #444;
 }
 .feedback-like {
     background-color: transparent;

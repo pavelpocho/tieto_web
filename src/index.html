@@ -175,6 +175,9 @@
                 document.body.style.backgroundColor = "black";
                 document.getElementById("init-loader-path").setAttribute("stroke", "darkgray");
             }
+            if (window.location.href.includes("/?")) {
+                window.location.replace("/");
+            }
         </script>
     </body>
 </html>
