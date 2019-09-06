@@ -1,11 +1,20 @@
 .trip-list {
-    margin-top: 28px;
+    margin-top: 10px;
     margin-bottom: 48px;
 }
 .no-trips-text {
     text-align: center;
-    font-size: 28px;
-    margin: 72px auto;
+    font-size: 24px;
+    margin: 60px auto;
     font-weight: bold;
     color: #a1a1a1;
 }
+@media only all/*screen*/ and (max-width: 550px) {
+    .trip-list {
+        margin-top: 28px;
+    }
+    .no-trips-text {
+        font-size: 18px;
+        margin: 100px auto;
+    }
+} 

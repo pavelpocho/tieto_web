@@ -1,11 +1,11 @@
 import css from './index.css';
 import React, { Fragment, Component } from 'react';
 import ObjectContainer from '../../utils/object-container';
-import MainButton from '../main-button';
 import TripPoint from '../trip-point';
 import Location from '../../utils/location';
 import Scrollbar from '../scrollbar';
 import Spinner from '../spinner';
+import MobileTripInfo from '../mobile-trip-info';
 
 export default class PointSelector extends Component {
 
@@ -15,7 +15,6 @@ export default class PointSelector extends Component {
         this.state = {
             selectedIndex: -1,
             removed: [],
-            spinner: false,
             firstLoad: true
         }
 
@@ -65,18 +64,6 @@ export default class PointSelector extends Component {
         })
     }
 
-    export() {
-        this.setState({
-            spinner: true
-        })
-        this.props.parent.export();
-    }
-    exportDone() {
-        this.setState({
-            spinner: false
-        })
-    }
-
     getSelection() {
         return this.state.selectedIndex;
     }
@@ -104,6 +91,9 @@ export default class PointSelector extends Component {
         return (
             <div className="point-selector-wrap">
                 <div ref={this.scroll} className="point-list-wrap" onScroll={(e) => {this.scrollState = e.target.scrollTop}}>
+                    <div className={"mobile-top-view"}>
+                        <MobileTripInfo onClick={() => {this.props.parent.showMainContent()}} tripName={this.props.tripName} purpose={this.props.purpose} project={this.props.project} task={this.props.task} />
+                    </div>
                     <div className="point-list">
                         {
                             this.props.locations.map((l, i) => {
@@ -120,9 +110,6 @@ export default class PointSelector extends Component {
                     </div>
                 </div>
                 <Scrollbar parent={this.scroll} ref={this.scrollbar} />
-                <div className={"export-wrap" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
-                    <MainButton spinner={this.state.spinner} disabled={!this.props.exportable} text="Export" onClick={() => {this.export()}}/>
-                </div>
             </div>
         )
     }

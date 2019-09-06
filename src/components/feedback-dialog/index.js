@@ -25,6 +25,7 @@ export default class FeedbackDialog extends Component {
         }
 
         this.leftPart = React.createRef();
+        this.rightPart = React.createRef();
         this.scrollbar = React.createRef();
         this.scroll = React.createRef();
     }
@@ -144,6 +145,16 @@ export default class FeedbackDialog extends Component {
 
     //The feedback stuff gets updated in parallel with the server posts, but is not updated from the server!
 
+    maximizeLeft() {
+        this.leftPart.current.style.display = "block";
+        this.rightPart.current.style.display = "none";
+    }
+
+    maximizeRight() {
+        this.leftPart.current.style.display = "none";
+        this.rightPart.current.style.display = "block";
+    }
+
     sendFeedback() {
         var h = ObjectContainer.getHttpCommunicator();
         var object = {
@@ -184,6 +195,10 @@ export default class FeedbackDialog extends Component {
                         <button onClick={() => {this.close()}} ripplecolor="gray" ref={this.closeButton} className="ma-window-close"><i className="material-icons">arrow_back</i>Back</button>
                         <p>Feedback</p>
                         <span></span> {/*This is here so that I can use justify-content space-between*/}
+                    </div>
+                    <div className="ma-window-sub-topbar">
+                        <button ripplecolor="gray" onClick={() => {this.maximizeLeft()}} >View Feedback</button>
+                        <button ripplecolor="gray" onClick={() => {this.maximizeRight()}} >Write Feedback</button>
                     </div>
                     <div className="ma-window-main">
                         <div className="ma-window-left" ref={this.leftPart}>
@@ -270,7 +285,7 @@ export default class FeedbackDialog extends Component {
                                 <Scrollbar parent={this.scroll} ref={this.scrollbar} />
                             </div>
                         </div>
-                        <div className="ma-window-right">
+                        <div className="ma-window-right" ref={this.rightPart} >
                             <p className="feedback-section-title">Submit Feedback</p>
                             <button ripplecolor="gray" onClick={() => {this.isLike()}} className={"feedback-type-wrap" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
                                 <div className={"fiw-checkbox uncheck-white" + (this.state.isLike ? " checked check-blue" : "") + (ObjectContainer.isDarkTheme() ? " dark" : "")}>

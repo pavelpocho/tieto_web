@@ -13,6 +13,7 @@ import TripPoint from '../trip-point';
 import WelcomeDialog from '../welcome-dialog';
 import CookieManager from '../../utils/cookie-manager';
 import FeedbackDialog from '../feedback-dialog';
+import FeaturePromote from '../feature-promote';
 
 export default class MainActivity extends Component {
 
@@ -223,6 +224,7 @@ export default class MainActivity extends Component {
                 <Spinner ref={this.spinner} size={60} position={"fixed"} />
                 <div className="activity" id="main-activity" ref={this.ref}>
                     <div className={"ma-topbar-content" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
+                        <div className={"ma-topbar-background" + (ObjectContainer.isDarkTheme() ? " dark" : "")}></div>
                         {/*<button ripplecolor="gray" className={"ma-settings-toggle" + (ObjectContainer.isDarkTheme() ? " dark" : "")} title="Toggle Animations" onClick={() => {this.toggleAnimations()}}><i className={ObjectContainer.isAnimations() ? "material-icons" : (ObjectContainer.isDarkTheme() ? "material-icons blue dark" : "material-icons blue")}>offline_bolt</i></button>*/}
                         <button ripplecolor="gray" className={"ma-settings-toggle" + (ObjectContainer.isDarkTheme() ? " dark" : "")} title="Toggle Night Mode" onClick={() => {this.toggleNightMode()}}><i className="material-icons" style={{color: ObjectContainer.isDarkTheme() ? "yellow" : "", transformOrigin: "center", transform: "rotate(135deg)"}} >brightness_3</i></button>
                         <div className="ma-toggle-separator"></div>
@@ -233,8 +235,10 @@ export default class MainActivity extends Component {
                     </div>
                     <div className="content-wrap">
                         <div className="top-content-wrap">
-                            <SortWidget position={this.state.sortBy} parent={this}/>
-                            <MainButton text="New Trip" onClick={() => {this.newTrip()}}/>
+                            <div className="top-content-inner">
+                                <SortWidget position={this.state.sortBy} parent={this}/>
+                                <MainButton text="New Trip" onClick={() => {this.newTrip()}}/>
+                            </div>
                         </div>
                         <div className="error-display" ref={this.errorDisplay}>
                             <p>Something went wrong...</p>
@@ -257,6 +261,10 @@ export default class MainActivity extends Component {
                             ) : null
                         }
                         
+                    </div>
+                    <div className="feature-promote-section">
+                        <FeaturePromote onClick={() => {this.openHelp()}} icon={"help"} title={"Need help?"} buttonText={"Open Help Page"} />
+                        <FeaturePromote onClick={() => {this.openFeedback()}} icon={"feedback"} title={"Got something to say?"} buttonText={"Send Feedback"} />
                     </div>
                 </div>
             </Fragment>

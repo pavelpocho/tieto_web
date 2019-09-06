@@ -9,12 +9,12 @@ body {
 }
 
 #background-top-strip {
-    height: 72px;
+    height: 140px;
     background-color: white;
     width: 0px;
     transition: width 2s cubic-bezier(0.19, 1, 0.22, 1);
     position: fixed;
-    opacity: 0.4;
+    opacity: 0.6;
     z-index: 5;
 }
 #background-top-strip.dark {
@@ -22,22 +22,34 @@ body {
 }
 
 #background-logo-wrap {
-    z-index: 11;
+    z-index: 7;
     opacity: 0;
+    display: none;
     position: fixed;
-    transform: translate(-30px, -30px);
+    transform-origin: top left;
+    transform: scale(0.8);
     transition: opacity 1s, transform 1s cubic-bezier(0.19, 1, 0.22, 1);
 }
+@media only all/*screen*/ and (min-width: 1100px) {
+    #background-logo-wrap {
+        transform: scale(0.9);
+    }
+} 
+@media only all/*screen*/ and (max-width: 550px) {
+    #background-logo-wrap {
+        display: none !important;
+    }
+} 
 
 #background-logo-background-wrap {
-    height: 140px;
+    height: 98px;
     position: absolute;
-    width: 236px;
+    width: 194px;
 }
 #background-logo-background {
     fill: #62B3E4;
-    height: 140px;
-    width: 236px;
+    height: 98px;
+    width: 194px;
 }
 #background-logo-background.dark {
     fill: #1C6D9E;
@@ -48,18 +60,23 @@ body {
     opacity: 0;
     right: 0px;
     top: 0px;
-    height: 100vh;
+    height: 1080px;
     width: 1920px;
-    transform: translateX(200px);
     transition: opacity 1s, transform 1s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-#background-shape {
+#background-shape,#background-shape-2 {
     fill: #f1f1f1;
     transition: fill 0.31s;
 }
-#background-shape.dark {
+#background-shape.dark, #background-shape-2.dark {
     fill: #0f0f0f;
+}
+
+@media all and (max-width: 1200px) {
+    #background-shape, #background-shape-2 {
+        display: none;
+    }
 }
 
 #background-receipt {

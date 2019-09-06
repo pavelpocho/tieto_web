@@ -129,7 +129,7 @@ export default class TripPoint extends Component {
                     this.master.current.style.height = "120px";
                 }
                 else {
-                    this.master.current.style.height = "82px";
+                    this.master.current.style.height = "74px";
                 }
             }, this.props.firstLoad ? 510 : 50);
             if (this.button.current) RippleManager.setToButton(this.button.current); 
@@ -161,11 +161,6 @@ export default class TripPoint extends Component {
                 {
                     !this.props.location.isCrossing ? (
                         <OverflowButton menu={this.overflow} text={"Delete"} icon={"delete"} onClick={() => {this.props.parent.props.parent.removePoint(this.props.location)}}/>
-                    ) : null
-                }
-                {
-                    this.props.location.isCrossing && !this.props.location.sectionModified ? (
-                        <p>No Actions Available</p>
                     ) : null
                 }
             </OverflowMenu>

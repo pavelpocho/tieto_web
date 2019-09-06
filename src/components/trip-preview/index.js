@@ -42,16 +42,16 @@ export default class TripPreview extends Component {
             this.props.trip.duplicated = undefined;
         }
         this.openButton.current.onmouseover = () => {
-            this.openButton.current.style.borderColor = ObjectContainer.isDarkTheme() ? "#2F2F2F" : "#ddd";
+            if (window.innerWidth > 550) this.openButton.current.style.borderColor = ObjectContainer.isDarkTheme() ? "#3f3f3f" : "#ccc";
         }
         this.openButton.current.onmouseout = () => {
             this.openButton.current.style.borderColor = "transparent";
         }
         this.prevButtonOne.current.onmouseover = () => {
-            this.openButton.current.style.borderColor = ObjectContainer.isDarkTheme() ? "#2F2F2F" : "#ddd";
+            if (window.innerWidth > 550) this.openButton.current.style.borderColor = ObjectContainer.isDarkTheme() ? "#3f3f3f" : "#ccc";
         }
         this.prevButtonTwo.current.onmouseover = () => {
-            this.openButton.current.style.borderColor = ObjectContainer.isDarkTheme() ? "#2F2F2F" : "#ddd";
+            if (window.innerWidth > 550) this.openButton.current.style.borderColor = ObjectContainer.isDarkTheme() ? "#3f3f3f" : "#ccc";
         }
     }
 
@@ -59,6 +59,11 @@ export default class TripPreview extends Component {
         var bounding = e.currentTarget.getBoundingClientRect();
         this.props.container.openDialog(
             <OverflowMenu ref={this.overflowMenu} parent={this} key="overflow-menu" container={this.props.container} x={right ? e.clientX : bounding.left} y={right ? e.clientY : bounding.top}>
+                {
+                    window.innerWidth <= 550 ? (
+                        <OverflowButton disabled={!this.props.trip.exportable} onClick={() => {this.tryExport()}} menu={this.overflowMenu} text={"Export"} icon={"local_printshop"} />        
+                    ) : null
+                }
                 <OverflowButton menu={this.overflowMenu} text={"Edit"} icon={"edit"} onClick={() => {this.props.activity.editTrip(this.props.trip)}}/>
                 <OverflowButton menu={this.overflowMenu} text={"Duplicate"} icon={"queue"} onClick={() => {this.startDuplicate()}}/>
                 <OverflowButton menu={this.overflowMenu} text={"Delete"} icon={"delete"} onClick={() => {this.delete()}}/>
@@ -237,7 +242,7 @@ export default class TripPreview extends Component {
                             }</p>
                             <p className={"trip-preview-money" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{total == 0 ? "--" : total + " CZK"}</p>
                         </div>
-                        <button ref={this.prevButtonOne} disabled={!this.props.trip.exportable} className={"trip-preview-button" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ripplecolor="gray" onClick={() => {this.tryExport()}}><i className="material-icons">local_printshop</i></button>
+                        <button ref={this.prevButtonOne} disabled={!this.props.trip.exportable} className={"trip-preview-export trip-preview-button" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ripplecolor="gray" onClick={() => {this.tryExport()}}><i className="material-icons">local_printshop</i></button>
                         <button ref={this.prevButtonTwo} className={"trip-preview-button" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ripplecolor="gray" onClick={(e) => {this.overflow(e, false)}}><i className="material-icons">more_vert</i></button>
                     </div>
                 </div>

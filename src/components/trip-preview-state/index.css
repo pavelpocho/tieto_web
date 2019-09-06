@@ -2,9 +2,11 @@
     width: 46px;
     height: 46px;
     border-radius: 23px;
-    margin-top: 13px;
+    margin-top: 10px;
     transition: background-color 0.31s;
     margin-left: 13px;
+    transform: scale(0.87);
+    transform-origin: top left;
 }
 .state-svg {
     height: 46px;

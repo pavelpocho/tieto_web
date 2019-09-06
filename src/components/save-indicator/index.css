@@ -4,19 +4,27 @@
     cursor: default;
 }
 .si-background {
-    background-color: #e1e1e1;
+    /*background-color: #f1f1f1;*/
     height: 40px;
     border-radius: 20px;
-    margin-left: 8px;
-    padding: 0px 8px;
     cursor: default;
     display: flex;
     flex-wrap: nowrap;
     overflow: hidden;
+    /*border: 2px solid #e1e1e1;*/
     transition: width 0.51s cubic-bezier(0.19, 1, 0.22, 1);
 }
+.si-separator {
+    height: 26px;
+    width: 2px;
+    border-radius: 1px;
+    background-color: #ccc;
+    margin: 0px 8px;
+    z-index: 10;
+}
 .si-background.dark {
-    background-color: #1E1E1E;
+    /*background-color: #0E0E0E;
+    border: 2px solid #1e1e1e;*/
 }
 .si-background-inner {
     display: flex;
@@ -30,21 +38,33 @@
 .si-trip-name.dark {
     color: #1C6D9E;
 }
+@media all and (max-width: 700px) {
+    .si-trip-name {
+        display: none;
+    }
+    .si-separator {
+        display: none;
+    }
+}
 .si-state, .si-icon {
-    color: #5F5F5F;
+    color: #444;
     margin: 0px 8px;
     cursor: default;
     white-space: nowrap;
 }
+.si-icon {
+    font-size: 22px;
+    margin: 0px 4px;
+}
 .si-state.dark, .si-icon.dark {
-    color: #A0A0A0;
+    color: #BFBFBF;
 }
 .si-retry {
     background-color: transparent;
     margin-right: 16px;
     margin-left: 6px;
     color: #5F5F5F;
-    font-size: 16px;
+    font-size: 15px;
     text-decoration: underline;
     white-space: nowrap;
 }

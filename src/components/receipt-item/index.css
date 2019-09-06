@@ -11,37 +11,37 @@
 }
 .ri-currency {
     font-weight: 300;
-    color: #5F5F5F;
-    font-size: 20px;
+    color: #444;
+    font-size: 18px;
     margin: 0px;
     margin-right: 14px;
 }
 .ri-currency.dark {
-    color: #A0A0A0;
+    color: #BFBFBF;
 }
 .ri-rate {
-    height: 34px;
-    border-radius: 17px;
-    background-color: #f1f1f1;
+    height: 32px;
+    border-radius: 16px;
+    background-color: white;
     color: #62B3E4;
     font-weight: 400;
     text-align: center;
-    font-size: 19px;
-    width: 80px;
-    padding: 10px;
+    font-size: 17px;
+    width: 76px;
+    padding: 8px;
 }
 .ri-rate.dark {
     color: #1C6D9E;
     background-color: #0F0F0F;
 }
 .ri-rate:disabled {
-    color: #999;
+    color: #777;
 }
 .ri-rate.dark:disabled {
-    color: #6F6F6F;
+    color: #8F8F8F;
 }
 .ri-amount {
-    font-size: 22px;
+    font-size: 19px;
     margin: 0px;
 }
 .ri-amount.dark {
@@ -49,14 +49,14 @@
 }
 .ri-refresh {
     border-radius: 100%;
-    color: #5F5F5F;
+    color: #444;
     background-color: transparent;
     height: 30px;
     width: 30px;
     margin-left: 12px;
 }
 .ri-refresh.dark {
-    color: #A0A0A0;
+    color: #BFBFBF;
 }
 .ri-refresh:hover, .ri-refresh:active {
     background-color: #e6e6e6;

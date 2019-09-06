@@ -1,13 +1,16 @@
 .gti-wrap {
-    padding-top: 50px;
+    padding-top: 40px;
 }
 .gti-section {
     display: flex;
     position: relative;
-    margin: 30px 50px;
+    margin: 30px 40px;
 }
 .less-top {
     margin-top: 15px;
+}
+.less-top:first-child {
+    margin-top: 10px;
 }
 .gti-section > p {
     margin: 0px;
@@ -27,14 +30,17 @@
     background-color: black;
 }
 .trip-property-label {
-    font-size: 22px;
-    color: #5F5F5F;
-    width: 230px;
-    line-height: 42px;
+    font-size: 18px;
+    color: #444;
+    width: 190px;
+    line-height: 36px;
     margin: 15px 0px;
     display: flex;
     align-items: center;
     align-self: start;
+}
+.trip-property-label.dark {
+    color: #BFBFBF;
 }
 #gti-project {
     width: 180px;
@@ -46,10 +52,30 @@
     width: 150px;
 }
 .mandatory-text {
-    font-weight: bold;
-    color: #777;
-    margin-left: 50px;
+    color: #5F5F5F;
+    margin-left: 40px;
 }
 .mandatory-text.dark {
-    color: #8F8F8F;
+    color: #A0A0A0;
+}
+@media all and (min-width: 1031px) {
+    .mobile-top-view {
+        display: none;
+    }
+}
+@media all and (max-width: 630px) {
+    .gti-section {
+        flex-direction: column;
+        align-items: center;
+    }
+    .trip-property-label {
+        display: block;
+        text-align: center;
+        align-self: center;
+        margin-bottom: 8px;
+    }
+    #gti-project {
+        margin-right: 0px;
+        margin-bottom: 8px !important;
+    }
 }

@@ -1,39 +1,61 @@
 #trip-activity {
-    z-index: 7;
+    z-index: 6;
     transform: translateX(40px);
 }
 #trip-activity .receipt-content {
     width: 50px;
     z-index: 2;
     position: absolute;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-start;
     left: 0px;
     bottom: 0px;
     height: 100%;
 }
 #trip-activity .top-bar {
     position: fixed;
-    left: 212px;
+    width: 100%;
+    box-sizing: border-box;
+    padding-left: 170px;
     top: 0px;
-    right: 40px;
-    height: 72px;
+    padding-right: 30px;
+    height: 60px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     z-index: 2;
+    overflow: hidden;
+    background-color: white;
+}
+#trip-activity .top-bar.dark {
+    background-color: black;
 }
 #trip-activity .back-button {
     background-color: transparent;
     transition: background-color 0.2s;
     display: flex;
     align-items: center;
-    font-size: 21px;
-    color: #5F5F5F;
-    height: 48px;
-    padding: 0px 20px 0px 14px;
-    border-radius: 24px;
+    font-size: 19px;
+    color: #444;
+    height: 130px;
+    width: 130px;
+    padding: 0px;
+    justify-content: center;
+    border-radius: 100%;
+}
+@media all and (max-width: 1100px) {
+    #trip-activity .top-bar {
+        padding-left: 150px;
+    }
+}
+@media all and (max-width: 550px) {
+    #trip-activity .top-bar {
+        padding-left: 10px;
+    }
 }
 #trip-activity .back-button.dark {
-    color: #A0A0A0;
+    color: #BFBFBF;
 }
 #trip-activity .back-button:hover, #trip-activity .back-button:active {
     background-color: #ececec;
@@ -42,13 +64,14 @@
     background-color: #131313;
 }
 #trip-activity .back-icon {
-    margin-right: 16px;
-    font-size: 26px !important;
+    margin-right: 12px;
+    margin-left: -4px;
+    font-size: 22px !important;
 }
 #trip-activity .middle-content {
     position: relative;
-    width: 400px;
-    background-color: #e8e8e8;
+    width: 370px;
+    background-color: #f1f1f1;
 }
 #trip-activity .main-content {
     background-color: #e1e1e1;
@@ -57,7 +80,7 @@
 #trip-activity .middle-content.dark {
     position: relative;
     width: 400px;
-    background-color: #171717;
+    background-color: #1f1f1f;
 }
 #trip-activity .main-content.dark {
     background-color: #1e1e1e;
@@ -65,7 +88,7 @@
 }
 #trip-activity .trip-activity-content {
     position: fixed;
-    top: 72px;
+    top: 60px;
     bottom: 0px;
     width: 100%;
     left: 0px;
@@ -76,29 +99,88 @@
 #trip-activity .trip-activity-content.dark {
     background-color: #0f0f0f;
 }
-@media all/*screen*/ and (min-width: 1430px) {
-    #trip-activity .trip-activity-content {
-        justify-content: flex-start;
-    }
-    #trip-activity .main-content {
-        flex: 1;
-    }
-    #trip-activity .receipt-content {
-        width: 350px;
-        justify-self: center;
-        position: relative;
+#trip-activity .main-content {
+    max-width: 630px;
+    overflow-x: hidden;
+}
+#trip-activity .receipt-content {
+    width: 370px;
+    justify-self: center;
+    position: relative;
+}
+.middle-receipt-content {
+    display: flex;
+    background: linear-gradient(0deg, white, white 30%, #f1f1f1 80%);
+}
+@media all/*screen*/ and (max-width: 1370px) {
+    @media all/*screen*/ and (min-width: 1031px) {
+        #trip-activity .receipt-content {
+            height: auto;
+            position: absolute;
+            bottom: 0px;
+            background-color: white;
+            box-shadow: 0px 0px 10px -4px #aaa;
+            transition: transform 0.51s cubic-bezier(0.19, 1, 0.22, 1);
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+        #trip-activity .middle-content {
+            height: 100%;
+            padding-bottom: 0px;
+            background-color: transparent;
+        }
+        .middle-receipt-content {
+            flex-direction: column-reverse;
+            position: relative;
+            background: linear-gradient(180deg, white, white 30%, #f1f1f1 80%);
+        }
     }
 }
-@media all/*screen*/ and (max-width: 1080px) {
-    #trip-activity .trip-activity-content {
-        display: block;
-        overflow-y: scroll;
+@media all/*screen*/ and (max-width: 1030px) {
+    @media all and (min-width: 701px) {
+        #trip-activity .receipt-content {
+            height: 100%;
+        }
+        #trip-activity .middle-content {
+            height: 100%;
+        }
+        .middle-receipt-content {
+            flex-direction: row;
+        }
     }
-    #trip-activity .middle-content {
-        margin: 0px auto;
+    .ps-mobile-top-view {
+        display: none;
     }
     #trip-activity .main-content {
-        max-width: 900px;
-        margin: 0px auto;
+        display: none;
+        position: absolute;
+        height: 100vh;
+        padding-top: 80px;
+        z-index: 3;
+        opacity: 0;
+        transform: translateX(40px);
+        transition: transform 0.51s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.31s;
+    }
+}
+@media all/*screen*/ and (max-width: 750px) {
+    #trip-activity .receipt-content {
+        height: auto;
+        position: absolute;
+        bottom: 0px;
+        background-color: white;
+        box-shadow: 0px 0px 10px -4px #aaa;
+        transition: transform 0.51s cubic-bezier(0.19, 1, 0.22, 1);
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+    }
+    #trip-activity .middle-content {
+        height: 100%;
+        padding-bottom: 0px;
+        background-color: transparent;
+    }
+    .middle-receipt-content {
+        flex-direction: column-reverse;
+        position: relative;
+        background: linear-gradient(180deg, white, white 30%, #f1f1f1 80%);
     }
 }

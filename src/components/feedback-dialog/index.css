@@ -131,6 +131,7 @@
     margin-top: 8px;
     font-size: 17px;
     margin-bottom: 12px;
+    padding-right: 24px;
 }
 .feedback-text.dark {
     color: #BFBFBF;
@@ -244,3 +245,28 @@
     margin: 8px 0px 0px 0px;
 }
 /*The rest of the styling is in main-activity*/
+
+@media all and (max-width: 1050px) {
+    .ma-window-right {
+        display: none;
+    }
+    .feedback-dialog-content {
+        max-width: 600px;
+        width: 100%;
+        margin-left: -300px;
+    }
+    .ma-window-left, .ma-window-right {
+        width: 100%;
+    }
+    .feedback-section-title {
+        display: none;
+    }
+}
+@media all and (max-width: 600px) {
+    .feedback-dialog-content {
+        left: 0px;
+        margin-left: 0px;
+        height: 100%;
+        border-radius: 0px;
+    }
+}

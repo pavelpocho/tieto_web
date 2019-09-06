@@ -1,59 +1,66 @@
 #login-activity {
     transform: translate(0px, 40px);
+    transition: transform 1s cubic-bezier(0.19, 1, 0.22, 1), opacity 1s;
+    display: flex;
+    transform-origin: center;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(180deg, white, white 25%, #e6e6e6 75%, #e6e6e6);
+    overflow-y: scroll;
 }
 #login-activity.dark {
     background-color: black;
 }
+.la-top-content {
+    width: 100%;
+}
 .la-content-wrap {
     height: 170px;
     width: 600px;
+    max-width: 100%;
     margin: 0px auto;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
     flex-direction: column;
+    padding-bottom: 100px;
+}
+.la-window-content {
+    padding-bottom: 100px;
 }
 .la-main-button-wrap {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
     width: 600px;
+    max-width: 100%;
 }
 .la-content-title {
     color: #909090;
     text-align: center;
     font-size: 19px;
-    margin: -20px auto 10px;
+    margin: 20px auto 20px;
+    max-width: 80%;
 }
 .la-content-title.dark {
     color: #6F6F6F;
 }
-.la-separator {
-    height: 2px;
-    width: 100%;
-    border-radius: 1px;
-    background-color: #e1e1e1;
-    margin: 5px 0px 10px 0px;
-}
-.la-separator.dark {
-    background-color: #1E1E1E;
-}
 .la-login-expand, .la-register-expand {
-    height: 50px;
-    width: 260px;
-    letter-spacing: 1px;
-    font-size: 20px;
-    border-radius: 25px;
-    transition: background-color 0.31s;
-    box-shadow: 1px 1px 10px -4px #aaa;
-}
-.la-login-expand.dark, .la-register-expand.dark {
-    box-shadow: 1px 1px 10px -4px #444;
+    height: 46px;
+    width: 320px;
+    letter-spacing: 0.5px;
+    font-size: 18px;
+    border-radius: 29px;
+    display: block;
+    margin: 30px auto 0px;
+    transition: background-color 0.31s, transform 0.51s cubic-bezier(0.19, 1, 0.22, 1);
+    max-width: 90%;
 }
 .la-login-expand {
     background-color: #62B3E4;
+    width: 400px;
+    height: 56px;
+    font-size: 22px;
     border: 3px solid #62B3E4;
     color: white;
+    margin-bottom: 20px;
 }
 .la-login-expand.dark {
     background-color: #1C6D9E;
@@ -62,14 +69,14 @@
 }
 .la-login-expand:hover, .la-login-expand:active {
     background-color: #52A3D4;
+    transform: scale(1.05);
 }
 .la-login-expand.dark:hover, .la-login-expand.dark:active {
     background-color: #2C7DAE;
 }
 .la-register-expand {
     background-color: white;
-    border: 3px solid #eaeaea;
-    color: #808080;
+    color: #666;
 }
 .la-register-expand.dark {
     background-color: black;
@@ -77,7 +84,8 @@
     color: #7F7F7F;
 }
 .la-register-expand:hover, .la-register-expand:active {
-    background-color: #f1f1f1;
+    background-color: #f8f8f8;
+    transform: scale(1.05);
 }
 .la-register-expand.dark:hover, .la-register-expand.dark:active {
     background-color: #0f0f0f;
@@ -85,44 +93,52 @@
 #login-activity .blue-text-logo {
     height: 120px;
     display: block;
-    margin: 100px auto 0px;
+    margin: 80px auto 20px;
 }
-#login-activity .login-input {
+@media all and (max-width: 650px) {
+    #login-activity .blue-text-logo {
+        margin: 50px auto 0px;
+        height: 80px;
+    }
+}
+.login-input {
     margin-top: 20px;
     background-color: #e6e6e6;
-    width: 60%;
+    width: 300px;
+    max-width: 90%;
     display: block;
     margin: 10px auto;
 }
-#login-activity .login-input.dark {
+.login-input.dark {
     background-color: #191919;
 }
-#login-activity .login-input::placeholder {
+.login-input::placeholder {
     color: #a1a1a1;
 }
-#login-activity .login-input.dark::placeholder {
+.login-input.dark::placeholder {
     color: #5E5E5E;
 }
-#login-activity .login-button {
-    height: 42px;
-    width: 50%;
+.login-button {
+    height: 38px;
+    width: 250px;
     color: white;
     letter-spacing: 0.5px;
-    font-size: 22px;
+    font-size: 18px;
     background-color: #62B3E4;
     border-radius: 24px;
     display: block;
     margin: 30px auto 0px;
+    text-transform: uppercase;
     transition: background-color 0.31s;
 }
-#login-activity .login-button.dark {
+.login-button.dark {
     background-color: #1C6D9E;
     color: black;
 }
-#login-activity .login-button:disabled {
+.login-button:disabled {
     background-color: #999;
 }
-#login-activity .login-button.dark:disabled {
+.login-button.dark:disabled {
     background-color: #6F6F6F;
 }
 .la-icons {
@@ -133,7 +149,7 @@
 }
 .la-icons i {
     font-size: 100px !important;
-    color: #e4e4e4;
+    color: #ccc;
     display: flex;
     align-items: center;
 }
@@ -143,13 +159,22 @@
     display: flex;
     align-items: center;
 }
+@media screen and (max-width: 650px) {
+    .la-icons {
+        margin-left: calc((-600px + 100%) / 2);
+        transform-origin: center;
+        transform: scale(0.5);
+        margin-top: -30px;
+        margin-bottom: -30px;
+    }
+}
 
 
 .la-login-wrap, .la-register-wrap {
     display: none;
     height: 500px;
     width: 500px;
-    border-radius: 10px;
+    border-radius: 8px;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -158,7 +183,7 @@
     z-index: 10;
     overflow: hidden;
     opacity: 0;
-    transition: opacity 0.31s, box-shadow 0.31s cubic-bezier(0.95, 0.05, 0.795, 0.035), transform 0.51s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: opacity 0.25s, box-shadow 0.31s cubic-bezier(0.95, 0.05, 0.795, 0.035), transform 0.51s cubic-bezier(0.19, 1, 0.22, 1);
 }
 .la-register-wrap {
     height: 700px;
@@ -166,13 +191,13 @@
 }
 .la-login-register-background {
     background-color: white;
-    width: 10px;
-    height: 10px;
+    width: 100%;
+    height: 100%;
     position: absolute;
     transform-origin: center;
-    border-radius: 100%;
-    transform: scale(1);
-    transition: transform 1.41s cubic-bezier(0.075, 0.82, 0.165, 1);
+    transform: scaleY(0.01);
+    border-radius: 8px;
+    transition: transform 0.71s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 .la-login-register-background.dark {
     background-color: black;
@@ -184,11 +209,44 @@
     position: relative;
     height: 100%;
 }
+@media all and (max-width: 540px) {
+    .la-login-wrap, .la-register-wrap {
+        width: 100%;
+        height: 100vh;
+        left: 0;
+        top: 0;
+        margin: 0px !important;
+        border-radius: 0px;
+        z-index: 50;
+    }
+    .la-login-register-background {
+        border-radius: 0px;
+    }
+    .la-login-register-content {
+        overflow-y: scroll;
+    }
+}
+@media all and (max-height: 720px) {
+    .la-login-wrap, .la-register-wrap {
+        width: 100%;
+        height: 100vh;
+        left: 0;
+        top: 0;
+        margin: 0px !important;
+        border-radius: 0px;
+        z-index: 50;
+    }
+    .la-login-register-background {
+        border-radius: 0px;
+    }
+    .la-login-register-content {
+        overflow-y: scroll;
+    }
+}
 .la-backdrop {
     width: 100%;
-    height: 150vh;
+    height: 100vh;
     position: fixed;
-    top: -100px;
     left: 0;
     z-index: 9;
     background-color: black;
@@ -229,9 +287,10 @@
 .la-login-register-content p {
     color: #5f5f5f;
     margin: 0px;
-    font-size: 26px;
+    font-size: 22px;
+    font-weight: bold;
     text-align: center;
-    line-height: 120px;
+    line-height: 110px;
 }
 .la-login-register-content.dark p {
     color: #A0A0A0;
@@ -246,7 +305,7 @@
     font-size: 14px !important;
     line-height: 24px !important;
     margin-bottom: 22px !important;
-    width: 55%;
+    width: 300px;
     margin: 0px auto 22px !important;
 }
 .la-info.dark {
@@ -284,13 +343,14 @@
     background-color: #2C7DAE;
 }
 .long-sign-wrap {
-    width: 60%;
+    width: 300px;
     margin: 26px auto 0px;
     display: flex;
+    font-weight: normal;
     justify-content: center;
 }
 .long-sign-wrap p {
-    font-size: 18px;
+    font-size: 16px;
     margin-left: 12px;
     line-height: 24px;
 }
@@ -306,7 +366,8 @@
 }
 .email-input-wrap {
     display: flex;
-    width: 60%;
+    width: 300px;
+    max-width: 90%;
     margin: 10px auto;
     position: relative;
 }
@@ -329,13 +390,15 @@
 
 .email-input-wrap p {
     position: absolute;
-    right: 22px;
-    line-height: 36px;
+    right: 8px;
+    line-height: 30px;
     top: 3px;
     width: 101px;
     background-color: #e6e6e6;
-    font-size: 19px;
+    font-size: 17px;
     text-align: left;
+    font-weight: 400;
+    color: #444;
     border-top-right-radius: 21px;
     border-bottom-right-radius: 21px;
 }

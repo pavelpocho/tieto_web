@@ -71,7 +71,7 @@ export default class PointDetailInfo extends Component {
 
     componentDidMount() {
         RippleManager.setUp();
-        this.outerWrap.current.style.width = this.outerWrap.current.parentElement.offsetWidth - 34 + "px";
+        this.outerWrap.current.style.maxWidth = this.outerWrap.current.parentElement.offsetWidth + "px";
         if (this.props.location != undefined && this.props.location.id > -1) {
             setTimeout(() => {
                 this.animateIn();
@@ -166,8 +166,10 @@ export default class PointDetailInfo extends Component {
 
     animateOut() {
         if (this.outerWrap.current) {
-            this.outerWrap.current.style.opacity = "0";
-            this.outerWrap.current.style.transform = "translateX(40px)";
+            if (window.getComputedStyle(this.outerWrap.current).transition != "none 0s ease 0s") {
+                this.outerWrap.current.style.opacity = "0";
+                this.outerWrap.current.style.transform = "translateX(40px)";
+            }
         }
     }
 

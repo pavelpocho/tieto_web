@@ -1,23 +1,29 @@
 .overflow-button {
-    height: 50px;
+    height: 42px;
     display: block;
     color: #444;
     font-weight: bold;
-    font-size: 17px;
+    font-size: 15px;
     background-color: transparent;
     line-height: 20px;
     display: flex;
     min-width: 100%;
     align-items: center;
-    padding: 0px 28px 0px 18px;
+    padding: 0px 24px 0px 16px;
     transition: background-color 0.21s;
 }
 .overflow-button i {
-    font-size: 20px !important;
-    padding-right: 16px;
+    font-size: 18px !important;
+    padding-right: 14px;
 }
 .overflow-button.dark {
     color: #BFBFBF;   
+}
+.overflow-button:disabled {
+    color: #777;
+}
+.overflow-button.dark:disabled {
+    color: #8F8F8F;
 }
 .overflow-button:hover, .overflow-button:active {
     background-color: #e6e6e6;

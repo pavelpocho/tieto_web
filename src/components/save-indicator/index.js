@@ -51,12 +51,13 @@ export default class SaveIndicator extends Component {
         return (
             <div className="save-indicator">
                 <p className={"si-trip-name" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{this.props.name ? this.props.name : <i>Unnamed trip</i>}</p>
+                <div className={"si-separator"}></div>
                 <div className={"si-background" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ref={this.ref}>
                     <div className="si-background-inner">
                         <p className={"si-state" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{this.state.status == 0 ? "Saved" + saveTimeText : this.state.status == 1 ? "Saving..." : this.state.status == 2 ? "Save failed!" : "Nothing to save"}</p>
                         {
                             this.state.status == 0 || this.state.status == 3 ? (
-                                <i className="material-icons si-icon">done</i>
+                                <i className={"material-icons si-icon" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>done</i>
                             ) : this.state.status == 1 ? (
                                 <Spinner size={18} position={"relative"} />
                             ) : (

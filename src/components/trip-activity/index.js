@@ -40,6 +40,7 @@ export default class TripActivity extends Component {
         this.secondPointDetails = React.createRef();
         this.receipt = React.createRef();
         this.spinner = React.createRef();
+        this.mainContent = React.createRef();
     }
 
     incrementSaving() {
@@ -258,6 +259,7 @@ export default class TripActivity extends Component {
         }
         if (((i == this.state.firstSelectedPoint && this.state.lastSelect == 1) || (i == this.state.secondSelectedPoint && this.state.lastSelect == 2)) && !override) return;
         if (i < 0) {
+            this.hideMainContent();
             if (this.state.lastSelect == 1) {
                 if (this.firstPointDetails.current) this.firstPointDetails.current.animateOut();
                 setTimeout(() => {
@@ -280,6 +282,7 @@ export default class TripActivity extends Component {
             }
         }
         else {
+            this.showMainContent();
             if (this.state.lastSelect == 1) {
                 this.setState(prevState => {
                     var realI = i;
@@ -417,21 +420,21 @@ export default class TripActivity extends Component {
     }
 
     stopExport() {
-        this.pointSelector.current.exportDone();
+        this.receipt.current.exportDone();
     }
 
     confirmExport() {
         this.props.http.getExportToken(this.state.tripObject.id, (t, s) => {
             if (s == 200 || s == 204 && t != "") {
                 this.props.http.exportTrip(t, (w) => {
-                    this.pointSelector.current.exportDone();
+                    this.receipt.current.exportDone();
                     if (w != null) {
                         this.state.tripObject.exported = true;
                     }
                 })
             }
             else {
-                this.pointSelector.current.exportDone();
+                this.receipt.current.exportDone();
             }
         });
     }
@@ -458,6 +461,22 @@ export default class TripActivity extends Component {
             }
             callback();
         });
+    }
+
+    hideMainContent() {
+        setTimeout(() => {
+            this.mainContent.current.style.display = "";
+        }, 510);
+        this.mainContent.current.style.transform = "";
+        this.mainContent.current.style.opacity = "";
+    }
+
+    showMainContent() {
+        this.mainContent.current.style.display = "block";
+        setTimeout(() => {
+            this.mainContent.current.style.transform = "translateX(0px)";
+            this.mainContent.current.style.opacity = "1";
+        }, 50);
     }
 
     removePoint(location) {
@@ -499,13 +518,15 @@ export default class TripActivity extends Component {
                         <SaveIndicator ref={this.saveIndicator} parent={this} name={this.state.tripObject.title} defaultStatus={this.state.notYetSaved ? 3 : 0}/>
                     </div>
                     <div className={"trip-activity-content" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
-                        <div className={"receipt-content" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
-                            <TripReceipt trip={this.state.tripObject} daySections={this.state.tripObject.daySections} parent={this} ref={this.receipt} rates={this.state.tripObject.exchange} allowMods={this.state.tripObject.allowExchangeRateMods} />
+                        <div className={"middle-receipt-content"}>
+                            <div className={"receipt-content" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
+                                <TripReceipt exportable={this.state.tripObject.exportable} trip={this.state.tripObject} daySections={this.state.tripObject.daySections} parent={this} ref={this.receipt} rates={this.state.tripObject.exchange} allowMods={this.state.tripObject.allowExchangeRateMods} />
+                            </div>
+                            <div className={"middle-content" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
+                                <PointSelector parent={this} ref={this.pointSelector} locations={this.state.tripObject.locations} tripName={this.state.tripObject.title} purpose={this.state.tripObject.purpose} project={this.state.tripObject.project} task={this.state.tripObject.task} />
+                            </div>
                         </div>
-                        <div className={"middle-content" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
-                            <PointSelector exportable={this.state.tripObject.exportable} parent={this} ref={this.pointSelector} locations={this.state.tripObject.locations} />
-                        </div>
-                        <div className={"main-content" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
+                        <div className={"main-content" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ref={this.mainContent}>
                             <GeneralTripInfo parent={this} title={this.state.tripObject.title} purpose={this.state.tripObject.purpose} project={this.state.tripObject.project} task={this.state.tripObject.task} comment={this.state.tripObject.comment} />
                             <PointDetailInfo zIndex={this.state.firstZ} firstPoint={firstLocation.position == 0} animate={this.state.animate} key={this.state.firstSelectedPoint} parent={this} ref={this.firstPointDetails} pointSelector={this.pointSelector.current} location={firstLocation} />
                             <PointDetailInfo zIndex={this.state.secondZ} firstPoint={secondLocation.position == 0} animate={this.state.animate} key={this.state.secondSelectedPoint} parent={this} ref={this.secondPointDetails} pointSelector={this.pointSelector.current} location={secondLocation} />

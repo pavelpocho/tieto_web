@@ -23,11 +23,11 @@ export default class OverflowMenu extends Component {
 
     componentDidMount() {
 
-        this.ref.current.style.left = this.props.x - this.ref.current.offsetWidth + 44 + "px";
-        this.ref.current.style.top = Math.min(this.props.y - 8, window.innerHeight - this.ref.current.childNodes.length * 50) + "px";
+        this.ref.current.style.left = this.props.x - this.ref.current.offsetWidth + 24 + "px";
+        this.ref.current.style.top = Math.min(this.props.y - 8, window.innerHeight - this.ref.current.childNodes.length * 42) + "px";
 
         setTimeout(() => {
-            this.ref.current.style.height = this.ref.current.childNodes.length * 50 + "px";
+            this.ref.current.style.height = this.ref.current.childNodes.length * 42 + "px";
             this.ref.current.style.opacity = "1";
         }, 50);
         RippleManager.setUp();

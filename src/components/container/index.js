@@ -221,17 +221,17 @@ export default class Container extends Component {
                     this.state.dialogHistory.map(v => v)
                 }
                 {
-                    this.state.activityHistory.length == 0 || this.state.activityHistory[this.state.activityHistory.length - 1].key != "tripActivity" ? (
-                        <Fragment>
+                    this.state.activityHistory.length == 0 || this.state.activityHistory[this.state.activityHistory.length - 1].key != "noActivity" ? (
+                        <div className={"bottom-strip" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
+                            <p className={"web-app-version" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>WebApp {version} - {dateString}</p>
+                            <p className={"api-version" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>API {this.state.apiVersion} - {apiDateString}</p>
                             {
                                 this.state.activityHistory.length == 0 || this.state.activityHistory[this.state.activityHistory.length - 1].key != "loginActivity" ? (
                                     <button className={"main-show-allowances" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ripplecolor="gray" onClick={() => {this.openDialog(<AllowanceDialog key={"allowanceDialog"} container={this} />)}}>Show Allowance Rates</button>
                                 ) : null
                             }
-                            <p className={"web-app-version" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Trippi WebApp Alpha {version} - Build Date: {dateString}</p>
-                            <p className={"api-version" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Trippi API Alpha {this.state.apiVersion} - Build Date: {apiDateString}</p>
-                            <a ripple="none" href="./changelog.html" target="_blank" className={"changelog-link" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Changelog</a>
-                        </Fragment>
+                            <a ripplecolor="gray" href="./changelog.html" target="_blank" className={"changelog-link" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Changelog</a>
+                        </div>
                     ) : null
                 }
             </Fragment>

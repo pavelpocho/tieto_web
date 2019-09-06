@@ -19,7 +19,7 @@ module.exports = {
     //path: path.join( __dirname, "out/scripts/")
     path: "C:\\Users\\Pavel\\source\\repos\\Tieto\\Tieto\\wwwroot\\scripts"
   },
-  mode: 'production',
+  mode: 'development',
   plugins: [
 		new HtmlWebpackPlugin({
       title: 'My App',

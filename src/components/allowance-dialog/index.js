@@ -17,17 +17,18 @@ export default class AllowanceDialog extends Component {
         this.overlay = React.createRef();
         this.scrollbar = React.createRef();
         this.scroll = React.createRef();
+        this.search = React.createRef();
 
         this.state = {
             loading: true,
-            countries: null
+            countries: null,
+            searchTerm: ""
         }
     }
 
     componentDidMount() {
         setTimeout(() => {
             this.wrap.current.style.opacity = "1";
-            this.content.current.style.marginTop = -this.content.current.offsetHeight / 2 + "px";
             this.overlay.current.div.current.style.opacity = "0.45";
         }, 50);
         var h = ObjectContainer.getHttpCommunicator();
@@ -72,6 +73,12 @@ export default class AllowanceDialog extends Component {
         }
     }
 
+    changeSearch() {
+        this.setState({
+            searchTerm: this.search.current.value.toLowerCase()
+        })
+    }
+
     render() {
         return (
             <div ref={this.wrap} className="allowance-dialog-wrap">
@@ -93,22 +100,28 @@ export default class AllowanceDialog extends Component {
                                 <div className="ad-country-list">
                                     <div className={"ad-country" + (ObjectContainer.isDarkTheme() ? " dark" : "")} key={0} style={{borderBottom: ObjectContainer.isDarkTheme() ? "1px solid #444" : "1px solid #ccc", paddingBottom: "15px"}}>
                                         <button ripplecolor="gray" onClick={() => {this.close()}}><i className="material-icons">clear</i></button>
-                                        <p style={{color: (ObjectContainer.isDarkTheme() ? "#ccc" : "#444"), fontSize: "18px"}}>Name</p>
-                                        <p style={{color: (ObjectContainer.isDarkTheme() ? "#ccc" : "#444"), fontSize: "18px"}}>1/3 Rate</p>
-                                        <p style={{color: (ObjectContainer.isDarkTheme() ? "#ccc" : "#444"), fontSize: "18px"}}>2/3 Rate</p>
-                                        <p style={{color: (ObjectContainer.isDarkTheme() ? "#ccc" : "#444"), fontSize: "18px"}}>Full Rate</p>
+                                        <div className={"ad-search" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
+                                            <input ref={this.search} onChange={() => {this.changeSearch()}} style={{color: (ObjectContainer.isDarkTheme() ? "#ccc" : "#444"), fontSize: "17px"}} placeholder="Name (Search)"/>
+                                            <i className="material-icons">search</i>
+                                        </div>
+                                        <p style={{color: (ObjectContainer.isDarkTheme() ? "#ccc" : "#444"), fontSize: "17px"}}>1/3 Rate</p>
+                                        <p style={{color: (ObjectContainer.isDarkTheme() ? "#ccc" : "#444"), fontSize: "17px"}}>2/3 Rate</p>
+                                        <p style={{color: (ObjectContainer.isDarkTheme() ? "#ccc" : "#444"), fontSize: "17px"}}>Full Rate</p>
                                     </div>
                                     {
                                         this.state.countries.map((c, i) => {
-                                            return (
-                                                <div className={"ad-country" + (ObjectContainer.isDarkTheme() ? " dark" : "")} key={i + 1} >
-                                                    <p>{c.code}</p>
-                                                    <p>{c.name}</p>
-                                                    <p>{c.rate33.moneyAmount + " " + (c.rate33.currency == 0 ? "EUR" : c.rate33.currency == 1 ? "USD" : c.rate33.currency == 2 ? "CZK" : c.rate33.currency == 3 ? "CHF" : "GBP")}</p>
-                                                    <p>{c.rate66.moneyAmount + " " + (c.rate33.currency == 0 ? "EUR" : c.rate33.currency == 1 ? "USD" : c.rate33.currency == 2 ? "CZK" : c.rate33.currency == 3 ? "CHF" : "GBP")}</p>
-                                                    <p>{c.rate100.moneyAmount + " " + (c.rate33.currency == 0 ? "EUR" : c.rate33.currency == 1 ? "USD" : c.rate33.currency == 2 ? "CZK" : c.rate33.currency == 3 ? "CHF" : "GBP")}</p>
-                                                </div>
-                                            )
+                                            if (c.name.toLowerCase().includes(this.state.searchTerm) || c.code.toLowerCase().includes(this.state.searchTerm)) {
+                                                return (
+                                                    <div className={"ad-country" + (ObjectContainer.isDarkTheme() ? " dark" : "")} key={i + 1} >
+                                                        <p>{c.code}</p>
+                                                        <p>{c.name}</p>
+                                                        <p>{c.rate33.moneyAmount + " " + (c.rate33.currency == 0 ? "EUR" : c.rate33.currency == 1 ? "USD" : c.rate33.currency == 2 ? "CZK" : c.rate33.currency == 3 ? "CHF" : "GBP")}</p>
+                                                        <p>{c.rate66.moneyAmount + " " + (c.rate33.currency == 0 ? "EUR" : c.rate33.currency == 1 ? "USD" : c.rate33.currency == 2 ? "CZK" : c.rate33.currency == 3 ? "CHF" : "GBP")}</p>
+                                                        <p>{c.rate100.moneyAmount + " " + (c.rate33.currency == 0 ? "EUR" : c.rate33.currency == 1 ? "USD" : c.rate33.currency == 2 ? "CZK" : c.rate33.currency == 3 ? "CHF" : "GBP")}</p>
+                                                    </div>
+                                                )
+                                            }
+                                            else return null;
                                         })
                                     }
                                 </div>

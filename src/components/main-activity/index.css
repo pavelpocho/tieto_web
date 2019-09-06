@@ -2,16 +2,28 @@
     /*transform: translateX(-40px);*/
     overflow-y: scroll;
     z-index: 6;
+    display: flex;
+    justify-content: space-evenly;
 }
 #main-activity .content-wrap {
-    margin-left: 200px;
-    max-width: 900px;
-    margin-right: 60px;
+    margin: 0px auto;
+    width: 90%;
+    max-width: 800px;
+    margin-top: 70px;
 }
 #main-activity .top-content-wrap {
-    margin-top: 104px;
+    height: 70px;
+    width: 100%;
+    z-index: 3;
+}
+.top-content-inner {
+    width: 100%;
+    margin: 0px auto;
+    height: 70px;
+    max-width: 900px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 #main-activity .error-display {
     display: none;
@@ -47,15 +59,28 @@
 
 .ma-topbar-content {
     position: fixed;
-    right: 24px;
-    top: 12px;
-    height: 48px;
-    padding: 4px 4px;
+    width: 100%;
+    right: 0px;
+    top: 0px;
+    height: 60px;
+    padding: 10px 28px 10px 4px;
     box-sizing: border-box;
     display: flex;
+    justify-content: flex-end;
     align-items: center;
+    z-index: 4;
+}
+.ma-topbar-background {
     background-color: white;
-    border-radius: 36px;
+    opacity: 0.7;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 60px;
+}
+.ma-topbar-background.dark {
+    background-color: black;
 }
 .ma-topbar-content.dark {
     background-color: black;
@@ -68,15 +93,15 @@
     justify-content: center;
     align-items: center;
     font-size: 21px;
-    color: #5F5F5F;
-    height: 36px;
-    width: 36px;
+    color: #444;
+    height: 32px;
+    width: 32px;
     margin: 0px 8px;
-    border-radius: 24px;
+    border-radius: 16px;
     transition: color 0.21s, background-color 0.21s;
 }
 #main-activity .ma-settings-toggle.dark {
-    color: #A0A0A0;
+    color: #BFBFBF;
 }
 #main-activity .ma-settings-toggle:hover, #main-activity .ma-settings-toggle:active {
     background-color: #f1f1f1;
@@ -87,7 +112,7 @@
     color: #BFBFBF;
 }
 #main-activity .ma-settings-toggle i {
-    font-size: 22px !important;
+    font-size: 20px !important;
 }
 /*End*/ /*This exact same code is in back-button in trip-activity (with slight mods in color)*/
 
@@ -95,18 +120,16 @@
     height: 26px;
     width: 2px;
     border-radius: 1px;
-    background-color: #aaa;
-    margin: 0px 12px;
+    background-color: #ccc;
+    margin: 0px 8px;
+    z-index: 10;
 }
-
 .ma-settings-toggle .blue {
     color: #62B3E4;
 }
-
 .ma-settings-toggle .blue.dark {
     color: #1C6D9E;
 }
-
 /*Start*/
 .ma-window-wrap {
     display: none;
@@ -192,13 +215,34 @@
     font-size: 20px;
     margin-right: 6px;
 }
+.ma-window-sub-topbar {
+    height: 48px;
+    display: none;
+    justify-content: center;
+}
+.ma-window-sub-topbar button {
+    height: 48px;
+    width: 150px;
+    margin: 0px 4px;
+    display: block;
+    background-color: transparent;
+}
 .ma-window-main {
     display: flex;
     position: relative;
     height: 512px;
 }
+@media all and (max-width: 1050px) {
+    .ma-window-main {
+        height: 464px;
+    }
+    .ma-window-sub-topbar {
+        display: flex;
+    }
+}
 .ma-window-left, .ma-window-right {
     position: relative;
+    display: block;
     height: 100%;
 }
 .ma-window-left {
@@ -287,22 +331,37 @@
 }
 /*End*/ /*This exact same code is in login activity*/
 
-@media only all/*screen*/ and (max-width: 1300px) {
+.feature-promote-section {
+    margin-top: 70px;
+    margin-bottom: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+@media only all and (min-width: 1350px) {
     #main-activity .content-wrap {
-        margin: 0px auto;
+        margin: 70px 0px;
     }
 }
 
-@media only all and (max-width: 940px) {
-    #main-activity .content-wrap {
-        margin-left: 20px;
-        margin-right: 20px;
-    }
-}
-
-@media only all/*screen*/ and (max-width: 700px) {
-    #main-activity .top-content-wrap {
+@media only all/*screen*/ and (max-width: 550px) {
+    #main-activity .top-content-inner {
         display: block;
         text-align: center;
     }
-} 
+    #main-activity .top-content-wrap {
+        height: auto;
+    }
+    .top-content-inner {
+        height: auto;
+    }
+    #main-activity .content-wrap {
+        width: 100%;
+    }
+    .ma-topbar-content {
+        padding: 0px 0px 0px 0px;
+        justify-content: center;
+    }
+}

@@ -13,7 +13,7 @@ export default class Logo extends Component {
     render() {
 
         return (
-            <img id="logo-main" src={ObjectContainer.isDarkTheme() ? logoDark : logo} height="62" width="110" />
+            <img id="logo-main" src={ObjectContainer.isDarkTheme() ? logoDark : logo} height="56" width="99" />
         )
         
     }

@@ -8,7 +8,6 @@
 .point-list-wrap {
     position: relative;
     overflow-y: scroll;
-    margin-bottom: 118px;
     height: 100%;
 }
 .point-list {
@@ -17,19 +16,19 @@
     flex-direction: column;
     align-items: flex-end;
     flex-wrap: nowrap;
-    padding-top: 50px;
+    padding-top: 30px;
 }
-.export-wrap {
-    background-color: #e8e8e8;
-    padding-top: 32px;
-    padding-bottom: 32px;
-    width: 100%;
-    text-align: center;
-    position: absolute;
-    bottom: 0px;
+@media all/*screen*/ and (max-width: 1370px) {
+    @media all/*screen*/ and (min-width: 1031px) {
+        .point-list {
+            padding-bottom: 60px;
+        }
+    }
 }
-.export-wrap.dark {
-    background-color: #171717;
+@media all/*screen*/ and (max-width: 750px) {
+    .point-list {
+        padding-bottom: 60px;
+    }
 }
 .ps-comment {
     color: #5F5F5F;
@@ -38,12 +37,4 @@
     margin: 0px;
     opacity: 0;
     transition: opacity 0.31s;
-}
-@media all/*screen*/ and (max-width: 1080px) {
-    .point-selector-wrap {
-        height: auto;
-    }
-    .export-wrap {
-        position: relative;
-    }
 }

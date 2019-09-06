@@ -3,7 +3,7 @@ import CookieManager from './cookie-manager';
 export default class HttpCommunicator {
 
     constructor() {
-        this.url = window.location.href + "api/";
+        this.url = (window.location.href.includes("pre/") ? window.location.href.split("pre/")[0] : window.location.href) + "api/";
         this.genUrl = this.url.substring(0, this.url.length - 4);
         this.buffer = [];
         this.firing = false;

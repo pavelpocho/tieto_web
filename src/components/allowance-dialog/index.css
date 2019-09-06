@@ -7,19 +7,20 @@
     opacity: 0;
     transition: opacity 0.31s;
     z-index: 8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .allowance-dialog-content {
     height: 600px;
-    width: 900px;
-    position: fixed;
+    max-width: 700px;
+    width: 100%;
     background-color: white;
     border-radius: 10px;
     box-shadow: 1px 1px 10px -4px #999;
-    top: 50%;
-    left: 50%;
-    margin-left: -450px;
     z-index: 12;
     overflow-x: hidden;
+    position: relative;
 }
 .allowance-dialog-content.dark {
     background-color: black;
@@ -36,17 +37,17 @@
     margin-bottom: 15px;
 }
 .ad-country p {
-    width: 20%;
     line-height: 20px;
+    width: 93px;
     margin: 0px 18px;
     color: #5F5F5F;
 }
-.ad-country p {
+.ad-country.dark p {
     color: #aaa;
 }
 .ad-country p:nth-child(2) {
     color: #444;
-    font-size: 18px;
+    width: 200px;
 }
 .ad-country.dark p:nth-child(2) {
     color: #ccc;
@@ -55,7 +56,7 @@
     background-color: #62B3E4;
     color: white;
     height: 40px;
-    width: 42px;
+    width: 40px;
     border-radius: 100%;
     text-align: center;
     line-height: 40px;
@@ -68,7 +69,7 @@
 }
 .ad-country > button {
     height: 40px;
-    width: 42px;
+    width: 40px;
     border-radius: 100%;
     margin: 0px 18px;
     background-color: transparent;
@@ -82,4 +83,61 @@
 }
 .ad-country.dark > button:hover {
     background-color: #0f0f0f;
+}
+.ad-search {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 200px;
+    position: relative;
+    margin: 0px 18px;
+}
+.ad-search i {
+    position: absolute;
+    right: 10px;
+    color: #777;
+}
+.ad-search input {
+    border: none;
+    border-bottom: 1px solid #777;
+    border-radius: 0px;
+    width: 100%;
+    padding: 0px 10px;
+    height: 36px;
+    font-weight: bold;
+    font-size: 14px;
+}
+.ad-search.dark input {
+    background-color: black;
+}
+.ad-search input::placeholder {
+    color: #444;
+    font-weight: bold;
+    font-size: 14px;
+}
+.ad-search.dark input::placeholder {
+    color: #BFBFBF;
+}
+@media only all and (max-width: 700px) {
+    .allowance-dialog-content {
+        border-radius: 0px;
+        height: 100vh;
+    }
+    /*.ad-country p:nth-child(3) {
+        margin: 0px auto;
+        text-align: center;
+    }*/
+    /*.ad-country p:nth-child(4), .ad-country p:nth-child(5) {
+        display: none;
+    }*/
+    .ad-search {
+        width: 180px;
+        margin: 0px 8px;
+    }
+    .ad-country p {
+        margin: 0px 8px;
+    }
+    .ad-country > button {
+        margin: 0px 8px;
+    }
 }
