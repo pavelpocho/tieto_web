@@ -97,7 +97,7 @@ export default class GeneralTripInfo extends Component {
     render() {
         return (
             <div className="gti-wrap">
-                <div className="gti-section less-top mobile-top-view">
+                <div className="gti-section less-top mobile-only">
                     <button ripplecolor="gray" className={"pd-back" + (ObjectContainer.isDarkTheme() ? " dark" : "")} onClick={() => {this.props.parent.hideMainContent()}}>
                         <i className="material-icons">arrow_back</i>
                         Back
@@ -107,16 +107,16 @@ export default class GeneralTripInfo extends Component {
                     <p className={"trip-property-label" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Trip Name*<i style={{fontSize: "20px", marginLeft: "8px", color: "#888"}}className="material-icons" title="This will not be shown in the Trip Report">info_outline</i></p>
                     <input className={ObjectContainer.isDarkTheme() ? "dark" : ""} autoComplete="off" onFocus={() => {this.setState({defaultTitle: this.props.title})}} defaultValue={this.props.title} onChange={(e) => {this.props.parent.update("title", e.target.value)}} onBlur={(e) => {if (e.target.value !== this.state.defaultTitle) this.props.parent.autoSave("title", e.target.value)}} ref={this.title} placeholder={this.state.titlePlaceholder} ></input>
                 </div>
-                <div className="gti-section">
+                <div className="gti-section less-top">
                     <p className={"trip-property-label" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Purpose*</p>
                     <input className={ObjectContainer.isDarkTheme() ? "dark" : ""} autoComplete="off" onFocus={() => {this.setState({defaultPurpose: this.props.purpose})}} defaultValue={this.props.purpose} onChange={(e) => {this.props.parent.update("purpose", e.target.value)}} onBlur={(e) => {if (e.target.value !== this.state.defaultPurpose) this.props.parent.autoSave("purpose", e.target.value)}} ref={this.purpose} placeholder={this.state.purposePlaceholder} ></input>
                 </div>
-                <div className="gti-section">
+                <div className="gti-section less-top">
                     <p className={"trip-property-label" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{"Project & Task*"}</p>
                     <input className={ObjectContainer.isDarkTheme() ? "dark" : ""} autoComplete="off" onFocus={() => {this.setState({defaultProject: this.props.project})}} id="gti-project" defaultValue={this.props.project} onChange={(e) => {this.props.parent.update("project", e.target.value)}} onBlur={(e) => {if (e.target.value !== this.state.defaultProject) this.props.parent.autoSave("project", e.target.value)}} ref={this.purpose} placeholder={this.state.projectPlaceholder} ></input>
                     <input className={ObjectContainer.isDarkTheme() ? "dark" : ""} autoComplete="off" onFocus={() => {this.setState({defaultTask: this.props.task})}} id="gti-task" defaultValue={this.props.task} onChange={(e) => {this.props.parent.update("task", e.target.value)}} onBlur={(e) => {if (e.target.value !== this.state.defaultTask) this.props.parent.autoSave("task", e.target.value)}} ref={this.purpose} placeholder={this.state.taskPlaceholder} ></input>
                 </div>
-                <div className="gti-section">
+                <div className="gti-section less-top">
                     <p className={"trip-property-label" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Comment</p>
                     <input className={ObjectContainer.isDarkTheme() ? "dark" : ""} autoComplete="off" onFocus={() => {this.setState({defaultComment: this.props.comment})}} defaultValue={this.props.comment} onChange={(e) => {this.props.parent.update("comment", e.target.value)}} onBlur={(e) => {if (e.target.value !== this.state.defaultComment) this.props.parent.autoSave("comment", e.target.value)}} ref={this.comment} placeholder={this.state.commentPlaceholder} ></input>
                 </div>

@@ -50,7 +50,7 @@ export default class SaveIndicator extends Component {
 
         return (
             <div className="save-indicator">
-                <p className={"si-trip-name" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{this.props.name ? this.props.name : <i>Unnamed trip</i>}</p>
+                <p className={"si-trip-name" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{this.props.name ? this.props.name : <i>Unnamed Trip</i>}</p>
                 <div className={"si-separator"}></div>
                 <div className={"si-background" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ref={this.ref}>
                     <div className="si-background-inner">

@@ -189,7 +189,7 @@
 }
 .ma-window-topbar button {
     height: 36px;
-    padding: 0px 9px 0px 6px;
+    padding: 0px 12px 0px 9px;
     border-radius: 18px;
     font-size: 16px;
     margin: 18px 15px;
@@ -216,29 +216,43 @@
     margin-right: 6px;
 }
 .ma-window-sub-topbar {
-    height: 48px;
+    height: 40px;
     display: none;
     justify-content: center;
+    margin-bottom: 6px;
 }
 .ma-window-sub-topbar button {
-    height: 48px;
+    height: 40px;
     width: 150px;
     margin: 0px 4px;
     display: block;
     background-color: transparent;
+    font-size: 15px;
+    margin: 0px 4px;
+    border-radius: 20px;
+    transition: background-color 0.21s;
+}
+.ma-window-sub-topbar button:hover {
+    background-color: #f1f1f1;
+}
+.ma-window-sub-topbar button.selected {
+    color: #62B3E4;
+    font-weight: bold;
+}
+.ma-window-sub-topbar.dark button {
+    color: #999;
+}
+.ma-window-sub-topbar.dark button:hover {
+    background-color: #0e0e0e;
+}
+.ma-window-sub-topbar.dark button.selected {
+    color: #1C6D9E;
+    font-weight: bold;
 }
 .ma-window-main {
     display: flex;
     position: relative;
     height: 512px;
-}
-@media all and (max-width: 1050px) {
-    .ma-window-main {
-        height: 464px;
-    }
-    .ma-window-sub-topbar {
-        display: flex;
-    }
 }
 .ma-window-left, .ma-window-right {
     position: relative;
@@ -261,6 +275,22 @@
     width: 45%;
     box-sizing: border-box;
     padding: 0px 12px 0px 4px;
+}
+@media all and (max-width: 1050px) {
+    .ma-window-main {
+        height: 464px;
+    }
+    .ma-window-sub-topbar {
+        display: flex;
+    }
+    .ma-window-right {
+        padding: 0px 20px;
+    }
+}
+@media all and (max-width: 600px) {
+    .ma-window-main {
+        height: calc(100% - 112px);
+    }
 }
 .f-liked {
     color: #62B3E4;

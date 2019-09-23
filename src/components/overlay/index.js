@@ -14,7 +14,7 @@ export default class Overlay extends Component {
     render() {
 
         return (
-            <div ref={this.div} className="overlay" onClick={() => {this.props.onClick()}}></div>
+            <div ref={this.div} className="overlay" style={this.props.opacity ? {opacity: "0.4"} : {}} onClick={() => {this.props.onClick()}}></div>
         )
 
     }

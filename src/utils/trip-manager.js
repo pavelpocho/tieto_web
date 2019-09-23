@@ -95,7 +95,7 @@ export default class TripManager {
             output[property] = input[property];
         }
         else {
-            output[property] = Math.round(input[property] * 100) / 100;
+            output[property] = Math.round(input[property] * 1000) / 1000;
         }
     }
 

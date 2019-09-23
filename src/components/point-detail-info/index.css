@@ -19,17 +19,28 @@
     opacity: 0;
     display: none;
 }
+.pd-wrap.dark {
+    background-color: #1E1E1E;
+}
 @media all and (max-width: 1030px) {
     .pd-outer-wrap {
         transition: none;
+    }
+    .pd-wrap {
+        background-color: white;
+    }
+    .pd-wrap.dark {
+        background-color: black;
+    }
+}
+@media all and (max-width: 750px) {
+    .pd-wrap {
+        padding-left: 12px;
     }
 }
 .pd-wrap-inner {
     padding: 46px 0px;
     display: block;
-}
-.pd-wrap.dark {
-    background-color: #1E1E1E;
 }
 .pd-topbar {
     display: flex;

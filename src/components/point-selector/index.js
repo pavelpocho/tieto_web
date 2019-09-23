@@ -91,7 +91,7 @@ export default class PointSelector extends Component {
         return (
             <div className="point-selector-wrap">
                 <div ref={this.scroll} className="point-list-wrap" onScroll={(e) => {this.scrollState = e.target.scrollTop}}>
-                    <div className={"mobile-top-view"}>
+                    <div className={"mobile-top-view" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
                         <MobileTripInfo onClick={() => {this.props.parent.showMainContent()}} tripName={this.props.tripName} purpose={this.props.purpose} project={this.props.project} task={this.props.task} />
                     </div>
                     <div className="point-list">

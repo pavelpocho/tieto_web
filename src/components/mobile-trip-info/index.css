@@ -1,35 +1,25 @@
-.mobile-info-wrap {
-    background-color: white;
-    box-shadow: 0px 0px 10px -4px #aaa;
-    border-radius: 8px;
-    padding-bottom: 8px;
-    padding-top: 8px;
-    margin: 10px 0px 0px 0px;
-}
 .mobile-info-section {
     display: flex;
     justify-content: space-between;
 }
 .mobile-info-section-title {
-    margin: 8px 0px 8px 16px;
-    color: #444;
+    margin: 8px 0px 8px 0px;
+    color: #444444;
     font-size: 15px;
     line-height: 18.5px;
     height: 18.5px;
+}
+.mobile-info-section-title.dark {
+    color: #BBBBBB;
 }
 .mobile-info-section-text {
-    margin: 4px 16px 4px 0px;
+    margin: 4px 0px 4px 0px;
     font-size: 15px;
     line-height: 18.5px;
     height: 18.5px;
 }
-.mobile-info-separator {
-    height: 2px;
-    border-radius: 1px;
-    background-color: #d9d9d9;
-    width: 90%;
-    margin-left: 5%;
-    display: none;
+.mobile-info-section-text.dark {
+    color: #1C6D9E;
 }
 .mobile-info-button {    
     margin: 10px auto;
@@ -41,8 +31,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 2px solid #c1c1c1;
     color: #444;
+}
+.mobile-info-button.dark {
+    color: #bbb;
 }
 .mobile-info-button i {
     font-size: 20px !important;

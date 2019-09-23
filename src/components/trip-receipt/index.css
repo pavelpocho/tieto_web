@@ -11,12 +11,7 @@
     flex-direction: column;
     justify-content: flex-end;
     position: relative;
-    box-shadow: 1px 1px 10px -4px #aaa;
     transition: height 0.51s cubic-bezier(0.19, 1, 0.22, 1), transform 0.51s cubic-bezier(0.19, 1, 0.22, 1), margin 0.51s cubic-bezier(0.19, 1, 0.22, 1), border-radius 0.51s cubic-bezier(0.19, 1, 0.22, 1);
-}
-.trip-receipt.dark {
-    box-shadow: 1px 1px 10px -4px #444;
-    box-shadow: 1px 1px 10px -4px 444;
 }
 .tr-card {
     padding: 24px;
@@ -30,8 +25,8 @@
 }
 .tr-separator {
     width: 100%;
-    height: 2px;
-    border-radius: 2px;
+    height: 1px;
+    border-radius: 1px;
     background-color: #707070;
 }
 .tr-separator.dark {
@@ -141,7 +136,6 @@
     margin-top: 0px;
 }
 .trip-receipt.dark {
-    background: linear-gradient(#00000000, #000 50%);
     box-shadow: none;
 }
 .export-wrap {
@@ -153,13 +147,16 @@
 .tr-expand-collapse {
     height: 40px;
     background-color: transparent;
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
 }
 .tr-expand-collapse i {
     transition: transform 0.51s cubic-bezier(0.19, 1, 0.22, 1);
     margin-left: 8px;
+}
+.tr-expand-collapse.dark, .tr-expand-collapse.dark i {
+    color: white;
 }
 
 @media all/*screen*/ and (max-width: 1370px) {
@@ -168,11 +165,17 @@
             width: 100%;
             height: auto;
         }
+        .tr-expand-collapse {
+            display: flex;
+        }
     }
 }
 @media all/*screen*/ and (max-width: 750px) {
     .trip-receipt {
         width: 100%;
         height: auto;
+    }
+    .tr-expand-collapse {
+        display: flex;
     }
 }

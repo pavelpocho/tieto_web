@@ -49,9 +49,9 @@ input.dark::placeholder {
 .activity {
     position: fixed;
     width: 100%;
-    height: 100vh;
     left: 0px;
     top: 0px;
+    bottom: 0px;
     z-index: 1;
     opacity: 0;
     transition: transform 0.51s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.31s;

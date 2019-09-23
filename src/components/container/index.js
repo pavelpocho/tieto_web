@@ -173,6 +173,10 @@ export default class Container extends Component {
         else return text;
     }
 
+    forceHideLogo(forceHide) {
+        this.background.current.logoWrap.current.style.display = (forceHide ? "" : "block");
+    }
+
     render() {
 
         const buildDate = new Date(preval`module.exports = new Date()`);

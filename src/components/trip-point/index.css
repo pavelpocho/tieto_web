@@ -208,7 +208,7 @@ button.tp-border-cross-wrap.dark:hover, button.tp-border-cross-wrap.dark:active 
     font-size: 15px;
     height: 30px;
     line-height: 30px;
-    margin: 0px 15px;
+    margin: 0px 8px;
     display: flex;
     align-items: center;
 }

@@ -12,6 +12,7 @@ import Location from '../../utils/location';
 import MainButton from '../main-button';
 import Spinner from '../spinner';
 import ExportDialog from '../export-dialog';
+import Overlay from '../overlay';
 
 export default class TripActivity extends Component {
 
@@ -30,7 +31,8 @@ export default class TripActivity extends Component {
             highestZ: 0,
             firstZ: 0,
             secondZ: 0,
-            notYetSaved: this.props.trip ? false : true
+            notYetSaved: this.props.trip ? false : true,
+            overlay: false
         }
 
         this.ref = React.createRef();
@@ -41,6 +43,7 @@ export default class TripActivity extends Component {
         this.receipt = React.createRef();
         this.spinner = React.createRef();
         this.mainContent = React.createRef();
+        this.topbar = React.createRef();
     }
 
     incrementSaving() {
@@ -71,9 +74,13 @@ export default class TripActivity extends Component {
 
     componentDidMount() {
         this.fadeIn();
+        window.scrollTo(0, 1);
         RippleManager.setUp();
         window.onkeydown = (stroke) => {
             if (stroke.keyCode == 83 && stroke.ctrlKey) { stroke.preventDefault(); this.forceSave(() => {}) }
+        }
+        window.onscroll = (e) => {
+            setTimeout(() => {window.scrollTo(0, 1)}, 1000);
         }
     }
 
@@ -464,14 +471,32 @@ export default class TripActivity extends Component {
     }
 
     hideMainContent() {
+        if (window.innerWidth <= 750) {
+            this.props.container.forceHideLogo(false);
+        }
+        this.setState({
+            overlay: false
+        })
         setTimeout(() => {
             this.mainContent.current.style.display = "";
         }, 510);
         this.mainContent.current.style.transform = "";
         this.mainContent.current.style.opacity = "";
+        this.topbar.current.style.transform = "translateY(0px)";
     }
 
     showMainContent() {
+        if (window.innerWidth <= 750) {
+            this.props.container.forceHideLogo(true);
+        }
+        if (window.innerWidth <= 1030) {
+            if (window.innerWidth > 750) {
+                this.setState({
+                    overlay: true
+                })
+            }
+            this.topbar.current.style.transform = "translateY(-60px)";
+        }
         this.mainContent.current.style.display = "block";
         setTimeout(() => {
             this.mainContent.current.style.transform = "translateX(0px)";
@@ -513,12 +538,12 @@ export default class TripActivity extends Component {
             <Fragment>
                 <Spinner ref={this.spinner} size={60} position={"fixed"}/>
                 <div className="activity" id="trip-activity" ref={this.ref}>
-                    <div className={"top-bar" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
+                    <div className={"top-bar" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ref={this.topbar}>
                         <button ripplecolor="gray" onClick={() => {this.close()}} className={"back-button" + (ObjectContainer.isDarkTheme() ? " dark" : "")}><i className="material-icons back-icon">arrow_back</i>Trip list</button>
                         <SaveIndicator ref={this.saveIndicator} parent={this} name={this.state.tripObject.title} defaultStatus={this.state.notYetSaved ? 3 : 0}/>
                     </div>
                     <div className={"trip-activity-content" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
-                        <div className={"middle-receipt-content"}>
+                        <div className={"middle-receipt-content" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
                             <div className={"receipt-content" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
                                 <TripReceipt exportable={this.state.tripObject.exportable} trip={this.state.tripObject} daySections={this.state.tripObject.daySections} parent={this} ref={this.receipt} rates={this.state.tripObject.exchange} allowMods={this.state.tripObject.allowExchangeRateMods} />
                             </div>
@@ -526,6 +551,11 @@ export default class TripActivity extends Component {
                                 <PointSelector parent={this} ref={this.pointSelector} locations={this.state.tripObject.locations} tripName={this.state.tripObject.title} purpose={this.state.tripObject.purpose} project={this.state.tripObject.project} task={this.state.tripObject.task} />
                             </div>
                         </div>
+                        {
+                            this.state.overlay ? (
+                                <Overlay onClick={() => {this.hideMainContent()}} opacity={true} />
+                            ) : null
+                        }
                         <div className={"main-content" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ref={this.mainContent}>
                             <GeneralTripInfo parent={this} title={this.state.tripObject.title} purpose={this.state.tripObject.purpose} project={this.state.tripObject.project} task={this.state.tripObject.task} comment={this.state.tripObject.comment} />
                             <PointDetailInfo zIndex={this.state.firstZ} firstPoint={firstLocation.position == 0} animate={this.state.animate} key={this.state.firstSelectedPoint} parent={this} ref={this.firstPointDetails} pointSelector={this.pointSelector.current} location={firstLocation} />

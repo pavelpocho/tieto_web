@@ -19,6 +19,12 @@ export default class TripReceipt extends Component {
         this.inner = React.createRef();
     }
 
+    componentDidMount() {
+        if (window.innerWidth <= 750 || (window.innerWidth > 1030 && window.innerWidth <= 1370)) {
+        this.expandCollapse();
+        }
+    }
+
     componentDidUpdate() {
         if (this.wrap.current != null && this.state.rotate) {
             setTimeout(() => {
@@ -79,7 +85,7 @@ export default class TripReceipt extends Component {
             this.wrap.current.parentElement.style.transform = "translateY(" + 0 + "px)";
         }
         else {
-            this.wrap.current.parentElement.style.transform = "translateY(" + this.inner.current.offsetHeight + "px)";
+            this.wrap.current.parentElement.style.transform = "translateY(" + (this.inner.current.offsetHeight + 10) + "px)";
         }
         this.setState(prevState => {
             return {
@@ -100,7 +106,7 @@ export default class TripReceipt extends Component {
 
         return (
             <div ref={this.wrap} className={"trip-receipt" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
-                <button className={"tr-expand-collapse"} ripplecolor="gray" onClick={() => {this.expandCollapse()}}>{this.state.expand ? "Collapse" : "Show Receipt"}<i className="material-icons" style={!this.state.expand ? {transform: "rotate(180deg)"} : {}}>expand_more</i></button>
+                <button className={"tr-expand-collapse" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ripplecolor="gray" onClick={() => {this.expandCollapse()}}>{this.state.expand ? "Collapse" : "Show Receipt"}<i className="material-icons" style={!this.state.expand ? {transform: "rotate(180deg)"} : {}}>expand_more</i></button>
                 {
                     true ? (
                         <div className={"tr-inner"} ref={this.inner}>

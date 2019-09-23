@@ -21,7 +21,8 @@ export default class FeedbackDialog extends Component {
             feedbacks: null,
             isLike: true,
             isImprovement: false,
-            isError: false
+            isError: false,
+            maximized: "left"
         }
 
         this.leftPart = React.createRef();
@@ -39,7 +40,6 @@ export default class FeedbackDialog extends Component {
                     RippleManager.setUp();
                 }, 150);
                 r.sort((a, b) => {return b.postedAt - a.postedAt});
-                console.log(r);
                 this.setState({
                     feedbacks: r
                 })
@@ -148,11 +148,17 @@ export default class FeedbackDialog extends Component {
     maximizeLeft() {
         this.leftPart.current.style.display = "block";
         this.rightPart.current.style.display = "none";
+        this.setState({
+            maximized: "left"
+        })
     }
 
     maximizeRight() {
         this.leftPart.current.style.display = "none";
         this.rightPart.current.style.display = "block";
+        this.setState({
+            maximized: "right"
+        })
     }
 
     sendFeedback() {
@@ -196,9 +202,9 @@ export default class FeedbackDialog extends Component {
                         <p>Feedback</p>
                         <span></span> {/*This is here so that I can use justify-content space-between*/}
                     </div>
-                    <div className="ma-window-sub-topbar">
-                        <button ripplecolor="gray" onClick={() => {this.maximizeLeft()}} >View Feedback</button>
-                        <button ripplecolor="gray" onClick={() => {this.maximizeRight()}} >Write Feedback</button>
+                    <div className={"ma-window-sub-topbar" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
+                        <button ripplecolor="gray" className={this.state.maximized == "left" ? "selected" : ""} onClick={() => {this.maximizeLeft()}} >View Feedback</button>
+                        <button ripplecolor="gray" className={this.state.maximized == "right" ? "selected" : ""} onClick={() => {this.maximizeRight()}} >Write Feedback</button>
                     </div>
                     <div className="ma-window-main">
                         <div className="ma-window-left" ref={this.leftPart}>

@@ -29,6 +29,17 @@
 .gti-section input.dark:focus {
     background-color: black;
 }
+@media all and (max-width: 630px) {
+    .gti-section {
+        display: block;
+        margin-bottom: 20px;
+        margin-right: 20px;
+        margin-left: 20px;
+    }
+    .gti-section input {
+        width: 100%;
+    }
+}
 .trip-property-label {
     font-size: 18px;
     color: #444;
@@ -58,24 +69,37 @@
 .mandatory-text.dark {
     color: #A0A0A0;
 }
+.mobile-top-view {
+    margin: 12px 20px 0px;
+    padding: 20px;
+    padding-bottom: 4px;
+    background-color: #f1f1f1;
+    border-radius: 8px;
+}
+.mobile-top-view.dark {
+    background-color: #0e0e0e;
+}
 @media all and (min-width: 1031px) {
     .mobile-top-view {
         display: none;
     }
+    .mobile-only {
+        display: none;
+    }
 }
 @media all and (max-width: 630px) {
-    .gti-section {
-        flex-direction: column;
-        align-items: center;
-    }
     .trip-property-label {
         display: block;
-        text-align: center;
-        align-self: center;
-        margin-bottom: 8px;
+        padding-left: 16px;
+        text-align: left;
+        margin-bottom: 8px !important;
     }
     #gti-project {
-        margin-right: 0px;
+        width: 150px;
+        margin-right: 12px;
         margin-bottom: 8px !important;
+    }
+    #gti-task {
+        width: 120px;
     }
 }

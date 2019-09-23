@@ -12,6 +12,7 @@
     left: 0px;
     bottom: 0px;
     height: 100%;
+    overflow: hidden;
 }
 #trip-activity .top-bar {
     position: fixed;
@@ -27,6 +28,12 @@
     z-index: 2;
     overflow: hidden;
     background-color: white;
+    transition: transform 0.51s cubic-bezier(0.19, 1, 0.22, 1);
+}
+@media all and (min-width: 1031px) {
+    #trip-activity .top-bar {
+        transform: translateY(0px) !important;
+    }
 }
 #trip-activity .top-bar.dark {
     background-color: black;
@@ -78,13 +85,10 @@
     position: relative;
 }
 #trip-activity .middle-content.dark {
-    position: relative;
-    width: 400px;
-    background-color: #1f1f1f;
+    background-color: #0e0e0e;
 }
 #trip-activity .main-content.dark {
     background-color: #1e1e1e;
-    position: relative;
 }
 #trip-activity .trip-activity-content {
     position: fixed;
@@ -101,6 +105,9 @@
 }
 #trip-activity .main-content {
     max-width: 630px;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+    margin: 10px 0px 0px 10px;
     overflow-x: hidden;
 }
 #trip-activity .receipt-content {
@@ -111,6 +118,17 @@
 .middle-receipt-content {
     display: flex;
     background: linear-gradient(0deg, white, white 30%, #f1f1f1 80%);
+    margin: 10px 0px 0px 0px;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+}
+.middle-receipt-content.dark {
+    background: linear-gradient(0deg, black, black 30%, #0e0e0e 80%);
+}
+@media all and (min-width: 1371px) {
+    #trip-activity .receipt-content {
+        transform: translateY(0px) !important;
+    }
 }
 @media all/*screen*/ and (max-width: 1370px) {
     @media all/*screen*/ and (min-width: 1031px) {
@@ -119,14 +137,19 @@
             position: absolute;
             bottom: 0px;
             background-color: white;
-            box-shadow: 0px 0px 10px -4px #aaa;
             transition: transform 0.51s cubic-bezier(0.19, 1, 0.22, 1);
             border-top-left-radius: 8px;
             border-top-right-radius: 8px;
         }
+        #trip-activity .receipt-content.dark {
+            background-color: black;
+        }
         #trip-activity .middle-content {
             height: 100%;
             padding-bottom: 0px;
+            background-color: transparent;
+        }
+        #trip-activity .middle-content.dark {
             background-color: transparent;
         }
         .middle-receipt-content {
@@ -134,32 +157,54 @@
             position: relative;
             background: linear-gradient(180deg, white, white 30%, #f1f1f1 80%);
         }
+        .middle-receipt-content.dark {
+            background: linear-gradient(180deg, black, black 30%, #0e0e0e 80%);
+        }
     }
 }
 @media all/*screen*/ and (max-width: 1030px) {
-    @media all and (min-width: 701px) {
+    @media all and (min-width: 751px) {
         #trip-activity .receipt-content {
             height: 100%;
+            transform: translateY(0px) !important;
         }
         #trip-activity .middle-content {
             height: 100%;
+            border-top-right-radius: 8px;
+            background-color: transparent;
+            border-top-left-radius: 8px;
+        }
+        #trip-activity .middle-content.dark {
+            background-color: transparent;
         }
         .middle-receipt-content {
             flex-direction: row;
+            background: none;
+            background-color: white;
+        }
+        .middle-receipt-content.dark {
+            background-color: black;
+        }
+        #trip-activity .main-content {
+            display: none;
+            position: fixed;
+            background-color: white;
+            z-index: 11;
+            height: 600px;
+            max-height: 100%;
+            width: 700px;
+            border-radius: 8px;
+            opacity: 0;
+            transform: translateX(40px);
+            transition: transform 0.51s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.31s;
+            margin: 0px;
+        }
+        #trip-activity .main-content {
+           background-color: black;
         }
     }
     .ps-mobile-top-view {
         display: none;
-    }
-    #trip-activity .main-content {
-        display: none;
-        position: absolute;
-        height: 100vh;
-        padding-top: 80px;
-        z-index: 3;
-        opacity: 0;
-        transform: translateX(40px);
-        transition: transform 0.51s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.31s;
     }
 }
 @media all/*screen*/ and (max-width: 750px) {
@@ -168,19 +213,47 @@
         position: absolute;
         bottom: 0px;
         background-color: white;
-        box-shadow: 0px 0px 10px -4px #aaa;
         transition: transform 0.51s cubic-bezier(0.19, 1, 0.22, 1);
         border-top-left-radius: 8px;
         border-top-right-radius: 8px;
+    }
+    #trip-activity .receipt-content.dark {
+        background-color: black;
     }
     #trip-activity .middle-content {
         height: 100%;
         padding-bottom: 0px;
         background-color: transparent;
     }
+    #trip-activity .middle-content.dark {
+        background-color: transparent;
+    }
     .middle-receipt-content {
         flex-direction: column-reverse;
         position: relative;
         background: linear-gradient(180deg, white, white 30%, #f1f1f1 80%);
+        margin-top: 10px;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+    }
+    .middle-receipt-content.dark {
+        background: linear-gradient(180deg, black, black 30%, #0e0e0e 80%);
+    }
+    #trip-activity .main-content {
+        height: 100%;
+        margin: 0px;
+        position: fixed;
+        z-index: 11;
+        display: none;
+        width: 100%;
+        border-top-left-radius: 0px;
+        transform: translateX(40px);
+        opacity: 0;
+        transition: transform 0.51s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.31s;
+        border-top-right-radius: 0px;
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 0px;
+        max-width: none;
+        top: 0px;
     }
 }

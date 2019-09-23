@@ -71,7 +71,7 @@ export default class DayInput extends Component {
     }
 
     select(e) {
-        if (e.target.getAttribute("class").includes("day-button db-selected")) {
+        if (e.currentTarget.getAttribute("class").includes("day-button db-selected")) {
             this.graphicalSelect(null);
             this.setState({
                 selectedDay: undefined,
@@ -81,13 +81,13 @@ export default class DayInput extends Component {
             this.props.parent.selectDate(null, null, null);
         }
         else {
-            this.graphicalSelect(e.target);
+            this.graphicalSelect(e.currentTarget);
             this.setState({
-                selectedDay: e.target.innerHTML,
+                selectedDay: e.currentTarget.innerHTML,
                 selectedMonth: this.state.month,
                 selectedYear: this.state.year
             });
-            this.props.parent.selectDate(e.target.innerHTML.split("<")[0], this.state.month, this.state.year);
+            this.props.parent.selectDate(e.currentTarget.innerHTML.split("<")[0], this.state.month, this.state.year);
         }
     }
 
@@ -154,7 +154,8 @@ export default class DayInput extends Component {
             days[Math.floor(i / 7)][i] = (
                 <td key={i}>
                     <button ref={this.ref[i - dayIndex]} 
-                            onClick={(e) => {this.select(e)}} 
+                            onClick={(e) => {this.select(e)}}
+                            //onTouchEnd={(e) => {this.select(e)}}
                             ripplecolor={this.props.color == "blue" ? "blue" : "orange"} 
                             className={buttonClass + (ObjectContainer.isDarkTheme() ? " dark" : "")}
                     >{x}</button>

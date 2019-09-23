@@ -9,7 +9,7 @@
     overflow-y: scroll;
 }
 #login-activity.dark {
-    background-color: black;
+    background: linear-gradient(180deg, black, black 25%, #191919 75%, #191919);
 }
 .la-top-content {
     width: 100%;
@@ -155,7 +155,7 @@
 }
 .la-icons.dark i {
     font-size: 100px !important;
-    color: #1B1B1B;
+    color: #3F3F3F;
     display: flex;
     align-items: center;
 }

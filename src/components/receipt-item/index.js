@@ -21,7 +21,7 @@ export default class ReceiptItem extends Component {
         if (isNaN(target.value)) {
             target.value = rate.toString().length == 2 ? rate + ".00" : rate.toString().length == 4 ? rate + "0" : rate;
         }
-        if (target.value.length > 5) {
+        if (target.value.length > 6) {
             target.value = rate.toString().length == 2 ? rate + ".00" : rate.toString().length == 4 ? rate + "0" : rate;
         }
         if (target.value != rate ? (rate.toString().length == 2 ? rate + ".00" : rate.toString().length == 4 ? rate + "0" : rate) : "") {
