@@ -1,4 +1,4 @@
-1. Run this to generate the 'out' directory:
+1. Run this to generate the 'out' directory (you must set the output directory!):
 
    - npm run build
 
