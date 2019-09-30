@@ -203,7 +203,7 @@ export default class MainActivity extends Component {
     render() {
 
         this.state.trips.sort((a, b) => {
-            if (this.state.sortBy == 0) {
+            if (this.state.sortBy == 2) {
                 if (a.locations.length == 0 || !a.locations[0].departureDate || a.locations[0].departureDate == -1) return -1;
                 if (b.locations.length == 0 || !b.locations[0].departureDate || b.locations[0].departureDate == -1) return 1;
                 return b.locations[0].departureDate - a.locations[0].departureDate;
@@ -212,10 +212,10 @@ export default class MainActivity extends Component {
                 var tripManager = ObjectContainer.getTripManager();
                 return tripManager.calculateTotal(b) - tripManager.calculateTotal(a);
             }
-            else {
-                let aStat = a.gettingOld ? 2 : a.exported ? 0 : 1;
-                let bStat = b.gettingOld ? 2 : b.exported ? 0 : 1;
-                return bStat - aStat;
+            else if (this.state.sortBy == 0) {
+                if (a.lastOpen == null) return 1;
+                if (b.lastOpen == null) return -1;
+                return b.lastOpen - a.lastOpen;  
             }
         })
 
@@ -246,18 +246,32 @@ export default class MainActivity extends Component {
                         </div>
                         {
                             !this.state.error ? (
-                                <TripList container={this.props.container}>
-                                    {
-                                        this.state.trips.map(t => {
-                                            if (t.deleted) {
-                                                return null;
-                                            }
-                                            else {
-                                                return <TripPreview status={t.exported ? 1 : t.gettingOld ? 2 : 0} key={t.id} container={this.props.container} trip={t} activity={this} />
-                                            }
-                                        })
-                                    }
-                                </TripList>
+                                <Fragment>
+                                    <TripList container={this.props.container} noEmpty={true} >
+                                        {
+                                            this.state.trips.map(t => {
+                                                if (!t.gettingOld || t.deleted) {
+                                                    return null;
+                                                }
+                                                else {
+                                                    return <TripPreview status={t.exported ? 1 : t.gettingOld ? 2 : 0} key={t.id} container={this.props.container} trip={t} activity={this} />
+                                                }
+                                            })
+                                        }
+                                    </TripList>
+                                    <TripList container={this.props.container}>
+                                        {
+                                            this.state.trips.map(t => {
+                                                if (t.gettingOld || t.deleted) {
+                                                    return null;
+                                                }
+                                                else {
+                                                    return <TripPreview status={t.exported ? 1 : t.gettingOld ? 2 : 0} key={t.id} container={this.props.container} trip={t} activity={this} />
+                                                }
+                                            })
+                                        }
+                                    </TripList>
+                                </Fragment>
                             ) : null
                         }
                         

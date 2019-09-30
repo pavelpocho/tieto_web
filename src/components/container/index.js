@@ -23,10 +23,12 @@ export default class Container extends Component {
             transitioningForward: false,
             transitioningBackward: false,
             apiVersion: -1,
-            apiBuildDate: -1
+            apiBuildDate: -1,
+            cookieConsent: CookieManager.getCookie("cookieConsent")
         }
 
         this.background = React.createRef();
+        this.cookieConsent = React.createRef();
 
         if (ObjectContainer.isDarkTheme()) document.body.style.backgroundColor = "black";
 
@@ -71,6 +73,9 @@ export default class Container extends Component {
 
     componentDidMount() {
         this.startApp();
+        if (this.cookieConsent.current != null) {
+            this.cookieConsent.current.style.marginLeft = (-this.cookieConsent.current.offsetWidth / 2) + "px";
+        }
     }
 
     openActivity(activity) {
@@ -177,6 +182,13 @@ export default class Container extends Component {
         this.background.current.logoWrap.current.style.display = (forceHide ? "" : "block");
     }
 
+    setCookieConsent() {
+        this.setState({
+            cookieConsent: "yes"
+        });
+        CookieManager.setCookie("cookieConsent", "yes", 10000);
+    }
+
     render() {
 
         const buildDate = new Date(preval`module.exports = new Date()`);
@@ -235,6 +247,19 @@ export default class Container extends Component {
                                 ) : null
                             }
                             <a ripplecolor="gray" href="./changelog.html" target="_blank" className={"changelog-link" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Changelog</a>
+                        </div>
+                    ) : null
+                }
+                {
+                    this.state.cookieConsent == "" ? (
+                        <div ref={this.cookieConsent} className={"cookie-consent" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
+                            <p>By using Trippi, you consent to the use of cookies.<br />We only use cookies to:</p>
+                            <ul>
+                                <li>save your layout preferences (Night mode and Trip sorting),</li>
+                                <li>keep you securely signed in,</li>
+                                <li>make a cookie that says you're okay with cookies ;)</li>
+                            </ul>
+                            <button onClick={() => {this.setCookieConsent()}}>Confirm</button>
                         </div>
                     ) : null
                 }

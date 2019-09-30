@@ -82,6 +82,9 @@ export default class TripActivity extends Component {
         window.onscroll = (e) => {
             setTimeout(() => {window.scrollTo(0, 1)}, 1000);
         }
+        if (this.state.tripObject.id != 0) {
+            this.props.http.tripOpen(this.state.tripObject.id, () => {});
+        }
     }
 
     setFood(location, dayIndex, foodIndex, select) {
@@ -256,7 +259,11 @@ export default class TripActivity extends Component {
 
     forceSave(callback) {
         this.incrementSaving();
-        this.props.http.saveTrip(this.state.tripObject, (r, s) => { this.locFieldCallback(r, s); callback(r) })
+        this.props.http.saveTrip(this.state.tripObject, (r, s) => { 
+            this.locFieldCallback(r, s);
+            callback(r);
+            this.props.http.tripOpen(this.state.tripObject.id, () => {});
+        })
     }
 
     selectPoint(i, override) {

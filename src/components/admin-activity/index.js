@@ -233,6 +233,8 @@ export default class AdminActivity extends Component {
 
     signOut() {
         CookieManager.deleteCookie("token");
+        CookieManager.deleteCookie("refreshToken");
+        CookieManager.deleteCookie("tokenExpirationUTC");
         window.location.reload();
     }
 

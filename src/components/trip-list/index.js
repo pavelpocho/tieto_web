@@ -17,11 +17,21 @@ export default class TripList extends Component {
             }
         }
         return (
-            <div className="trip-list">
+            <div className="trip-list" style={this.props.noEmpty ? {marginBottom: "0px"} : {}}>
                 {
-                    (displayEmpty) ? (
+                    (displayEmpty && !this.props.noEmpty) ? (
                         <Fragment>
-                            <p className="no-trips-text">No trips in your list right now</p>
+                            <p className="no-trips-text">You don't have any trips yet :[</p>
+                        </Fragment>
+                    ) : (displayEmpty) ? (
+                        null
+                    ) : (this.props.noEmpty) ? (
+                        <Fragment>
+                        <p className={"trip-list-title" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Some Trips Need Your Attention</p>
+                        {
+                            this.props.children
+                        }
+                        <p className={"trip-list-title" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>You Other Trips</p>
                         </Fragment>
                     ) : (
                         this.props.children

@@ -135,6 +135,7 @@ export default class HttpCommunicator {
 
     exportTrip(token, callback) { var w = window.open(this.url + "trip/getPdf/" + token, "_blank"); callback(w) }
 
+    tripOpen(tripId, callback) { this.addPostToBuffer(this.url + "trip/tripOpen/" + tripId, callback) }
 
     saveTitle(tripId, title, callback) { this.addPostToBuffer(this.url + "trip/saveTitle/" + tripId, callback, title) }
 

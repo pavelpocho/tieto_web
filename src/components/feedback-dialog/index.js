@@ -6,6 +6,7 @@ import Overlay from '../overlay';
 import { RippleManager } from '../ripple';
 import TripPreviewState from '../trip-preview-state';
 import Scrollbar from '../scrollbar';
+const preval = require('preval.macro');
 
 export default class FeedbackDialog extends Component {
 
@@ -255,7 +256,7 @@ export default class FeedbackDialog extends Component {
                                                             <p className={"feedback-name" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{f.author.fullName}</p>
                                                         </span>
                                                         <span>
-                                                            <p className={"feedback-date" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{new Date(f.postedAt).getUTCDate() + "." + (new Date(f.postedAt).getUTCMonth() + 1) + "." + new Date(f.postedAt).getUTCFullYear()}</p>
+                                                            <p className={"feedback-date" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{new Date(f.postedAt).getUTCDate() + "." + (new Date(f.postedAt).getUTCMonth() + 1) + "." + new Date(f.postedAt).getUTCFullYear()}, ver. {(f.version != null && f.version != "") ? f.version : "< 1.0.10.0"}</p>
                                                         </span>
                                                     </div>
                                                     <p className={"feedback-text" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{f.text}</p>

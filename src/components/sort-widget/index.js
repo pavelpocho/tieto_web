@@ -38,7 +38,7 @@ export default class SortWidget extends Component {
                     <div className="sort-widget-wrap">
                         <button className={"sort-widget-expand" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ripplecolor="gray" onClick={() => {this.toggleExpansion()}}>
                             <p className={"sort-widget-title" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Sort by:</p>
-                            <p className={"sort-widget-selected" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{this.props.position == 0 ? "Date" : this.props.position == 1 ? "Money" : "Status"}</p>
+                            <p className={"sort-widget-selected" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{this.props.position == 0 ? "Last Edit" : this.props.position == 1 ? "Allowance" : "Trip Start"}</p>
                             <i className={this.state.expanded ? "material-icons arrow rotated" : "material-icons arrow"}>arrow_drop_down</i>
                         </button>
                     </div>
@@ -48,9 +48,9 @@ export default class SortWidget extends Component {
                         ) : null
                     }
                     <div className={(this.state.expanded ? "sw-choice-wrap" : "sw-choice-wrap no-height") + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
-                        <button className={"sw-choice" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ripplecolor="gray" onClick={() => {this.setSortBy(2)}}>Status</button>
-                        <button className={"sw-choice" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ripplecolor="gray" onClick={() => {this.setSortBy(1)}}>Money</button>
-                        <button className={"sw-choice" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ripplecolor="gray" onClick={() => {this.setSortBy(0)}}>Date</button>
+                        <button className={"sw-choice" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ripplecolor="gray" onClick={() => {this.setSortBy(0)}}>Last Edit</button>
+                        <button className={"sw-choice" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ripplecolor="gray" onClick={() => {this.setSortBy(1)}}>Allowance</button>
+                        <button className={"sw-choice" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ripplecolor="gray" onClick={() => {this.setSortBy(2)}}>Trip Start</button>
                     </div>
                 </div>
             </Fragment>

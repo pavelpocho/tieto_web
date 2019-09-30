@@ -63,6 +63,16 @@ export default class TimeInput extends Component {
         if (target.value.length > 2) {
             target.value = target.value.substring(0, 2);
         }
+        if (target.getAttribute("class").includes("ti-hours")) {
+            if (parseInt(target.value) > 2 && parseInt(target.value) < 10) {
+                target.value = "0" + parseInt(target.value);
+            }
+        }
+        else {
+            if (parseInt(target.value) > 5 && parseInt(target.value) < 10) {
+                target.value = "0" + parseInt(target.value);
+            }
+        }
     }
 
     switchNext(e) {
@@ -115,9 +125,9 @@ export default class TimeInput extends Component {
 
         return (
             <div className={"time-input" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ref={this.wrap}>
-                <input className={"ti-field" + (ObjectContainer.isDarkTheme() ? " dark" : "")} defaultValue={hours} placeholder="--" ref={this.hours} onKeyDown={(e) => {this.switchNext(e)}} onChange={(e) => {this.check(e.target)}} onBlur={(e) => {this.autocorrect(e.target, 0); this.setBlured()}} onFocus={(e) => {this.setFocused()}} type="text"></input>
+                <input className={"ti-hours ti-field" + (ObjectContainer.isDarkTheme() ? " dark" : "")} defaultValue={hours} placeholder="--" ref={this.hours} onKeyDown={(e) => {this.switchNext(e)}} onChange={(e) => {this.check(e.currentTarget)}} onBlur={(e) => {this.autocorrect(e.currentTarget, 0); this.setBlured()}} onFocus={(e) => {this.setFocused()}} type="text"></input>
                 <p ref={this.colon} className={"ti-colon" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>:</p>
-                <input className={"ti-field" + (ObjectContainer.isDarkTheme() ? " dark" : "")} defaultValue={minutes} placeholder="--" ref={this.minutes} onKeyDown={(e) => {this.switchPrev(e)}} onChange={(e) => {this.check(e.target)}} onBlur={(e) => {this.autocorrect(e.target, 1); this.setBlured()}} onFocus={(e) => {this.setFocused()}} type="text"></input>
+                <input className={"ti-minutes ti-field" + (ObjectContainer.isDarkTheme() ? " dark" : "")} defaultValue={minutes} placeholder="--" ref={this.minutes} onKeyDown={(e) => {this.switchPrev(e)}} onChange={(e) => {this.check(e.currentTarget)}} onBlur={(e) => {this.autocorrect(e.currentTarget, 1); this.setBlured()}} onFocus={(e) => {this.setFocused()}} type="text"></input>
             </div>
         )
     }

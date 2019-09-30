@@ -35,7 +35,7 @@ export default class TripPreview extends Component {
             this.ref.current.style.marginBottom = "0px";
             this.ref.current.style.opacity = "0";
             setTimeout(() => {
-                this.ref.current.style.height = "72px";
+                this.ref.current.style.height = "60px";
                 this.ref.current.style.marginBottom = "20px";
                 this.ref.current.style.opacity = "1";
             }, 20);
