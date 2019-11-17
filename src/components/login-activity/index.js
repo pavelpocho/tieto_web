@@ -22,6 +22,7 @@ export default class LoginActivity extends Component {
         this.superiorEmail = React.createRef();
         this.emailText = React.createRef();
         this.passText = React.createRef();
+        this.pwdRecoveryEmail = React.createRef();
 
         this.state = {
             texts: ["Reimbursement of traveling expenses. Redefined.", "Welcome to the 21st century.", "Excel. Reinvented.", "Here to save your time. And nerves."],
@@ -31,7 +32,10 @@ export default class LoginActivity extends Component {
             expansionCoords: [],
             allowRegister: true,
             longSign: false,
-            passError: false
+            passError: false,
+            pwdRecovery: false,
+            pwdRecoveryFail: false,
+            pwdRecoverySuccess: false
         }
 
         this.windowWrap = React.createRef();
@@ -245,6 +249,32 @@ export default class LoginActivity extends Component {
         }, 510);
     }
     
+    expandPwdRecovery() {
+        this.setState(prevState => {
+            return {
+                pwdRecovery: !prevState.pwdRecovery
+            }
+        })
+    }
+
+    resetPassword() {
+        var http = ObjectContainer.getHttpCommunicator();
+        http.resetPassword(this.pwdRecoveryEmail.current.value, (success) => {
+            if (success) {
+                this.setState({
+                    pwdRecoveryFail: false,
+                    pwdRecoverySuccess: true
+                });
+            }
+            else {
+                this.setState({
+                    pwdRecoveryFail: true,
+                    pwdRecoverySuccess: false
+                });
+            }
+        })
+    }
+    
     render() {
         return (
             <Fragment>
@@ -288,21 +318,49 @@ export default class LoginActivity extends Component {
                                 </div>
                                 <div className={"la-window-content"}>
                                     <p>Sign into your account</p>
-                                    <div className={"email-input-wrap" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
-                                        <input name="email" autoComplete="off" className={"email-specific" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ref={this.username} placeholder="Email" /><p>@tieto.com</p>
-                                    </div>
-                                    <input autoComplete="off" ref={this.password} className={"login-input" + (ObjectContainer.isDarkTheme() ? " dark" : "")} placeholder="Password" type="password" />
-                                    <div className="long-sign-wrap">
-                                        <button ripplecolor="gray" className={"stay-signed-button" + (ObjectContainer.isDarkTheme() ? " dark" : "")} onClick={() => {this.changeLongSign()}}>
-                                            <div ripplecolor="gray" className={"fiw-checkbox uncheck-white" + (this.state.longSign ? " checked check-blue" : "") + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
-                                                <i className="material-icons">done</i>
-                                            </div>
-                                            <p>Stay signed in</p>
-                                        </button>
-                                    </div>
-                                    <button ref={this.rippleHere} className={"login-button" + (ObjectContainer.isDarkTheme() ? " dark" : "")} onClick={() => {this.login()}}>Login</button>
                                     {
-                                        this.state.passError ? (
+                                        !this.state.pwdRecovery ? (
+                                            <Fragment>
+                                                <div className={"email-input-wrap" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
+                                                    <input name="email" autoComplete="off" className={"email-specific" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ref={this.username} placeholder="Email" />{/*<p>@tieto.com</p>*/}
+                                                </div>
+                                                <input autoComplete="off" ref={this.password} className={"login-input" + (ObjectContainer.isDarkTheme() ? " dark" : "")} placeholder="Password" type="password" />
+                                                <div className="long-sign-wrap">
+                                                    <button ripplecolor="gray" className={"stay-signed-button" + (ObjectContainer.isDarkTheme() ? " dark" : "")} onClick={() => {this.changeLongSign()}}>
+                                                        <div ripplecolor="gray" className={"fiw-checkbox uncheck-white" + (this.state.longSign ? " checked check-blue" : "") + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
+                                                            <i className="material-icons">done</i>
+                                                        </div>
+                                                        <p>Stay signed in</p>
+                                                    </button>
+                                                </div>
+                                                <button ripplecolor="gray" className={"pwd-recovery-open" + (ObjectContainer.isDarkTheme() ? " dark" : "")} onClick={() => {this.expandPwdRecovery()}}>Forgot your password?</button>
+                                            </Fragment>
+                                        ) : null
+                                    }
+                                    {
+                                        this.state.pwdRecovery ? (
+                                            <div className={"pwd-recovery-wrap"}>
+                                                <p>Enter your email address below to recover your password</p>
+                                                <input placeholder="Email" type="text" ref={this.pwdRecoveryEmail} />
+                                                <button className={"pwd-reset"} onClick={() => {this.resetPassword()}}>Reset password</button>
+                                                <button ripplecolor="gray" className={"pwd-recovery-open" + (ObjectContainer.isDarkTheme() ? " dark" : "")} onClick={() => {this.expandPwdRecovery()}}>Go Back</button>
+                                                {
+                                                    this.state.pwdRecoveryFail ? (
+                                                        <p className={"la-info" + (ObjectContainer.isDarkTheme() ? " dark" : "")} style={{paddingTop: "12px"}}><span style={{color: ObjectContainer.isDarkTheme() ? "#c32600" : "#FF4E0B"}}>Email not found</span></p>
+                                                    ) : this.state.pwdRecoverySuccess ? (
+                                                        <p className={"la-info" + (ObjectContainer.isDarkTheme() ? " dark" : "")} style={{paddingTop: "12px"}}><span style={{color: ObjectContainer.isDarkTheme() ? "#1f6e00" : "#338200"}}>Password recovery email sent</span></p>
+                                                    ) : null
+                                                }
+                                            </div>
+                                        ) : null
+                                    }
+                                    {
+                                        !this.state.pwdRecovery ? (
+                                            <button ref={this.rippleHere} className={"login-button" + (ObjectContainer.isDarkTheme() ? " dark" : "")} onClick={() => {this.login()}}>Login</button>
+                                        ) : null
+                                    }                                    
+                                    {
+                                        this.state.passError && !this.state.pwdRecovery ? (
                                             <p className={"la-info" + (ObjectContainer.isDarkTheme() ? " dark" : "")} style={{paddingTop: "12px"}}><span style={{color: ObjectContainer.isDarkTheme() ? "#c32600" : "#FF4E0B"}}>Incorrect or missing email or password</span></p>
                                         ) : null
                                     }
@@ -323,7 +381,7 @@ export default class LoginActivity extends Component {
                                 <div className="la-window-content">
                                     <p className="la-less-margin">Set up a new account</p>
                                     <div className={"email-input-wrap" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
-                                        <input name="email" autoComplete="new-password" ref={this.username} className={"email-specific" + (ObjectContainer.isDarkTheme() ? " dark" : "")} placeholder="Email" onChange={(e) => {this.checkEmail(e.target.value)}}></input><p>@tieto.com</p>
+                                        <input name="email" autoComplete="new-password" ref={this.username} className={"email-specific" + (ObjectContainer.isDarkTheme() ? " dark" : "")} placeholder="Email" onChange={(e) => {this.checkEmail(e.target.value)}}></input>{/*<p>@tieto.com</p>*/}
                                     </div>
                                     <p ref={this.emailText} className={"la-info" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Unique email to sign in and identify you</p>
                                     <input autoComplete="new-password" ref={this.fullname} className={"login-input" + (ObjectContainer.isDarkTheme() ? " dark" : "")} placeholder="Full Name" ></input>
@@ -332,7 +390,7 @@ export default class LoginActivity extends Component {
                                     <input autoComplete="new-password" ref={this.passwordConfirm} className={"login-input" + (ObjectContainer.isDarkTheme() ? " dark" : "")} placeholder="Confirm Password" onChange={() => {this.checkPasswords()}} type="password"></input>
                                     <p ref={this.passText} className={"la-info" + (ObjectContainer.isDarkTheme() ? " dark" : "")}></p>
                                     <div className={"email-input-wrap" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
-                                        <input autoComplete="new-password" className={"email-specific" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ref={this.superiorEmail} placeholder="Superior's Email" ></input><p>@tieto.com</p>
+                                        <input autoComplete="new-password" className={"email-specific" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ref={this.superiorEmail} placeholder="Superior's Email" ></input>{/*<p>@tieto.com</p>*/}
                                     </div>
                                     <p className={"la-info" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>The email of the person, who approves your Trip Reports</p>
                                     <button disabled={!this.state.allowRegister} ref={this.rippleHere} className={"login-button" + (ObjectContainer.isDarkTheme() ? " dark" : "")} onClick={() => {this.register()}}>Register</button>

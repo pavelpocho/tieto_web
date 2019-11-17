@@ -121,6 +121,8 @@ export default class HttpCommunicator {
 
     checkEmail(email, callback) { this.addPostToBuffer(this.url + "user/checkEmail", callback, email) }
 
+    resetPassword(email, callback) { this.addPostToBuffer(this.url + "user/resetPassword", callback, email) }
+
 
     getTripList(callback) { this.addGetToBuffer(this.url + "trip/getTripList", callback) }
 
@@ -216,6 +218,8 @@ export default class HttpCommunicator {
     saveCountryAllowances(allowances, callback) { this.addPostToBuffer(this.url + "country/updateArray", callback, allowances) }
 
     getConfigurationList(callback) { this.addGetToBuffer(this.url + "configuration/list", callback) }
+
+    getStatistics(callback) { this.addGetToBuffer(this.url + "app/statistics", callback) }
 
     saveConfiguration(config, callback) { this.addPostToBuffer(this.url + "configuration/update", callback, config) }
 

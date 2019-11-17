@@ -16,6 +16,7 @@ export default class AdminActivity extends Component {
         this.state = {
             countries: [],
             configuration: [],
+            statistics: [],
             pendingRequests: 0,
             doneLoading: false,
             ripple: false,
@@ -67,7 +68,17 @@ export default class AdminActivity extends Component {
                 //List fetch failed
             }
         });
-        
+        h.getStatistics((r, s) => {
+            if (s == 200 || s == 204) {
+                //List fetch successful
+                this.setState({
+                    statistics: r
+                })
+            }
+            else {
+                //List fetch failed
+            }
+        })
     }
 
     checkDone() {
@@ -376,6 +387,15 @@ export default class AdminActivity extends Component {
                 </span>
             )
         })
+
+        var stats = this.state.statistics.map((s, i) => {
+            return (
+                <div key={i}>
+                    <p>{s.name} --> {s.value}</p>
+                </div>
+            )
+        })
+
         return (
             this.state.doneLoading ? (
                 <Fragment>
@@ -433,6 +453,11 @@ export default class AdminActivity extends Component {
                         <p>---------------------------------------</p>
                         {
                             countries
+                        }
+                        <p>---------------------------------------</p>
+                        <p>Statistics</p>
+                        {
+                            stats
                         }
                     </div>
                 </Fragment>
