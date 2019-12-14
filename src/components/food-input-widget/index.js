@@ -37,13 +37,29 @@ export default class FoodInputWidget extends Component {
         }
     }
 
-    componentDidMount() {
-        RippleManager.setUp();
-    }
-
     changeState(i) {
         this.setState(prevState => {
             this.props.parent.setFood(this.props.index, i, i == 0 ? !prevState.breakfastChecked : i == 1 ? !prevState.lunchChecked : !prevState.dinnerChecked); //i says which food
+            if (i == 0) {
+                return {
+                    breakfastChecked: !prevState.breakfastChecked
+                }
+            }
+            if (i == 1) {
+                return {
+                    lunchChecked: !prevState.lunchChecked
+                }
+            }
+            if (i == 2) {
+                return {
+                    dinnerChecked: !prevState.dinnerChecked
+                }
+            }
+        })
+    }
+
+    changeStateNoUpdate(i) {
+        this.setState(prevState => {
             if (i == 0) {
                 return {
                     breakfastChecked: !prevState.breakfastChecked

@@ -14,6 +14,7 @@ import WelcomeDialog from '../welcome-dialog';
 import CookieManager from '../../utils/cookie-manager';
 import FeedbackDialog from '../feedback-dialog';
 import FeaturePromote from '../feature-promote';
+import AccountDialog from '../account-dialog';
 
 export default class MainActivity extends Component {
 
@@ -24,6 +25,8 @@ export default class MainActivity extends Component {
         this.spinner = React.createRef();
         this.errorDisplay = React.createRef();
         this.http = ObjectContainer.getHttpCommunicator();
+
+        this.defaultFeedbackValue = "";
 
         this.state = {
             trips: [],
@@ -164,7 +167,11 @@ export default class MainActivity extends Component {
     }
 
     openFeedback() {
-        this.props.container.openDialog(<FeedbackDialog key={"feedbackDialog"} container={this.props.container} />)
+        this.props.container.openDialog(<FeedbackDialog key={"feedbackDialog"} container={this.props.container} parent={this} defaultValue={this.defaultFeedbackValue} />)
+    }
+
+    openAccountSettings() {
+        this.props.container.openDialog(<AccountDialog key={"accountDialog"} container={this.props.container} />)
     }
 
     closeWindow() {
@@ -230,6 +237,7 @@ export default class MainActivity extends Component {
                         <div className="ma-toggle-separator"></div>
                         <button ripplecolor="gray" className={"ma-settings-toggle" + (ObjectContainer.isDarkTheme() ? " dark" : "")} title="Help" onClick={() => {this.openHelp()}}><i className="material-icons">help</i></button>
                         <button ripplecolor="gray" className={"ma-settings-toggle" + (ObjectContainer.isDarkTheme() ? " dark" : "")} title="Send Feedback" onClick={() => {this.openFeedback()}}><i className="material-icons">feedback</i></button>
+                        <button ripplecolor="gray" className={"ma-settings-toggle" + (ObjectContainer.isDarkTheme() ? " dark" : "")} title="Account Settings" onClick={() => {this.openAccountSettings()}}><i className="material-icons">account_circle</i></button>
                         <div className="ma-toggle-separator"></div>
                         <button ripplecolor="gray" className={"ma-settings-toggle" + (ObjectContainer.isDarkTheme() ? " dark" : "")} title="Log Out" onClick={() => {this.signOut()}}><i className="material-icons">exit_to_app</i></button>
                     </div>

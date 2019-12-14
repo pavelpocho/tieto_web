@@ -17,6 +17,7 @@ export default class PointDetailInfo extends Component {
 
         this.wrap = React.createRef();
         this.outerWrap = React.createRef();
+        this.allFood = React.createRef();
 
         if (this.props.location == undefined) return;
         
@@ -143,6 +144,17 @@ export default class PointDetailInfo extends Component {
 
     setFood(dayIndex, foodIndex, select) {
         this.props.parent.setFood(this.props.location, dayIndex, foodIndex, select);
+        if (!select && dayIndex > -1) {
+            if (foodIndex == 0 && this.allFood.current.state.breakfastChecked) {
+                this.allFood.current.changeStateNoUpdate(0);
+            }
+            if (foodIndex == 1 && this.allFood.current.state.lunchChecked) {
+                this.allFood.current.changeStateNoUpdate(1);
+            }
+            if (foodIndex == 2 && this.allFood.current.state.dinnerChecked) {
+                this.allFood.current.changeStateNoUpdate(2);
+            }
+        }
     }
 
     changeOnlyLocation() {
@@ -353,7 +365,7 @@ export default class PointDetailInfo extends Component {
         var foodWidgets = [];
         foodWidgets.push(<FoodInputWidget title={true} key={0}/>);
         if (this.props.location.departureDate != null && this.props.location.departureDate != -1 && this.props.location.arrivalDate != null && this.props.location.arrivalDate != -1 && this.props.location.food) {
-            foodWidgets.push(<FoodInputWidget all={true} key={1} index={-1} parent={this} foods={this.props.location.food.days} />);
+            foodWidgets.push(<FoodInputWidget ref={this.allFood} all={true} key={1} index={-1} parent={this} foods={this.props.location.food.days} />);
             for (var i = 0; i < (this.props.location.departureDate / 24 / 60 / 60000) - (this.props.location.arrivalDate / 24 / 60 / 60000) + 1; i++) {
                 let food = this.props.location.food.days[i];
                 foodWidgets.push(<FoodInputWidget parent={this} index={i} key={((i + 2) * 8) + (food.breakfast ? 1 : 0) + (food.lunch ? 2 : 0) + (food.dinner ? 4 : 0)} food={food} date={(this.props.location.arrivalDate / 24 / 60 / 60000 + i) * 60000 * 60 * 24} />);

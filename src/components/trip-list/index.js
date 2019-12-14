@@ -31,7 +31,7 @@ export default class TripList extends Component {
                         {
                             this.props.children
                         }
-                        <p className={"trip-list-title" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>You Other Trips</p>
+                        <p className={"trip-list-title" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Other Trips</p>
                         </Fragment>
                     ) : (
                         this.props.children

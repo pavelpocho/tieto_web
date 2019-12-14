@@ -123,6 +123,10 @@ export default class HttpCommunicator {
 
     resetPassword(email, callback) { this.addPostToBuffer(this.url + "user/resetPassword", callback, email) }
 
+    getUserAccountData(callback) { this.addPostToBuffer(this.url + "user/getUserAccountData", callback) }
+
+    setUserAccountData(fullName, superiorEmail, callback) { this.addPostToBuffer(this.url + "user/setUserAccountData", callback, { FullName: fullName, SuperiorEmail: superiorEmail }) }
+
 
     getTripList(callback) { this.addGetToBuffer(this.url + "trip/getTripList", callback) }
 

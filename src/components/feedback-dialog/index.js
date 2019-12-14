@@ -177,6 +177,7 @@ export default class FeedbackDialog extends Component {
                 this.setState(prevState => {
                     let f = prevState.feedbacks;
                     f.push(r);
+                    console.log(r);
                     f.sort((a, b) => {return b.postedAt - a.postedAt});
                     return {
                         feedbacks: f,
@@ -191,6 +192,11 @@ export default class FeedbackDialog extends Component {
                 //Feedback send failed
             }
         });
+    }
+
+    updateParentText(value) {
+        console.log(value);
+        this.props.parent.defaultFeedbackValue = value;
     }
 
     render() {
@@ -259,7 +265,15 @@ export default class FeedbackDialog extends Component {
                                                             <p className={"feedback-date" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{new Date(f.postedAt).getUTCDate() + "." + (new Date(f.postedAt).getUTCMonth() + 1) + "." + new Date(f.postedAt).getUTCFullYear()}, ver. {(f.version != null && f.version != "") ? f.version : "< 1.0.10.0"}</p>
                                                         </span>
                                                     </div>
-                                                    <p className={"feedback-text" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{f.text}</p>
+                                                    {
+                                                        f.text.split(/(\r\n|\n|\r)/gm).map((t, i) => {
+                                                            console.log("One paragraph count " + i);
+                                                            return (
+                                                                <p key={i} className={"feedback-text" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{t}</p>
+                                                            )
+                                                        })
+                                                    }
+                                                    {/*<p className={"feedback-text" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{f.text}</p>*/}
                                                     <div className={"feedback-button-row" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
                                                         <div>
                                                             <button onClick={() => {this.likeFeedback(f.id)}} ripplecolor="white" title={f.liked ? "Unlike this feedback" : "Like this feedback"} className={"feedback-button feedback-left-button " + (f.liked ? "f-liked " : "f-not-liked ") + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Like<i className={"material-icons"}>thumb_up</i>({f.likeNumber})</button>
@@ -322,7 +336,7 @@ export default class FeedbackDialog extends Component {
                                 </div>
                             </button>
                             <p className="feedback-specify">Please specify further:</p>
-                            <textarea ref={this.feedbackText} className={"feedback-text-input" + (ObjectContainer.isDarkTheme() ? " dark" : "")} onChange={() => {this.forceUpdate()}}/>
+                            <textarea defaultValue={this.props.defaultValue} ref={this.feedbackText} className={"feedback-text-input" + (ObjectContainer.isDarkTheme() ? " dark" : "")} onChange={(e) => {this.forceUpdate(); this.updateParentText(e.currentTarget.value)}}/>
                             <p className="feedback-warning">All feedback is also available for other users to see.</p>
                             <button disabled={(!this.state.isLike && !this.state.isImprovement && !this.state.isError) || this.feedbackText.current != null && this.feedbackText.current.value == ""} onClick={() => {this.sendFeedback()}} className={"send-feedback" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Send feedback</button>
                         </div>

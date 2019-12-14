@@ -1,0 +1,77 @@
+.account-dialog-wrap {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100vh;
+    opacity: 0;
+    transition: opacity 0.31s;
+    z-index: 8;
+}
+.account-dialog-content {
+    height: 600px;
+    width: 1000px;
+    max-height: 100vh;
+    position: fixed;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 1px 1px 10px -4px #999;
+    top: 50%;
+    left: 50%;
+    margin-left: -500px;
+    z-index: 12;
+}
+.account-dialog-content.dark {
+    background-color: black;
+    border-radius: 10px;
+    box-shadow: 1px 1px 10px -4px black;
+}
+.account-dialog-content > .ma-window-main {
+    display: block;
+    position: relative;
+}
+.account-dialog-input {
+    background-color: #f1f1f1;
+    width: 280px;
+}
+.account-dialog-input.dark {
+    background-color: #0f0f0f;
+}
+.account-dialog-section {
+    display: flex;
+    margin: 0px auto;
+    width: 100%;
+    max-width: 600px;
+    padding: 10px 20px;
+    align-items: center;
+    justify-content: space-between;
+}
+.account-dialog-section p {
+    color: #444;
+    font-weight: bold;
+}
+.account-dialog-section.dark p {
+    color: #ccc;
+}
+.account-dialog-save {
+    position: absolute !important;
+    bottom: 20px;
+    left: 50%;
+    height: 42px;
+    line-height: 43px;
+    margin-left: -110px;
+    width: 220px;
+    text-transform: uppercase;
+}
+.account-dialog-info {
+    position: absolute;
+    bottom: 74px;
+    left: 50%;
+    height: 42px;
+    line-height: 43px;
+    margin-left: -110px;
+    width: 220px;
+    font-size: 15px;
+    text-align: center;
+    font-weight: bold;
+}
