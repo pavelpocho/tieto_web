@@ -217,9 +217,15 @@ export default class HttpCommunicator {
 
     getCountryList(callback) { this.addGetToBuffer(this.url + "country/list", callback) }
 
+    getCountryList2020(callback) { this.addGetToBuffer(this.url + "country/list2020", callback) }
+
     saveCountryAllowance(allowance, callback) { this.addPostToBuffer(this.url + "country/update", callback, allowance) }
 
     saveCountryAllowances(allowances, callback) { this.addPostToBuffer(this.url + "country/updateArray", callback, allowances) }
+
+    saveCountryAllowance2020(allowance, callback) { this.addPostToBuffer(this.url + "country/update2020", callback, allowance) }
+
+    saveCountryAllowances2020(allowances, callback) { this.addPostToBuffer(this.url + "country/updateArray2020", callback, allowances) }
 
     getConfigurationList(callback) { this.addGetToBuffer(this.url + "configuration/list", callback) }
 

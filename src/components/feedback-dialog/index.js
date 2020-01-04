@@ -177,7 +177,6 @@ export default class FeedbackDialog extends Component {
                 this.setState(prevState => {
                     let f = prevState.feedbacks;
                     f.push(r);
-                    console.log(r);
                     f.sort((a, b) => {return b.postedAt - a.postedAt});
                     return {
                         feedbacks: f,
@@ -195,7 +194,6 @@ export default class FeedbackDialog extends Component {
     }
 
     updateParentText(value) {
-        console.log(value);
         this.props.parent.defaultFeedbackValue = value;
     }
 
@@ -267,7 +265,6 @@ export default class FeedbackDialog extends Component {
                                                     </div>
                                                     {
                                                         f.text.split(/(\r\n|\n|\r)/gm).map((t, i) => {
-                                                            console.log("One paragraph count " + i);
                                                             return (
                                                                 <p key={i} className={"feedback-text" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>{t}</p>
                                                             )

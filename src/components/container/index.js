@@ -43,7 +43,7 @@ export default class Container extends Component {
         if (CookieManager.getCookie("token") != undefined && CookieManager.getCookie("token") != "") {
             h.tokenCheck((r) => {
                 //True r means admin account
-                if (r == "true") {
+                if (r == true) {
                     this.openActivity(<AdminActivity key="adminActivity" container={this} />);
                 }
                 else {

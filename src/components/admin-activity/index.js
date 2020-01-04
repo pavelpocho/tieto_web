@@ -15,6 +15,7 @@ export default class AdminActivity extends Component {
 
         this.state = {
             countries: [],
+            countries2020: [],
             configuration: [],
             statistics: [],
             pendingRequests: 0,
@@ -33,6 +34,20 @@ export default class AdminActivity extends Component {
                 //Success
                 this.setState({
                     countries: r
+                })
+                this.checkDone(() => {
+                    RippleManager.setUp();
+                });
+            }
+            else {
+                //Failed...
+            }
+        });
+        h.getCountryList2020((r, s) => {
+            if (s == 200 || s == 204) {
+                //Success
+                this.setState({
+                    countries2020: r
                 })
                 this.checkDone(() => {
                     RippleManager.setUp();
@@ -145,6 +160,41 @@ export default class AdminActivity extends Component {
         });
     }
 
+    saveAllowance2020(target) {
+        this.saveIndicator.current.setStatus(1);
+        this.setState(prevState => {
+            return {
+                pendingRequests: prevState.pendingRequests + 1
+            }
+        });
+
+        var objectId = target.getAttribute("allowanceid");
+        var objectCurrency = target.getAttribute("allowancecurrency");
+        var newMoney = parseFloat(target.value);
+        var allowance = {
+            id: objectId,
+            currency: objectCurrency,
+            moneyAmount: newMoney
+        }
+
+        var h = ObjectContainer.getHttpCommunicator();
+        h.saveCountryAllowance2020(allowance, (r, s) => {
+            if (s == 200 || s == 204) {
+                if (this.state.pendingRequests == 1) {
+                    this.saveIndicator.current.setStatus(0);
+                }
+            }
+            else {
+                this.saveIndicator.current.setStatus(2);
+            }
+            this.setState(prevState => {
+                return {
+                    pendingRequests: prevState.pendingRequests - 1
+                }
+            });
+        });
+    }
+
     saveConfig(target) {
         var id = target.getAttribute("configid");
         var name = target.getAttribute("configname");
@@ -200,6 +250,46 @@ export default class AdminActivity extends Component {
 
         var h = ObjectContainer.getHttpCommunicator();
         h.saveCountryAllowances(allowances, (r, s) => {
+            if (s == 200 || s == 204) {
+                if (this.state.pendingRequests == 1) {
+                    this.saveIndicator.current.setStatus(0);
+                }
+                this.setState({
+                    countries: r
+                })
+            }
+            else {
+                this.saveIndicator.current.setStatus(2);
+            }
+            this.setState(prevState => {
+                return {
+                    pendingRequests: prevState.pendingRequests - 1
+                }
+            });
+        });
+    }
+
+    setCurrency2020(target) {
+        var ids = target.getAttribute("allowanceids").split(";");
+        var moneyValues = target.getAttribute("moneyvalues").split(";");
+        var currency = target.getAttribute("currency");
+
+        this.saveIndicator.current.setStatus(1);
+
+        this.setState(prevState => {
+            return {
+                pendingRequests: prevState.pendingRequests + 1
+            }
+        });
+
+        var allowances = [];
+
+        for (var i = 0; i < ids.length; i++) {
+            allowances[i] = { id: ids[i], moneyAmount: moneyValues[i], currency: currency }
+        }
+
+        var h = ObjectContainer.getHttpCommunicator();
+        h.saveCountryAllowances2020(allowances, (r, s) => {
             if (s == 200 || s == 204) {
                 if (this.state.pendingRequests == 1) {
                     this.saveIndicator.current.setStatus(0);
@@ -363,6 +453,33 @@ export default class AdminActivity extends Component {
             )
         });
 
+        var countries2020 = this.state.countries2020.map((c, i) => {
+            return (
+                <div key={i} className="aa-country-item">
+                    <p>{c.name}</p>
+                    <input allowanceid={c.rate100.id} allowancecurrency={c.rate100.currency} defaultValue={c.rate100.moneyAmount} onChange={(e) => {this.checkNumber(e.target)}} onBlur={(e) => {this.saveAllowance2020(e.target)}} />
+                    <input allowanceid={c.rate66.id} allowancecurrency={c.rate66.currency} defaultValue={c.rate66.moneyAmount} onChange={(e) => {this.checkNumber(e.target)}} onBlur={(e) => {this.saveAllowance2020(e.target)}} />
+                    <input allowanceid={c.rate33.id} allowancecurrency={c.rate33.currency} defaultValue={c.rate33.moneyAmount} onChange={(e) => {this.checkNumber(e.target)}} onBlur={(e) => {this.saveAllowance2020(e.target)}} />
+                    <div className="aa-currency-wrap">
+                        <button onClick={(e) => {this.setCurrency2020(e.target)}} allowanceids={c.rate33.id + ";" + c.rate66.id + ";" + c.rate100.id} moneyvalues={c.rate33.moneyAmount + ";" + c.rate66.moneyAmount + ";" + c.rate100.moneyAmount} className={"aa-currency-button" + (c.rate33.currency == 2 ? " aa-cb-selected" : "")} currency={2}>CZK</button>
+                        <button onClick={(e) => {this.setCurrency2020(e.target)}} allowanceids={c.rate33.id + ";" + c.rate66.id + ";" + c.rate100.id} moneyvalues={c.rate33.moneyAmount + ";" + c.rate66.moneyAmount + ";" + c.rate100.moneyAmount} className={"aa-currency-button" + (c.rate33.currency == 0 ? " aa-cb-selected" : "")} currency={0}>EUR</button>
+                        <button onClick={(e) => {this.setCurrency2020(e.target)}} allowanceids={c.rate33.id + ";" + c.rate66.id + ";" + c.rate100.id} moneyvalues={c.rate33.moneyAmount + ";" + c.rate66.moneyAmount + ";" + c.rate100.moneyAmount} className={"aa-currency-button" + (c.rate33.currency == 4 ? " aa-cb-selected" : "")} currency={4}>GBP</button>
+                        <button onClick={(e) => {this.setCurrency2020(e.target)}} allowanceids={c.rate33.id + ";" + c.rate66.id + ";" + c.rate100.id} moneyvalues={c.rate33.moneyAmount + ";" + c.rate66.moneyAmount + ";" + c.rate100.moneyAmount} className={"aa-currency-button" + (c.rate33.currency == 3 ? " aa-cb-selected" : "")} currency={3}>CHF</button>
+                        <button onClick={(e) => {this.setCurrency2020(e.target)}} allowanceids={c.rate33.id + ";" + c.rate66.id + ";" + c.rate100.id} moneyvalues={c.rate33.moneyAmount + ";" + c.rate66.moneyAmount + ";" + c.rate100.moneyAmount} className={"aa-currency-button" + (c.rate33.currency == 1 ? " aa-cb-selected" : "")} currency={1}>USD</button>
+                        {
+                            /*
+                              0 = EUR,
+                              1 = USD,
+                              2 = CZK,
+                              3 = CHF,
+                              4 = GBP
+                            */
+                        }
+                    </div>
+                </div>
+            )
+        });
+
         var config = this.state.configuration.map((c, i) => {
             return (
                 <span key={i}>
@@ -453,6 +570,10 @@ export default class AdminActivity extends Component {
                         <p>---------------------------------------</p>
                         {
                             countries
+                        }
+                        <p>---------------------------------------</p>
+                        {
+                            countries2020
                         }
                         <p>---------------------------------------</p>
                         <p>Statistics</p>
