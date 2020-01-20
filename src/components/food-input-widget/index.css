@@ -11,11 +11,11 @@
 }
 .fiw-title {
     margin: 0px;
-    color: #5F5F5F;
-    font-size: 21px;
+    color: #222222;
+    font-size: 15px;
     height: 25px;
     line-height: 25px;
-    width: 60px;
+    width: 50px;
     text-align: center;
 }
 .fiw-checkbox {
@@ -41,7 +41,7 @@
     background-color: #191919;
 }
 .fiw-checkbox-wrap {
-    width: 88px;
+    width: 75px;
     display: flex;
     justify-content: center;
 }
@@ -74,11 +74,11 @@
     display: block;
 }
 .food-type-title {
-    color: #444;
-    font-size: 17px;
+    color: #222;
+    font-size: 15px;
     text-align: center;
     margin: 0px;
-    width: 88px;
+    width: 75px;
 }
 .food-type-title.dark {
     color: #BFBFBF;

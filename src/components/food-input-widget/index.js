@@ -83,7 +83,7 @@ export default class FoodInputWidget extends Component {
         if (this.props.error) {
             return (
                 <div className="food-input-widget">
-                    <div className="fiw-row" style={{width: "326px"}}>
+                    <div className="fiw-row" style={{width: "276px"}}>
                         <p className={"food-type-title" + (ObjectContainer.isDarkTheme() ? " dark" : "")} style={{paddingTop: "4px", paddingBottom: "0px", width: "100%", color: "#777"}}>Set {this.props.onlyPoint ? "start" : "arrival"} & {this.props.onlyPoint ? "end" : "departure"} dates</p>
                     </div>
                 </div>
@@ -93,7 +93,7 @@ export default class FoodInputWidget extends Component {
             return (
                 <div className="food-input-widget">
                     <div className="fiw-row">
-                        <p style={{color: "#f1f1f1", opacity: "0", width: "62px", margin: "0px"}}>Hi :0</p>
+                        <p style={{color: "#f1f1f1", opacity: "0", width: "50px", margin: "0px"}}>Hi :0</p>
                         <p className={"food-type-title" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Breakfast</p>
                         <p className={"food-type-title" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Lunch</p>
                         <p className={"food-type-title" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Dinner</p>

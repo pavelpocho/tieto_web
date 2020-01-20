@@ -243,7 +243,7 @@ export default class Container extends Component {
                             <p className={"api-version" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>API {this.state.apiVersion} - {apiDateString}</p>
                             {
                                 this.state.activityHistory.length == 0 || this.state.activityHistory[this.state.activityHistory.length - 1].key != "loginActivity" ? (
-                                    <button className={"main-show-allowances" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ripplecolor="gray" onClick={() => {this.openDialog(<AllowanceDialog key={"allowanceDialog"} container={this} />)}}>Show Allowance Rates</button>
+                                    <button className={"main-show-allowances" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ripplecolor="gray" onClick={() => {this.openDialog(<AllowanceDialog key={"allowanceDialog"} container={this} />)}}>Show Current Allowance Rates</button>
                                 ) : null
                             }
                             <a ripplecolor="gray" href="./changelog.html" target="_blank" className={"changelog-link" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>Changelog</a>

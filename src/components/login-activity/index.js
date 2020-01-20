@@ -214,7 +214,6 @@ export default class LoginActivity extends Component {
 
     expandLogin(x, y) {
         document.getElementsByClassName("bottom-strip")[0].style.transform = "translateY(30px)";
-        this.ref.current.style.overflowY = "hidden";
         this.setState(prevState => {
             return {
                 loginExpanded: !prevState.loginExpanded,
@@ -225,7 +224,6 @@ export default class LoginActivity extends Component {
 
     expandRegister(x, y) {
         document.getElementsByClassName("bottom-strip")[0].style.transform = "translateY(30px)";
-        this.ref.current.style.overflowY = "hidden";
         this.setState(prevState => {
             return {
                 registerExpanded: !prevState.registerExpanded,
@@ -236,7 +234,6 @@ export default class LoginActivity extends Component {
 
     closeWindow() {
         document.getElementsByClassName("bottom-strip")[0].style.transform = "translateY(0px)";
-        this.ref.current.style.overflowY = "scroll";
         this.windowWrap.current.style.opacity = "0";
         this.windowBackdrop.current.style.opacity = "0";
         this.windowWrap.current.style.transform = "translateY(20px)";
@@ -392,7 +389,7 @@ export default class LoginActivity extends Component {
                                     <div className={"email-input-wrap" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
                                         <input autoComplete="new-password" className={"email-specific" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ref={this.superiorEmail} placeholder="Superior's Email" ></input>{/*<p>@tieto.com</p>*/}
                                     </div>
-                                    <p className={"la-info" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>The email of the person, who approves your Trip Reports</p>
+                                    <p className={"la-info" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>The email of the person, who approves your Trip Reports<br />(You can change this whenever you need!)</p>
                                     <button disabled={!this.state.allowRegister} ref={this.rippleHere} className={"login-button" + (ObjectContainer.isDarkTheme() ? " dark" : "")} onClick={() => {this.register()}}>Register</button>
                                     {
                                         this.state.passError ? (

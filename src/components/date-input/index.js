@@ -16,9 +16,8 @@ export default class DateInput extends Component {
         }
         else {
             let d = new Date(year, month, day);
-            d.setUTCDate(day);
-            d.setUTCMonth(month);
-            d.setUTCHours(0);
+            d.setHours(12);
+            //Mid-day so that it doesn't get screwed up with time zones
             this.props.setDate(d.getTime());
         }
     }

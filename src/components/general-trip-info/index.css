@@ -16,7 +16,7 @@
     margin: 0px;
 }
 .gti-section input {
-    width: 350px;
+    width: 300px;
     background-color: #f1f1f1;
     transition: background-color 0.31s;
 }
@@ -54,13 +54,13 @@
     color: #BFBFBF;
 }
 #gti-project {
-    width: 180px;
+    width: 150px;
     text-align: center;
     margin-right: 20px;
 }
 #gti-task {
     text-align: center;
-    width: 150px;
+    width: 130px;
 }
 .mandatory-text {
     color: #5F5F5F;
