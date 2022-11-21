@@ -214,7 +214,7 @@ export default class TripPoint extends Component {
                                     prevLocation.departureTime && prevLocation.departureDate &&
                                     nextLocation.arrivalDate != -1 && nextLocation.arrivalTime != -1 &&
                                     prevLocation.departureDate != -1 && prevLocation.departureTime != -1 &&
-                                    prevLocation.departureDate + prevLocation.departureTime >= nextLocation.arrivalDate + nextLocation.arrivalTime;
+                                    (prevLocation.departureDate - prevLocation.departureDate % (1000 * 60 * 60 * 24)) + prevLocation.departureTime >= (nextLocation.arrivalDate - nextLocation.arrivalDate % (1000 * 60 * 60 * 24)) + nextLocation.arrivalTime;
 
             var displayDate = (crossDate != -2 && crossTime != -2) ? (
                 this.props.parent.props.locations[this.props.index - 1].departureDate != this.props.parent.props.locations[this.props.index + 1].arrivalDate ||
@@ -237,9 +237,9 @@ export default class TripPoint extends Component {
                 (displayDate || this.props.selected ? (new Date(crossDate).getUTCDate() + "." + (new Date(crossDate).getUTCMonth() + 1) + " / ") : "") + "--:--"
             ) : (displayDate || this.props.selected ? (new Date(crossDate).getUTCDate() + "." + (new Date(crossDate).getUTCMonth() + 1) + " / ") : "") + this.zeroBeforeText(Math.floor(crossTime / 60000 / 60)) + ":" + this.zeroBeforeText(Math.floor(crossTime / 60000 % 60))
 
-            var iconToDisplay = (prevLocation.departureDate + prevLocation.departureTime > this.props.location.crossedAtDate + this.props.location.crossedAtTime) ||
-                                (nextLocation.arrivalDate + nextLocation.arrivalTime < this.props.location.crossedAtDate + this.props.location.crossedAtTime) ||
-                                (prevLocation.transit && prevLocation.departureDate + prevLocation.departureTime < prevLocation.arrivalDate + prevLocation.arrivalTime) ? "priority_high" : "edit"
+            var iconToDisplay = ((prevLocation.departureDate - prevLocation.departureDate % (1000 * 60 * 60 * 24)) + prevLocation.departureTime > (this.props.location.crossedAtDate - this.props.location.crossedAtDate % (1000 * 60 * 60 * 24)) + this.props.location.crossedAtTime) ||
+                                ((nextLocation.arrivalDate - nextLocation.arrivalDate % (1000 * 60 * 60 * 24)) + nextLocation.arrivalTime < (this.props.location.crossedAtDate - this.props.location.crossedAtDate % (1000 * 60 * 60 * 24)) + this.props.location.crossedAtTime) ||
+                                (prevLocation.transit && (prevLocation.departureDate - prevLocation.departureDate % (1000 * 60 * 60 * 24)) + prevLocation.departureTime < (prevLocation.departureDate - prevLocation.departureDate % (1000 * 60 * 60 * 24)) + prevLocation.arrivalTime) ? "priority_high" : "edit"
 
             return (
                 <div ref={this.master} className="trip-point-master-wrap">

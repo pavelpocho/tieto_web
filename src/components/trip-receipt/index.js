@@ -137,7 +137,7 @@ export default class TripReceipt extends Component {
                                         ) : (
                                             <Fragment>
                                                 <p>Total</p>
-                                                <p>{money.total} CZK</p>
+                                                <p>{Math.ceil(money.total)} CZK</p>
                                             </Fragment>
                                         )
                                     }

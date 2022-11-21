@@ -44,7 +44,9 @@ export default class HttpCommunicator {
     send(bufferItem) {
         var xhttp = bufferItem.tried;
         xhttp.open(bufferItem.method, bufferItem.url);
-        xhttp.setRequestHeader("Authorization", CookieManager.getCookie("token"));
+        if (CookieManager.getCookie("token") != "") {
+            xhttp.setRequestHeader("Authorization", CookieManager.getCookie("token"));
+        }
         xhttp.setRequestHeader("Content-Type", "application/json");
         xhttp.send(JSON.stringify(bufferItem.method == "POST" ? bufferItem.body : null));
     }
@@ -219,6 +221,12 @@ export default class HttpCommunicator {
 
     getCountryList2020(callback) { this.addGetToBuffer(this.url + "country/list2020", callback) }
 
+    getCountryList2021(callback) { this.addGetToBuffer(this.url + "country/list2021", callback) }
+
+    getCountryList2022(callback) { this.addGetToBuffer(this.url + "country/list2022", callback) }
+
+    getCountryList2022_2(callback) { this.addGetToBuffer(this.url + "country/list2022_2", callback) }
+
     saveCountryAllowance(allowance, callback) { this.addPostToBuffer(this.url + "country/update", callback, allowance) }
 
     saveCountryAllowances(allowances, callback) { this.addPostToBuffer(this.url + "country/updateArray", callback, allowances) }
@@ -226,6 +234,18 @@ export default class HttpCommunicator {
     saveCountryAllowance2020(allowance, callback) { this.addPostToBuffer(this.url + "country/update2020", callback, allowance) }
 
     saveCountryAllowances2020(allowances, callback) { this.addPostToBuffer(this.url + "country/updateArray2020", callback, allowances) }
+
+    saveCountryAllowance2021(allowance, callback) { this.addPostToBuffer(this.url + "country/update2021", callback, allowance) }
+
+    saveCountryAllowances2021(allowances, callback) { this.addPostToBuffer(this.url + "country/updateArray2021", callback, allowances) }
+
+    saveCountryAllowance2022(allowance, callback) { this.addPostToBuffer(this.url + "country/update2022", callback, allowance) }
+
+    saveCountryAllowances2022(allowances, callback) { this.addPostToBuffer(this.url + "country/updateArray2022", callback, allowances) }
+
+    saveCountryAllowance2022_2(allowance, callback) { this.addPostToBuffer(this.url + "country/update2022_2", callback, allowance) }
+
+    saveCountryAllowances2022_2(allowances, callback) { this.addPostToBuffer(this.url + "country/updateArray2022_2", callback, allowances) }
 
     getConfigurationList(callback) { this.addGetToBuffer(this.url + "configuration/list", callback) }
 

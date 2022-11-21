@@ -17,14 +17,14 @@ module.exports = {
     chunkFilename: "[name].bundle" + version + ".js",
     publicPath: "./scripts/",
     //path: path.join( __dirname, "out/scripts/")
-    path: "C:\\Users\\Pavel\\source\\repos\\Tieto\\Tieto\\wwwroot\\scripts"
+    path: "/Users/pavelpocho/Projects/tieto_be/Tieto/wwwroot/scripts"
   },
   mode: 'production',
   plugins: [
 		new HtmlWebpackPlugin({
       title: 'My App',
       template: './src/index.html',
-      filename: "C:\\Users\\Pavel\\source\\repos\\Tieto\\Tieto\\wwwroot\\index.html"
+      filename: "/Users/pavelpocho/Projects/tieto_be/Tieto/wwwroot/index.html"
     }),
     new MiniCssExtractPlugin({
       filename: "style" + version + ".css",

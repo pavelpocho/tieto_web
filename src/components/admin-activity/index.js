@@ -16,6 +16,8 @@ export default class AdminActivity extends Component {
         this.state = {
             countries: [],
             countries2020: [],
+            countries2021: [],
+            countries2022: [],
             configuration: [],
             statistics: [],
             pendingRequests: 0,
@@ -48,6 +50,34 @@ export default class AdminActivity extends Component {
                 //Success
                 this.setState({
                     countries2020: r
+                })
+                this.checkDone(() => {
+                    RippleManager.setUp();
+                });
+            }
+            else {
+                //Failed...
+            }
+        });
+        h.getCountryList2021((r, s) => {
+            if (s == 200 || s == 204) {
+                //Success
+                this.setState({
+                    countries2021: r
+                })
+                this.checkDone(() => {
+                    RippleManager.setUp();
+                });
+            }
+            else {
+                //Failed...
+            }
+        });
+        h.getCountryList2022((r, s) => {
+            if (s == 200 || s == 204) {
+                //Success
+                this.setState({
+                    countries2022: r
                 })
                 this.checkDone(() => {
                     RippleManager.setUp();
@@ -137,9 +167,9 @@ export default class AdminActivity extends Component {
         var objectCurrency = target.getAttribute("allowancecurrency");
         var newMoney = parseFloat(target.value);
         var allowance = {
-            id: objectId,
-            currency: objectCurrency,
-            moneyAmount: newMoney
+            ID: parseInt(objectId),
+            Currency: parseInt(objectCurrency),
+            MoneyAmount: parseFloat(newMoney)
         }
 
         var h = ObjectContainer.getHttpCommunicator();
@@ -172,13 +202,89 @@ export default class AdminActivity extends Component {
         var objectCurrency = target.getAttribute("allowancecurrency");
         var newMoney = parseFloat(target.value);
         var allowance = {
-            id: objectId,
-            currency: objectCurrency,
-            moneyAmount: newMoney
+            ID: parseInt(objectId),
+            Currency: parseInt(objectCurrency),
+            MoneyAmount: parseFloat(newMoney)
         }
 
         var h = ObjectContainer.getHttpCommunicator();
         h.saveCountryAllowance2020(allowance, (r, s) => {
+            if (s == 200 || s == 204) {
+                if (this.state.pendingRequests == 1) {
+                    this.saveIndicator.current.setStatus(0);
+                }
+            }
+            else {
+                this.saveIndicator.current.setStatus(2);
+            }
+            this.setState(prevState => {
+                return {
+                    pendingRequests: prevState.pendingRequests - 1
+                }
+            });
+        });
+    }
+
+    saveAllowance2021(target) {
+        this.saveIndicator.current.setStatus(1);
+        this.setState(prevState => {
+            return {
+                pendingRequests: prevState.pendingRequests + 1
+            }
+        });
+
+        var objectId = target.getAttribute("allowanceid");
+        var objectCurrency = target.getAttribute("allowancecurrency");
+        var newMoney = parseFloat(target.value);
+        var allowance = {
+            ID: parseInt(objectId),
+            Currency: parseInt(objectCurrency),
+            MoneyAmount: parseFloat(newMoney)
+        }
+
+        console.log("Allowance object");
+        console.log(allowance);
+
+        var h = ObjectContainer.getHttpCommunicator();
+        h.saveCountryAllowance2021(allowance, (r, s) => {
+            if (s == 200 || s == 204) {
+                if (this.state.pendingRequests == 1) {
+                    this.saveIndicator.current.setStatus(0);
+                }
+            }
+            else {
+                this.saveIndicator.current.setStatus(2);
+            }
+            this.setState(prevState => {
+                return {
+                    pendingRequests: prevState.pendingRequests - 1
+                }
+            });
+        });
+    }
+
+    saveAllowance2022(target) {
+        this.saveIndicator.current.setStatus(1);
+        this.setState(prevState => {
+            return {
+                pendingRequests: prevState.pendingRequests + 1
+            }
+        });
+
+        var objectId = target.getAttribute("allowanceid");
+        var objectCurrency = target.getAttribute("allowancecurrency");
+        var newMoney = parseFloat(target.value);
+        var allowance = {
+            ID: parseInt(objectId),
+            Currency: parseInt(objectCurrency),
+            MoneyAmount: parseFloat(newMoney)
+        }
+
+        console.log("Allowance object");
+        console.log(allowance);
+
+        var h = ObjectContainer.getHttpCommunicator();
+        h.saveCountryAllowance2022(allowance, (r, s) => {
             if (s == 200 || s == 204) {
                 if (this.state.pendingRequests == 1) {
                     this.saveIndicator.current.setStatus(0);
@@ -245,7 +351,7 @@ export default class AdminActivity extends Component {
         var allowances = [];
 
         for (var i = 0; i < ids.length; i++) {
-            allowances[i] = { id: ids[i], moneyAmount: moneyValues[i], currency: currency }
+            allowances[i] = { ID: parseInt(ids[i]), MoneyAmount: parseFloat(moneyValues[i]), Currency: parseInt(currency) }
         }
 
         var h = ObjectContainer.getHttpCommunicator();
@@ -285,11 +391,91 @@ export default class AdminActivity extends Component {
         var allowances = [];
 
         for (var i = 0; i < ids.length; i++) {
-            allowances[i] = { id: ids[i], moneyAmount: moneyValues[i], currency: currency }
+            allowances[i] = { ID: parseInt(ids[i]), MoneyAmount: parseFloat(moneyValues[i]), Currency: parseInt(currency) }
         }
 
         var h = ObjectContainer.getHttpCommunicator();
         h.saveCountryAllowances2020(allowances, (r, s) => {
+            if (s == 200 || s == 204) {
+                if (this.state.pendingRequests == 1) {
+                    this.saveIndicator.current.setStatus(0);
+                }
+                this.setState({
+                    countries: r
+                })
+            }
+            else {
+                this.saveIndicator.current.setStatus(2);
+            }
+            this.setState(prevState => {
+                return {
+                    pendingRequests: prevState.pendingRequests - 1
+                }
+            });
+        });
+    }
+
+    setCurrency2021(target) {
+        var ids = target.getAttribute("allowanceids").split(";");
+        var moneyValues = target.getAttribute("moneyvalues").split(";");
+        var currency = target.getAttribute("currency");
+
+        this.saveIndicator.current.setStatus(1);
+
+        this.setState(prevState => {
+            return {
+                pendingRequests: prevState.pendingRequests + 1
+            }
+        });
+
+        var allowances = [];
+
+        for (var i = 0; i < ids.length; i++) {
+            allowances[i] = { ID: parseInt(ids[i]), MoneyAmount: parseFloat(moneyValues[i]), Currency: parseInt(currency) }
+        }
+
+        var h = ObjectContainer.getHttpCommunicator();
+        h.saveCountryAllowances2021(allowances, (r, s) => {
+            if (s == 200 || s == 204) {
+                if (this.state.pendingRequests == 1) {
+                    this.saveIndicator.current.setStatus(0);
+                }
+                this.setState({
+                    countries: r
+                })
+            }
+            else {
+                this.saveIndicator.current.setStatus(2);
+            }
+            this.setState(prevState => {
+                return {
+                    pendingRequests: prevState.pendingRequests - 1
+                }
+            });
+        });
+    }
+
+    setCurrency2022(target) {
+        var ids = target.getAttribute("allowanceids").split(";");
+        var moneyValues = target.getAttribute("moneyvalues").split(";");
+        var currency = target.getAttribute("currency");
+
+        this.saveIndicator.current.setStatus(1);
+
+        this.setState(prevState => {
+            return {
+                pendingRequests: prevState.pendingRequests + 1
+            }
+        });
+
+        var allowances = [];
+
+        for (var i = 0; i < ids.length; i++) {
+            allowances[i] = { ID: parseInt(ids[i]), MoneyAmount: parseFloat(moneyValues[i]), Currency: parseInt(currency) }
+        }
+
+        var h = ObjectContainer.getHttpCommunicator();
+        h.saveCountryAllowances2022(allowances, (r, s) => {
             if (s == 200 || s == 204) {
                 if (this.state.pendingRequests == 1) {
                     this.saveIndicator.current.setStatus(0);
@@ -427,6 +613,8 @@ export default class AdminActivity extends Component {
 
     render() {
         var countries = this.state.countries.map((c, i) => {
+            console.log("2019");
+            console.log(c);
             return (
                 <div key={i} className="aa-country-item">
                     <p>{c.name}</p>
@@ -454,6 +642,8 @@ export default class AdminActivity extends Component {
         });
 
         var countries2020 = this.state.countries2020.map((c, i) => {
+            console.log("2020");
+            console.log(c);
             return (
                 <div key={i} className="aa-country-item">
                     <p>{c.name}</p>
@@ -466,6 +656,64 @@ export default class AdminActivity extends Component {
                         <button onClick={(e) => {this.setCurrency2020(e.target)}} allowanceids={c.rate33.id + ";" + c.rate66.id + ";" + c.rate100.id} moneyvalues={c.rate33.moneyAmount + ";" + c.rate66.moneyAmount + ";" + c.rate100.moneyAmount} className={"aa-currency-button" + (c.rate33.currency == 4 ? " aa-cb-selected" : "")} currency={4}>GBP</button>
                         <button onClick={(e) => {this.setCurrency2020(e.target)}} allowanceids={c.rate33.id + ";" + c.rate66.id + ";" + c.rate100.id} moneyvalues={c.rate33.moneyAmount + ";" + c.rate66.moneyAmount + ";" + c.rate100.moneyAmount} className={"aa-currency-button" + (c.rate33.currency == 3 ? " aa-cb-selected" : "")} currency={3}>CHF</button>
                         <button onClick={(e) => {this.setCurrency2020(e.target)}} allowanceids={c.rate33.id + ";" + c.rate66.id + ";" + c.rate100.id} moneyvalues={c.rate33.moneyAmount + ";" + c.rate66.moneyAmount + ";" + c.rate100.moneyAmount} className={"aa-currency-button" + (c.rate33.currency == 1 ? " aa-cb-selected" : "")} currency={1}>USD</button>
+                        {
+                            /*
+                              0 = EUR,
+                              1 = USD,
+                              2 = CZK,
+                              3 = CHF,
+                              4 = GBP
+                            */
+                        }
+                    </div>
+                </div>
+            )
+        });
+
+        var countries2021 = this.state.countries2021.map((c, i) => {
+            console.log("2021");
+            console.log(c);
+            return (
+                <div key={i} className="aa-country-item">
+                    <p>{c.name}</p>
+                    <input allowanceid={c.rate100.id} allowancecurrency={c.rate100.currency} defaultValue={c.rate100.moneyAmount} onChange={(e) => {this.checkNumber(e.target)}} onBlur={(e) => {this.saveAllowance2021(e.target)}} />
+                    <input allowanceid={c.rate66.id} allowancecurrency={c.rate66.currency} defaultValue={c.rate66.moneyAmount} onChange={(e) => {this.checkNumber(e.target)}} onBlur={(e) => {this.saveAllowance2021(e.target)}} />
+                    <input allowanceid={c.rate33.id} allowancecurrency={c.rate33.currency} defaultValue={c.rate33.moneyAmount} onChange={(e) => {this.checkNumber(e.target)}} onBlur={(e) => {this.saveAllowance2021(e.target)}} />
+                    <div className="aa-currency-wrap">
+                        <button onClick={(e) => {this.setCurrency2021(e.target)}} allowanceids={c.rate33.id + ";" + c.rate66.id + ";" + c.rate100.id} moneyvalues={c.rate33.moneyAmount + ";" + c.rate66.moneyAmount + ";" + c.rate100.moneyAmount} className={"aa-currency-button" + (c.rate33.currency == 2 ? " aa-cb-selected" : "")} currency={2}>CZK</button>
+                        <button onClick={(e) => {this.setCurrency2021(e.target)}} allowanceids={c.rate33.id + ";" + c.rate66.id + ";" + c.rate100.id} moneyvalues={c.rate33.moneyAmount + ";" + c.rate66.moneyAmount + ";" + c.rate100.moneyAmount} className={"aa-currency-button" + (c.rate33.currency == 0 ? " aa-cb-selected" : "")} currency={0}>EUR</button>
+                        <button onClick={(e) => {this.setCurrency2021(e.target)}} allowanceids={c.rate33.id + ";" + c.rate66.id + ";" + c.rate100.id} moneyvalues={c.rate33.moneyAmount + ";" + c.rate66.moneyAmount + ";" + c.rate100.moneyAmount} className={"aa-currency-button" + (c.rate33.currency == 4 ? " aa-cb-selected" : "")} currency={4}>GBP</button>
+                        <button onClick={(e) => {this.setCurrency2021(e.target)}} allowanceids={c.rate33.id + ";" + c.rate66.id + ";" + c.rate100.id} moneyvalues={c.rate33.moneyAmount + ";" + c.rate66.moneyAmount + ";" + c.rate100.moneyAmount} className={"aa-currency-button" + (c.rate33.currency == 3 ? " aa-cb-selected" : "")} currency={3}>CHF</button>
+                        <button onClick={(e) => {this.setCurrency2021(e.target)}} allowanceids={c.rate33.id + ";" + c.rate66.id + ";" + c.rate100.id} moneyvalues={c.rate33.moneyAmount + ";" + c.rate66.moneyAmount + ";" + c.rate100.moneyAmount} className={"aa-currency-button" + (c.rate33.currency == 1 ? " aa-cb-selected" : "")} currency={1}>USD</button>
+                        {
+                            /*
+                              0 = EUR,
+                              1 = USD,
+                              2 = CZK,
+                              3 = CHF,
+                              4 = GBP
+                            */
+                        }
+                    </div>
+                </div>
+            )
+        });
+
+        var countries2022 = this.state.countries2022.map((c, i) => {
+            console.log("2022");
+            console.log(c);
+            return (
+                <div key={i} className="aa-country-item">
+                    <p>{c.name}</p>
+                    <input allowanceid={c.rate100.id} allowancecurrency={c.rate100.currency} defaultValue={c.rate100.moneyAmount} onChange={(e) => {this.checkNumber(e.target)}} onBlur={(e) => {this.saveAllowance2022(e.target)}} />
+                    <input allowanceid={c.rate66.id} allowancecurrency={c.rate66.currency} defaultValue={c.rate66.moneyAmount} onChange={(e) => {this.checkNumber(e.target)}} onBlur={(e) => {this.saveAllowance2022(e.target)}} />
+                    <input allowanceid={c.rate33.id} allowancecurrency={c.rate33.currency} defaultValue={c.rate33.moneyAmount} onChange={(e) => {this.checkNumber(e.target)}} onBlur={(e) => {this.saveAllowance2022(e.target)}} />
+                    <div className="aa-currency-wrap">
+                        <button onClick={(e) => {this.setCurrency2022(e.target)}} allowanceids={c.rate33.id + ";" + c.rate66.id + ";" + c.rate100.id} moneyvalues={c.rate33.moneyAmount + ";" + c.rate66.moneyAmount + ";" + c.rate100.moneyAmount} className={"aa-currency-button" + (c.rate33.currency == 2 ? " aa-cb-selected" : "")} currency={2}>CZK</button>
+                        <button onClick={(e) => {this.setCurrency2022(e.target)}} allowanceids={c.rate33.id + ";" + c.rate66.id + ";" + c.rate100.id} moneyvalues={c.rate33.moneyAmount + ";" + c.rate66.moneyAmount + ";" + c.rate100.moneyAmount} className={"aa-currency-button" + (c.rate33.currency == 0 ? " aa-cb-selected" : "")} currency={0}>EUR</button>
+                        <button onClick={(e) => {this.setCurrency2022(e.target)}} allowanceids={c.rate33.id + ";" + c.rate66.id + ";" + c.rate100.id} moneyvalues={c.rate33.moneyAmount + ";" + c.rate66.moneyAmount + ";" + c.rate100.moneyAmount} className={"aa-currency-button" + (c.rate33.currency == 4 ? " aa-cb-selected" : "")} currency={4}>GBP</button>
+                        <button onClick={(e) => {this.setCurrency2022(e.target)}} allowanceids={c.rate33.id + ";" + c.rate66.id + ";" + c.rate100.id} moneyvalues={c.rate33.moneyAmount + ";" + c.rate66.moneyAmount + ";" + c.rate100.moneyAmount} className={"aa-currency-button" + (c.rate33.currency == 3 ? " aa-cb-selected" : "")} currency={3}>CHF</button>
+                        <button onClick={(e) => {this.setCurrency2022(e.target)}} allowanceids={c.rate33.id + ";" + c.rate66.id + ";" + c.rate100.id} moneyvalues={c.rate33.moneyAmount + ";" + c.rate66.moneyAmount + ";" + c.rate100.moneyAmount} className={"aa-currency-button" + (c.rate33.currency == 1 ? " aa-cb-selected" : "")} currency={1}>USD</button>
                         {
                             /*
                               0 = EUR,
@@ -508,7 +756,7 @@ export default class AdminActivity extends Component {
         var stats = this.state.statistics.map((s, i) => {
             return (
                 <div key={i}>
-                    <p>{s.name} --> {s.value}</p>
+                    <p>{s.name} --{'>'} {s.value}</p>
                 </div>
             )
         })
@@ -567,13 +815,21 @@ export default class AdminActivity extends Component {
                                 })
                             }
                         </div>
-                        <p>---------------------------------------</p>
+                        <p>-- 2019 ---------------------------------</p>
                         {
                             countries
                         }
-                        <p>---------------------------------------</p>
+                        <p>-- 2020 ---------------------------------</p>
                         {
                             countries2020
+                        }
+                        <p>-- 2021 ---------------------------------</p>
+                        {
+                            countries2021
+                        }
+                        <p>-- 2022 ---------------------------------</p>
+                        {
+                            countries2022
                         }
                         <p>---------------------------------------</p>
                         <p>Statistics</p>

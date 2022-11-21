@@ -42,7 +42,7 @@ export default class AllowanceDialog extends Component {
             this.overlay.current.div.current.style.opacity = "0.45";
         }, 50);
         var h = ObjectContainer.getHttpCommunicator();
-        h.getCountryList2020((r, s) => {
+        h.getCountryList2022_2((r, s) => {
             if (s != 200) {
                 //failed...
             }

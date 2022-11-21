@@ -154,7 +154,7 @@ export default class LoginActivity extends Component {
 
     register() {
         if (this.username.current.value == "" || this.password.current.value == "" || this.passwordConfirm.current.value == "" ||
-            this.fullname.current.value == "" || this.superiorEmail.current.value == "") {
+            this.fullname.current.value == "") {
                 this.forceLoginFail();
                 return;
         }
@@ -165,7 +165,7 @@ export default class LoginActivity extends Component {
         if (!username.includes("@")) {
             username = username + "@tieto.com";
         }
-        http.register(username, this.password.current.value, this.fullname.current.value, this.superiorEmail.current.value + "@tieto.com", (response) => {
+        http.register(username, this.password.current.value, this.fullname.current.value, "", (response) => {
             this.loginCallback(response);
         });
     }
@@ -386,10 +386,10 @@ export default class LoginActivity extends Component {
                                     <input autoComplete="new-password" ref={this.password} className={"login-input" + (ObjectContainer.isDarkTheme() ? " dark" : "")} placeholder="Password" type="password" onChange={() => {this.checkPasswords()}}></input>
                                     <input autoComplete="new-password" ref={this.passwordConfirm} className={"login-input" + (ObjectContainer.isDarkTheme() ? " dark" : "")} placeholder="Confirm Password" onChange={() => {this.checkPasswords()}} type="password"></input>
                                     <p ref={this.passText} className={"la-info" + (ObjectContainer.isDarkTheme() ? " dark" : "")}></p>
-                                    <div className={"email-input-wrap" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
+                                    {/*<div className={"email-input-wrap" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>
                                         <input autoComplete="new-password" className={"email-specific" + (ObjectContainer.isDarkTheme() ? " dark" : "")} ref={this.superiorEmail} placeholder="Superior's Email" ></input>{/*<p>@tieto.com</p>*/}
-                                    </div>
-                                    <p className={"la-info" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>The email of the person, who approves your Trip Reports<br />(You can change this whenever you need!)</p>
+                                    {/*</div>
+                                    <p className={"la-info" + (ObjectContainer.isDarkTheme() ? " dark" : "")}>The email of the person, who approves your Trip Reports<br />(You can change this whenever you need!)</p>*/}
                                     <button disabled={!this.state.allowRegister} ref={this.rippleHere} className={"login-button" + (ObjectContainer.isDarkTheme() ? " dark" : "")} onClick={() => {this.register()}}>Register</button>
                                     {
                                         this.state.passError ? (
